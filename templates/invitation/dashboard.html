@@ -1,0 +1,530 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Organizer Dashboard | Terrence &amp; Lina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    :root {
+      --dash-bg: #0d0414;
+      --dash-card: #180924;
+      --dash-border: rgba(212, 175, 55, 0.25);
+      --dash-gold: #d4af37;
+      --dash-purple: #7e268e;
+      --dash-light-purple: #b584c8;
+      --dash-text: #f6e6b4;
+    }
+
+    body.dashboard-body {
+      background-color: var(--dash-bg);
+      color: #f0f0f5;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .dashboard-header {
+      background: linear-gradient(180deg, #1c0628 0%, #12031b 100%);
+      border-bottom: 1px solid var(--dash-border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dashboard-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .dashboard-monogram {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dash-gold);
+      border: 1px solid var(--dash-gold);
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      letter-spacing: 2px;
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .dashboard-title-box h1 {
+      margin: 0;
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    .dashboard-title-box p {
+      margin: 0.2rem 0 0;
+      font-size: 0.85rem;
+      color: var(--dash-light-purple);
+    }
+
+    .dashboard-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .dash-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .dash-btn-primary {
+      background: linear-gradient(135deg, #d4af37, #aa820a);
+      color: #21082c;
+      font-weight: 600;
+      border: none;
+    }
+    .dash-btn-primary:hover {
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .dash-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f0f0f5;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .dash-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .dash-btn-admin {
+      background: rgba(126, 38, 142, 0.25);
+      color: #dfc8ee;
+      border: 1px solid rgba(181, 132, 200, 0.4);
+    }
+    .dash-btn-admin:hover {
+      background: rgba(126, 38, 142, 0.45);
+      color: #ffffff;
+    }
+
+    .dashboard-container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card-elevated {
+      background: var(--dash-card);
+      border: 1px solid var(--dash-border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card-elevated::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--dash-gold), var(--dash-purple));
+    }
+
+    .stat-card-elevated.attending::after {
+      background: linear-gradient(90deg, #2e7d32, #66bb6a);
+    }
+
+    .stat-card-elevated.declined::after {
+      background: linear-gradient(90deg, #c62828, #ef5350);
+    }
+
+    .stat-card-elevated .card-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #a795b5;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card-elevated .card-value {
+      font-family: 'Cinzel', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .stat-card-elevated.gold .card-value { color: var(--dash-gold); }
+    .stat-card-elevated.attending .card-value { color: #81c784; }
+    .stat-card-elevated.declined .card-value { color: #e57373; }
+
+    .stat-card-elevated .card-subtext {
+      font-size: 0.78rem;
+      color: #8c7b99;
+      margin-top: 0.35rem;
+    }
+
+    .panel-card {
+      background: var(--dash-card);
+      border: 1px solid var(--dash-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      margin: 0;
+      color: var(--dash-gold);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .search-filter-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .dash-search-input, .dash-filter-select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: #fff;
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .dash-search-input:focus, .dash-filter-select:focus {
+      border-color: var(--dash-gold);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .dash-table-wrap {
+      overflow-x: auto;
+    }
+
+    .dash-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .dash-table th {
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--dash-gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--dash-border);
+      white-space: nowrap;
+    }
+
+    .dash-table td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #d1c8d8;
+      vertical-align: middle;
+    }
+
+    .dash-table tr:hover td {
+      background: rgba(212, 175, 55, 0.04);
+      color: #ffffff;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-yes {
+      background: rgba(46, 125, 50, 0.25);
+      color: #81c784;
+      border: 1px solid rgba(76, 175, 80, 0.4);
+    }
+
+    .badge-no {
+      background: rgba(198, 40, 40, 0.25);
+      color: #e57373;
+      border: 1px solid rgba(239, 83, 80, 0.4);
+    }
+
+    .phone-link {
+      color: #dfc8ee;
+      text-decoration: underline;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .phone-link:hover {
+      color: var(--dash-gold);
+    }
+
+    .photo-grid-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .photo-card-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .photo-card-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--dash-gold);
+    }
+
+    .photo-card-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-card-info {
+      padding: 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    .photo-uploader {
+      color: var(--dash-gold);
+      font-weight: 600;
+    }
+
+    .photo-caption {
+      color: #aaa;
+      margin-top: 0.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body class="dashboard-body">
+
+  <!-- TOP HEADER -->
+  <header class="dashboard-header">
+    <div class="dashboard-brand">
+      <div class="dashboard-monogram">T &amp; L</div>
+      <div class="dashboard-title-box">
+        <h1>Terrence &amp; Lina's Wedding Dashboard</h1>
+        <p>1 January 2027 · Munondo eleven, Hatfield · Live RSVP &amp; Guest Analytics</p>
+      </div>
+    </div>
+    <div class="dashboard-nav-actions">
+      <a href="{% url 'invitation:index' %}" class="dash-btn dash-btn-secondary" title="View Invitation Website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Invitation Page</span>
+      </a>
+      <a href="{% url 'invitation:api_export_csv' %}" class="dash-btn dash-btn-primary" title="Download Excel CSV Spreadsheet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>Export CSV (Excel)</span>
+      </a>
+      <a href="/admin/" class="dash-btn dash-btn-admin" title="Open Django Admin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Django Admin</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+
+    <!-- KPI STATS CARDS -->
+    <div class="stats-row">
+      <div class="stat-card-elevated gold">
+        <span class="card-label">Total Responses</span>
+        <div class="card-value">{{ total_responses }}</div>
+        <div class="card-subtext">Registered guest submissions</div>
+      </div>
+
+      <div class="stat-card-elevated attending">
+        <span class="card-label">Attending Guests</span>
+        <div class="card-value">{{ total_guests }}</div>
+        <div class="card-subtext">{{ attending_count }} party RSVP(s) confirmed</div>
+      </div>
+
+      <div class="stat-card-elevated declined">
+        <span class="card-label">Declined</span>
+        <div class="card-value">{{ declined_count }}</div>
+        <div class="card-subtext">Regretfully cannot make it</div>
+      </div>
+
+      <div class="stat-card-elevated">
+        <span class="card-label">Wedding Date</span>
+        <div class="card-value" style="font-size:1.6rem;padding-top:0.4rem;">01.01.2027</div>
+        <div class="card-subtext">Munondo eleven, Hatfield</div>
+      </div>
+    </div>
+
+    <!-- RSVP GUEST TABLE PANEL -->
+    <div class="panel-card">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <span>📋 Guest RSVP Directory</span>
+        </h2>
+        <div class="search-filter-bar">
+          <input type="text" id="dashSearchInput" class="dash-search-input" placeholder="Search by name, phone, notes..." oninput="filterTable()">
+          <select id="dashStatusFilter" class="dash-filter-select" onchange="filterTable()">
+            <option value="all">All Responses</option>
+            <option value="yes">Attending Only</option>
+            <option value="no">Declined Only</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="dash-table-wrap">
+        <table class="dash-table" id="rsvpsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Full Name</th>
+              <th>Phone / WhatsApp</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Party Size</th>
+              <th>Accompanying Guests</th>
+
+              <th>Wishes &amp; Blessings</th>
+              <th>Date RSVPed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in rsvps %}
+            <tr data-status="{{ r.attending|lower }}" class="rsvp-row">
+              <td>{{ forloop.counter }}</td>
+              <td><strong>{{ r.name }}</strong></td>
+              <td>
+                <a href="tel:{{ r.phone }}" class="phone-link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span>{{ r.phone }}</span>
+                </a>
+              </td>
+              <td>{{ r.email|default:"—" }}</td>
+              <td>
+                {% if r.is_attending %}
+                  <span class="badge-status badge-yes">✓ Attending</span>
+                {% else %}
+                  <span class="badge-status badge-no">✕ Declined</span>
+                {% endif %}
+              </td>
+              <td>{{ r.guest_count }}</td>
+              <td><small>{{ r.guest_names|default:"—" }}</small></td>
+
+              <td style="max-width:240px;"><small><em>{{ r.notes|default:"—" }}</em></small></td>
+              <td><small style="color:#9e9e9e;">{{ r.created_at|date:"d M Y, H:i" }}</small></td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="10" style="text-align:center;padding:2rem;color:#888;">
+                No RSVPs found yet. Responses from the invitation website will appear here in real time.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- GUEST UPLOADED MEMORIES PANEL -->
+    {% if photos %}
+    <div class="panel-card">
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <span>📸 Guest Uploaded Memories &amp; Photos</span>
+        </h2>
+      </div>
+      <div class="photo-grid-preview">
+        {% for photo in photos %}
+        <div class="photo-card-item">
+          <a href="/media/uploads/{{ photo.filename }}" target="_blank">
+            <img src="/media/uploads/{{ photo.filename }}" class="photo-card-img" alt="Guest Photo">
+          </a>
+          <div class="photo-card-info">
+            <div class="photo-uploader">{{ photo.uploader_name|default:"Guest" }}</div>
+            <div class="photo-caption">{{ photo.caption|default:"Wedding memory" }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <script>
+    function filterTable() {
+      const q = document.getElementById('dashSearchInput').value.toLowerCase().trim();
+      const status = document.getElementById('dashStatusFilter').value;
+      const rows = document.querySelectorAll('.rsvp-row');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const matchesQ = !q || text.includes(q);
+        const matchesStatus = (status === 'all') || (rowStatus === status);
+
+        if (matchesQ && matchesStatus) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

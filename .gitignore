@@ -1,0 +1,22 @@
+# Virtual environments
+venv/
+.venv/
+env/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database backups
+*.db.bak
+*.sqlite3-journal
+
+# Django static collections
+staticfiles/
+
+# OS temporary files
+Thumbs.db
+.DS_Store
+*.tmp
