@@ -4,11 +4,141 @@
  * Date: 1 January 2027 | Venue: Munondo eleven, Hatfield
  */
 
+// =========================================================================
+// 1. GLOBAL INTERACTIVE WAX SEAL & ENVELOPE OPENING (ANIME.JS POWERED)
+// =========================================================================
+let isEnvelopeOpened = false;
+
+function openEnvelope() {
+  if (isEnvelopeOpened) return;
+  isEnvelopeOpened = true;
+
+  const envWrapper = document.getElementById('envelopeWrapper');
+  const envOverlay = document.getElementById('envelopeOverlay');
+  const waxSeal = document.getElementById('waxSealBtn');
+  const flap = document.getElementById('envelopeFlap');
+  const card = document.getElementById('envelopeCardPreview');
+  const weddingAudio = document.getElementById('weddingAudio');
+  const anim = window.anime || (typeof anime !== 'undefined' ? anime : null);
+
+  // Try playing wedding music safely
+  if (weddingAudio) {
+    try {
+      weddingAudio.volume = 0.6;
+      weddingAudio.play().catch(() => {});
+    } catch (e) {
+      console.warn('Audio playback error:', e);
+    }
+  }
+
+  if (anim && anim.animate) {
+    const { animate, stagger } = anim;
+
+    // 1. Wax Seal Pop & Break Animation
+    if (waxSeal) {
+      animate(waxSeal, {
+        scale: [1, 1.35, 0],
+        opacity: [1, 1, 0],
+        rotate: [0, -10, 10, 0],
+        duration: 480,
+        ease: 'outBack(2.2)'
+      });
+    }
+
+    // 2. Envelope subtle bounce as seal breaks
+    if (envWrapper) {
+      animate(envWrapper, {
+        scale: [1, 1.02, 1],
+        duration: 500,
+        ease: 'outQuad'
+      });
+    }
+
+    // 3. 3D Flap Unfolding Backwards
+    if (flap) {
+      animate(flap, {
+        rotateX: [0, 180],
+        opacity: [1, 0.35],
+        duration: 900,
+        delay: 150,
+        ease: 'inOutCubic'
+      });
+    }
+
+    // 4. Invitation Card emerging upwards from the pocket
+    if (card) {
+      animate(card, {
+        translateY: [0, -125],
+        scale: [1, 1.05],
+        duration: 950,
+        delay: 380,
+        ease: 'outExpo'
+      });
+    }
+
+    // 5. Celebration Confetti triggers as card rises
+    setTimeout(() => {
+      try {
+        if (typeof triggerWelcomeConfetti === 'function') {
+          triggerWelcomeConfetti();
+        } else if (window.triggerWelcomeConfetti) {
+          window.triggerWelcomeConfetti();
+        }
+      } catch (e) {
+        console.warn('Confetti error:', e);
+      }
+    }, 750);
+
+    // 6. Smooth Overlay Dissolve & Reveal
+    if (envOverlay) {
+      animate(envOverlay, {
+        opacity: [1, 0],
+        scale: [1, 1.05],
+        duration: 850,
+        delay: 1350,
+        ease: 'inOutQuad',
+        onComplete: () => {
+          envOverlay.classList.add('opened');
+          envOverlay.style.display = 'none';
+          document.body.classList.remove('envelope-active');
+
+          // 7. Hero section elements stagger entrance
+          animate('.hero-badge, .hero-title, .hero-couple-names, .hero-date-row, .countdown-luxury-card', {
+            opacity: [0, 1],
+            translateY: [24, 0],
+            duration: 800,
+            delay: stagger(100),
+            ease: 'outCubic'
+          });
+        }
+      });
+    }
+  } else {
+    // Graceful CSS fallback if Anime.js is unavailable
+    if (envWrapper) envWrapper.classList.add('opening');
+    setTimeout(() => {
+      if (envOverlay) {
+        envOverlay.classList.add('opened');
+        envOverlay.style.display = 'none';
+      }
+      document.body.classList.remove('envelope-active');
+    }, 1100);
+  }
+}
+
+// Expose globally so inline onclick or any caller can trigger it
+window._openEnvelopeReal = openEnvelope;
+window.openEnvelope = openEnvelope;
+if (window._pendingOpenEnvelope) {
+  openEnvelope();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
   const envelopeOverlay = document.getElementById('envelopeOverlay');
   const envelopeWrapper = document.getElementById('envelopeWrapper');
   const waxSealBtn = document.getElementById('waxSealBtn');
+
   const weddingAudio = document.getElementById('weddingAudio');
   const musicToggleBtn = document.getElementById('musicToggleBtn');
   const weddingRsvpForm = document.getElementById('weddingRsvpForm');
@@ -32,124 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isMusicPlaying = false;
   let allRsvpsCache = [];
-
-  // =========================================================================
-  // 1. INTERACTIVE WAX SEAL & ENVELOPE OPENING (ANIME.JS POWERED)
-  // =========================================================================
-  let isEnvelopeOpened = false;
-
-  function openEnvelope() {
-    if (isEnvelopeOpened) return;
-    isEnvelopeOpened = true;
-
-    const envWrapper = envelopeWrapper || document.getElementById('envelopeWrapper');
-    const envOverlay = envelopeOverlay || document.getElementById('envelopeOverlay');
-    const waxSeal = waxSealBtn || document.getElementById('waxSealBtn');
-    const flap = document.getElementById('envelopeFlap');
-    const card = document.getElementById('envelopeCardPreview');
-    const anim = window.anime || (typeof anime !== 'undefined' ? anime : null);
-
-    // Try playing wedding music safely
-    try {
-      playWeddingMusic();
-    } catch (e) {
-      console.warn('Audio playback error:', e);
-    }
-
-    if (anim && anim.animate) {
-      const { animate, stagger } = anim;
-
-      // 1. Wax Seal Pop & Break Animation
-      if (waxSeal) {
-        animate(waxSeal, {
-          scale: [1, 1.35, 0],
-          opacity: [1, 1, 0],
-          rotate: [0, -10, 10, 0],
-          duration: 480,
-          ease: 'outBack(2.2)'
-        });
-      }
-
-      // 2. Envelope subtle bounce as seal breaks
-      if (envWrapper) {
-        animate(envWrapper, {
-          scale: [1, 1.02, 1],
-          duration: 500,
-          ease: 'outQuad'
-        });
-      }
-
-      // 3. 3D Flap Unfolding Backwards
-      if (flap) {
-        animate(flap, {
-          rotateX: [0, 180],
-          opacity: [1, 0.35],
-          duration: 900,
-          delay: 150,
-          ease: 'inOutCubic'
-        });
-      }
-
-      // 4. Invitation Card emerging upwards from the pocket
-      if (card) {
-        animate(card, {
-          translateY: [0, -125],
-          scale: [1, 1.05],
-          duration: 950,
-          delay: 380,
-          ease: 'outExpo'
-        });
-      }
-
-      // 5. Celebration Confetti triggers as card rises
-      setTimeout(() => {
-        try {
-          triggerWelcomeConfetti();
-        } catch (e) {
-          console.warn('Confetti error:', e);
-        }
-      }, 750);
-
-      // 6. Smooth Overlay Dissolve & Reveal
-      if (envOverlay) {
-        animate(envOverlay, {
-          opacity: [1, 0],
-          scale: [1, 1.05],
-          duration: 850,
-          delay: 1350,
-          ease: 'inOutQuad',
-          onComplete: () => {
-            envOverlay.classList.add('opened');
-            envOverlay.style.display = 'none';
-            document.body.classList.remove('envelope-active');
-
-            // 7. Hero section elements stagger entrance
-            animate('.hero-badge, .hero-title, .hero-couple-names, .hero-date-row, .countdown-luxury-card', {
-              opacity: [0, 1],
-              translateY: [24, 0],
-              duration: 800,
-              delay: stagger(100),
-              ease: 'outCubic'
-            });
-          }
-        });
-      }
-    } else {
-      // Graceful CSS fallback if Anime.js is unavailable
-      if (envWrapper) envWrapper.classList.add('opening');
-      setTimeout(() => {
-        if (envOverlay) envOverlay.classList.add('opened');
-        document.body.classList.remove('envelope-active');
-        try { triggerWelcomeConfetti(); } catch (e) {}
-      }, 1100);
-      setTimeout(() => {
-        if (envOverlay) envOverlay.style.display = 'none';
-      }, 2200);
-    }
-  }
-
-  // Expose globally so inline onclick or any caller can trigger it
-  window.openEnvelope = openEnvelope;
 
   // Add click, touch, and keydown listeners to wax seal and envelope
   const handleSealTap = (e) => {
@@ -249,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hoursEl = document.getElementById('hoursNum');
   const minEl = document.getElementById('minutesNum');
   const secEl = document.getElementById('secondsNum');
+  let lastSec = '';
 
   function updateCountdown() {
     const now = Date.now();
@@ -267,10 +280,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-    if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
-    if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
-    if (minEl) minEl.textContent = String(minutes).padStart(2, '0');
-    if (secEl) secEl.textContent = String(seconds).padStart(2, '0');
+    const sStr = String(seconds).padStart(2, '0');
+    const mStr = String(minutes).padStart(2, '0');
+    const hStr = String(hours).padStart(2, '0');
+    const dStr = String(days).padStart(2, '0');
+
+    if (daysEl && daysEl.textContent !== dStr) daysEl.textContent = dStr;
+    if (hoursEl && hoursEl.textContent !== hStr) hoursEl.textContent = hStr;
+    if (minEl && minEl.textContent !== mStr) minEl.textContent = mStr;
+
+    if (secEl && secEl.textContent !== sStr) {
+      secEl.textContent = sStr;
+      if (lastSec !== '' && window.anime && window.anime.animate) {
+        window.anime.animate(secEl, {
+          scale: [1.2, 1],
+          duration: 350,
+          ease: 'outBack(1.8)'
+        });
+      }
+      lastSec = sStr;
+    }
   }
 
   updateCountdown();
@@ -419,6 +448,14 @@ document.addEventListener('DOMContentLoaded', () => {
             'success'
           );
           triggerWelcomeConfetti();
+          if (window.anime && window.anime.animate) {
+            window.anime.animate('#rsvpStatusAlert', {
+              scale: [0.85, 1.03, 1],
+              opacity: [0, 1],
+              duration: 650,
+              ease: 'outElastic(1, .6)'
+            });
+          }
           weddingRsvpForm.reset();
           attendingDetailsGroup.classList.remove('hidden');
           saveLocalBackup(payload);
@@ -657,7 +694,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const caption = item.getAttribute('data-caption') || '';
       if (lightboxImg) lightboxImg.src = src;
       if (lightboxCaption) lightboxCaption.textContent = caption;
-      if (lightboxOverlay) lightboxOverlay.classList.add('active');
+      if (lightboxOverlay) {
+        lightboxOverlay.classList.add('active');
+        if (window.anime && window.anime.animate) {
+          window.anime.animate('.lightbox-content', {
+            scale: [0.82, 1],
+            opacity: [0, 1],
+            duration: 450,
+            ease: 'outBack(1.5)'
+          });
+        }
+      }
     });
   });
 
@@ -812,6 +859,223 @@ document.addEventListener('DOMContentLoaded', () => {
       return dStr;
     }
   }
+
+  // =========================================================================
+  // 13. COMPREHENSIVE ANIME.JS WEBSITE ANIMATIONS & INTERACTIVITY
+  // =========================================================================
+  function setupWebsiteAnimeAnimations() {
+    const anim = window.anime || (typeof anime !== 'undefined' ? anime : null);
+    if (!anim || !anim.animate) return;
+    const { animate, stagger } = anim;
+
+    // 1. Ambient Hero Names subtle breathing float
+    animate('.hero-couple-names', {
+      translateY: [-3, 3],
+      duration: 3400,
+      direction: 'alternate',
+      loop: true,
+      ease: 'inOutQuad'
+    });
+
+    // 2. Ambient Scripture & Pretitle Badges gentle pulse
+    animate('.hero-scripture-badge, .scripture-badge', {
+      translateY: [-2, 2],
+      duration: 2600,
+      direction: 'alternate',
+      loop: true,
+      ease: 'inOutSine'
+    });
+
+    // 3. Floating Quick Nav Dock entrance
+    animate('#quickNavDock', {
+      translateY: [40, 0],
+      opacity: [0, 1],
+      duration: 900,
+      delay: 500,
+      ease: 'outBack(1.5)'
+    });
+
+    // 4. Scroll-Triggered Section Entrance Animations (IntersectionObserver)
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -10% 0px',
+      threshold: 0.15
+    };
+
+    const animatedElements = new WeakSet();
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || animatedElements.has(entry.target)) return;
+        animatedElements.add(entry.target);
+
+        const target = entry.target;
+
+        // A. Countdown Section
+        if (target.classList.contains('section-countdown')) {
+          animate(target.querySelectorAll('.countdown-card'), {
+            opacity: [0, 1],
+            translateY: [32, 0],
+            scale: [0.88, 1],
+            delay: stagger(100),
+            duration: 750,
+            ease: 'outBack(1.5)'
+          });
+        }
+
+        // B. Scripture Section
+        else if (target.classList.contains('section-scripture')) {
+          animate(target.querySelector('.scripture-card'), {
+            opacity: [0, 1],
+            translateY: [40, 0],
+            rotateX: [8, 0],
+            duration: 1000,
+            ease: 'outCubic'
+          });
+          animate(target.querySelector('.scripture-quote-mark'), {
+            opacity: [0, 0.45],
+            scale: [0.4, 1],
+            duration: 800,
+            delay: 200,
+            ease: 'outBack(2)'
+          });
+        }
+
+        // C. Dress Code Section
+        else if (target.classList.contains('section-dresscode')) {
+          animate(target.querySelectorAll('.dresscode-key-item'), {
+            opacity: [0, 1],
+            translateY: [30, 0],
+            delay: stagger(150),
+            duration: 800,
+            ease: 'outCubic'
+          });
+          animate(target.querySelectorAll('.swatch-card'), {
+            opacity: [0, 1],
+            scale: [0, 1],
+            delay: stagger(70, { from: 'center' }),
+            duration: 650,
+            ease: 'outElastic(1, 0.65)'
+          });
+        }
+
+        // D. Venue Section
+        else if (target.classList.contains('section-venue')) {
+          animate(target.querySelector('.venue-showcase-card'), {
+            opacity: [0, 1],
+            translateY: [45, 0],
+            duration: 1000,
+            ease: 'outExpo'
+          });
+          animate(target.querySelectorAll('.amenity-item'), {
+            opacity: [0, 1],
+            translateX: [-25, 0],
+            delay: stagger(100, { start: 200 }),
+            duration: 700,
+            ease: 'outCubic'
+          });
+        }
+
+        // E. Gallery Section
+        else if (target.classList.contains('section-gallery')) {
+          animate(target.querySelectorAll('.gallery-item'), {
+            opacity: [0, 1],
+            scale: [0.92, 1],
+            delay: stagger(80),
+            duration: 750,
+            ease: 'outCubic'
+          });
+        }
+
+        // F. RSVP Section
+        else if (target.classList.contains('section-rsvp')) {
+          animate(target.querySelector('.rsvp-card'), {
+            opacity: [0, 1],
+            translateY: [40, 0],
+            duration: 950,
+            ease: 'outExpo'
+          });
+        }
+
+        // G. Contacts Section
+        else if (target.classList.contains('section-contacts')) {
+          animate(target.querySelectorAll('.contact-card'), {
+            opacity: [0, 1],
+            translateY: [30, 0],
+            delay: stagger(120),
+            duration: 700,
+            ease: 'outBack(1.4)'
+          });
+        }
+      });
+    }, observerOptions);
+
+    // Observe each main section
+    document.querySelectorAll(
+      '.section-countdown, .section-scripture, .section-dresscode, .section-venue, .section-gallery, .section-rsvp, .section-contacts'
+    ).forEach((sec) => scrollObserver.observe(sec));
+
+    // 5. Interactive Swatch Card Click Micro-Interactions
+    document.querySelectorAll('.swatch-card').forEach((card) => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('mouseenter', () => {
+        animate(card, {
+          scale: 1.08,
+          translateY: -5,
+          duration: 300,
+          ease: 'outBack(1.6)'
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        animate(card, {
+          scale: 1,
+          translateY: 0,
+          duration: 300,
+          ease: 'outQuad'
+        });
+      });
+      card.addEventListener('click', () => {
+        const hex = card.querySelector('.swatch-hex')?.textContent || '';
+        animate(card, {
+          scale: [1, 1.25, 1],
+          rotate: [0, -6, 6, 0],
+          duration: 450,
+          ease: 'outElastic(1, .5)'
+        });
+        if (navigator.clipboard && hex) {
+          navigator.clipboard.writeText(hex).then(() => {
+            const hexEl = card.querySelector('.swatch-hex');
+            if (hexEl) {
+              const original = hexEl.textContent;
+              hexEl.textContent = '✓ Copied!';
+              setTimeout(() => (hexEl.textContent = original), 1500);
+            }
+          }).catch(() => {});
+        }
+      });
+    });
+
+    // 6. Interactive Button Spring Physics Hover
+    document.querySelectorAll('.btn-royal-primary, .btn-royal-outline, .btn-royal-secondary').forEach((btn) => {
+      btn.addEventListener('mouseenter', () => {
+        animate(btn, {
+          scale: 1.04,
+          duration: 250,
+          ease: 'outBack(1.5)'
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        animate(btn, {
+          scale: 1,
+          duration: 250,
+          ease: 'outQuad'
+        });
+      });
+    });
+  }
+
+  // Initialize Anime.js animations
+  setupWebsiteAnimeAnimations();
 
   // Initial load of guest list from database
   fetchDatabaseRsvps();

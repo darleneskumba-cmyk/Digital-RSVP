@@ -20,6 +20,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2.2" />
+  <script>
+    window.openEnvelope = function() {
+      if (typeof window._openEnvelopeReal === 'function') {
+        window._openEnvelopeReal();
+      } else {
+        window._pendingOpenEnvelope = true;
+      }
+    };
+    var openEnvelope = window.openEnvelope;
+  </script>
 </head>
 <body class="envelope-active">
 
@@ -763,6 +773,6 @@
 
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="{% static 'js/anime.umd.min.js' %}"></script>
-  <script src="{% static 'js/app.js' %}?v=2.3"></script>
+  <script src="{% static 'js/app.js' %}?v=2.4"></script>
 </body>
 </html>
