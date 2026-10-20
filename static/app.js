@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let allRsvpsCache = [];
 
   // =========================================================================
-  // 1. INTERACTIVE WAX SEAL & ENVELOPE OPENING (TIKTOK STYLE)
+  // 1. INTERACTIVE WAX SEAL & ENVELOPE OPENING (ANIME.JS POWERED)
   // =========================================================================
   let isEnvelopeOpened = false;
 
@@ -42,13 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isEnvelopeOpened) return;
     isEnvelopeOpened = true;
 
-    // Trigger 3D flap unseal and card extraction
     const envWrapper = envelopeWrapper || document.getElementById('envelopeWrapper');
     const envOverlay = envelopeOverlay || document.getElementById('envelopeOverlay');
-
-    if (envWrapper) {
-      envWrapper.classList.add('opening');
-    }
+    const waxSeal = waxSealBtn || document.getElementById('waxSealBtn');
+    const flap = document.getElementById('envelopeFlap');
+    const card = document.getElementById('envelopeCardPreview');
+    const anim = window.anime || (typeof anime !== 'undefined' ? anime : null);
 
     // Try playing wedding music safely
     try {
@@ -57,25 +56,96 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Audio playback error:', e);
     }
 
-    // After animation finishes, fade out overlay and enable scrolling
-    setTimeout(() => {
-      if (envOverlay) {
-        envOverlay.classList.add('opened');
-      }
-      document.body.classList.remove('envelope-active');
-      try {
-        triggerWelcomeConfetti();
-      } catch (e) {
-        console.warn('Confetti error:', e);
-      }
-    }, 1100);
+    if (anim && anim.animate) {
+      const { animate, stagger } = anim;
 
-    // Completely hide overlay after fade out so it can never intercept clicks
-    setTimeout(() => {
-      if (envOverlay) {
-        envOverlay.style.display = 'none';
+      // 1. Wax Seal Pop & Break Animation
+      if (waxSeal) {
+        animate(waxSeal, {
+          scale: [1, 1.35, 0],
+          opacity: [1, 1, 0],
+          rotate: [0, -10, 10, 0],
+          duration: 480,
+          ease: 'outBack(2.2)'
+        });
       }
-    }, 2200);
+
+      // 2. Envelope subtle bounce as seal breaks
+      if (envWrapper) {
+        animate(envWrapper, {
+          scale: [1, 1.02, 1],
+          duration: 500,
+          ease: 'outQuad'
+        });
+      }
+
+      // 3. 3D Flap Unfolding Backwards
+      if (flap) {
+        animate(flap, {
+          rotateX: [0, 180],
+          opacity: [1, 0.35],
+          duration: 900,
+          delay: 150,
+          ease: 'inOutCubic'
+        });
+      }
+
+      // 4. Invitation Card emerging upwards from the pocket
+      if (card) {
+        animate(card, {
+          translateY: [0, -125],
+          scale: [1, 1.05],
+          duration: 950,
+          delay: 380,
+          ease: 'outExpo'
+        });
+      }
+
+      // 5. Celebration Confetti triggers as card rises
+      setTimeout(() => {
+        try {
+          triggerWelcomeConfetti();
+        } catch (e) {
+          console.warn('Confetti error:', e);
+        }
+      }, 750);
+
+      // 6. Smooth Overlay Dissolve & Reveal
+      if (envOverlay) {
+        animate(envOverlay, {
+          opacity: [1, 0],
+          scale: [1, 1.05],
+          duration: 850,
+          delay: 1350,
+          ease: 'inOutQuad',
+          onComplete: () => {
+            envOverlay.classList.add('opened');
+            envOverlay.style.display = 'none';
+            document.body.classList.remove('envelope-active');
+
+            // 7. Hero section elements stagger entrance
+            animate('.hero-badge, .hero-title, .hero-couple-names, .hero-date-row, .countdown-luxury-card', {
+              opacity: [0, 1],
+              translateY: [24, 0],
+              duration: 800,
+              delay: stagger(100),
+              ease: 'outCubic'
+            });
+          }
+        });
+      }
+    } else {
+      // Graceful CSS fallback if Anime.js is unavailable
+      if (envWrapper) envWrapper.classList.add('opening');
+      setTimeout(() => {
+        if (envOverlay) envOverlay.classList.add('opened');
+        document.body.classList.remove('envelope-active');
+        try { triggerWelcomeConfetti(); } catch (e) {}
+      }, 1100);
+      setTimeout(() => {
+        if (envOverlay) envOverlay.style.display = 'none';
+      }, 2200);
+    }
   }
 
   // Expose globally so inline onclick or any caller can trigger it
