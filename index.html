@@ -18,16 +18,118 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3.0" />
   <script>
-    window.openEnvelope = function() {
-      if (typeof window._openEnvelopeReal === 'function') {
-        window._openEnvelopeReal();
-      } else {
-        window._pendingOpenEnvelope = true;
+    var isEnvelopeOpened = false;
+
+    function dismissEnvelope() {
+      try {
+        var envOverlay = document.getElementById('envelopeOverlay');
+        var envWrapper = document.getElementById('envelopeWrapper');
+        if (envWrapper) envWrapper.classList.add('opened');
+        if (envOverlay) {
+          envOverlay.classList.add('opened');
+          envOverlay.style.opacity = '0';
+          envOverlay.style.pointerEvents = 'none';
+          setTimeout(function() {
+            envOverlay.style.display = 'none';
+          }, 350);
+        }
+        document.body.classList.remove('envelope-active');
+        document.documentElement.classList.remove('envelope-active');
+
+        var hero = document.getElementById('hero');
+        if (hero) {
+          hero.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      } catch (err) {
+        var overlay = document.getElementById('envelopeOverlay');
+        if (overlay) overlay.style.display = 'none';
+        document.body.classList.remove('envelope-active');
       }
-    };
-    var openEnvelope = window.openEnvelope;
+    }
+
+    function openEnvelope() {
+      if (isEnvelopeOpened) {
+        dismissEnvelope();
+        return;
+      }
+      isEnvelopeOpened = true;
+
+      try {
+        var audio = document.getElementById('weddingAudio');
+        if (audio) {
+          audio.volume = 0.6;
+          audio.play().catch(function() {});
+        }
+      } catch (e) {}
+
+      var envWrapper = document.getElementById('envelopeWrapper');
+      var envOverlay = document.getElementById('envelopeOverlay');
+      var waxSeal = document.getElementById('waxSealBtn');
+      var flap = document.getElementById('envelopeFlap');
+      var card = document.getElementById('envelopeCardPreview');
+
+      if (envWrapper) envWrapper.classList.add('opening');
+
+      // Hard safety timer: GUARANTEES dismissal within 650ms
+      var safetyTimer = setTimeout(function() {
+        dismissEnvelope();
+      }, 650);
+
+      try {
+        var anim = window.anime;
+        if (anim && anim.animate) {
+          if (waxSeal) {
+            anim.animate(waxSeal, {
+              scale: [1, 1.35, 0],
+              opacity: [1, 0],
+              duration: 350,
+              ease: 'outBack(2)'
+            });
+          }
+          if (flap) {
+            anim.animate(flap, {
+              rotateX: [0, 180],
+              opacity: [1, 0.4],
+              duration: 500,
+              delay: 50,
+              ease: 'inOutCubic'
+            });
+          }
+          if (card) {
+            anim.animate(card, {
+              translateY: [0, -120],
+              scale: [1, 1.05],
+              duration: 550,
+              delay: 100,
+              ease: 'outExpo'
+            });
+          }
+          if (envOverlay) {
+            anim.animate(envOverlay, {
+              opacity: [1, 0],
+              duration: 350,
+              delay: 450,
+              ease: 'inOutQuad',
+              onComplete: function() {
+                clearTimeout(safetyTimer);
+                dismissEnvelope();
+              }
+            });
+          }
+        }
+      } catch (err) {
+        clearTimeout(safetyTimer);
+        dismissEnvelope();
+      }
+    }
+
+    window.openEnvelope = openEnvelope;
+    window.dismissEnvelope = dismissEnvelope;
+    window._openEnvelopeReal = openEnvelope;
   </script>
 </head>
 <body class="envelope-active">
@@ -141,10 +243,10 @@
     <div class="intro-caption">
       <p class="intro-names">Terrence Masimba Svosve &amp; Lina Yeukaishe Mutsopotsi</p>
       <p class="intro-quote">“I have found the one whom my soul loves” — Song of Solomon 3:4</p>
-      <button type="button" class="intro-enter-btn" onclick="openEnvelope(); event.stopPropagation();" aria-label="Enter Wedding Website">
+      <a href="#hero" class="intro-enter-btn" onclick="dismissEnvelope(); event.stopPropagation();" aria-label="Enter Wedding Website">
         <span>Enter Wedding Website</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </button>
+      </a>
     </div>
   </div>
 
@@ -1153,6 +1255,6 @@
 
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="assets/js/anime.umd.min.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=3.0"></script>
 </body>
 </html>
