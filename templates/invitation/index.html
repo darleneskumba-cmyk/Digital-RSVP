@@ -74,6 +74,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
       <span>Dress Code</span>
     </a>
+    <a href="#gallery" class="nav-item" title="Love Story">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      <span>Story</span>
+    </a>
     <a href="#rsvp" class="nav-item highlight" title="RSVP">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
       <span>RSVP</span>
@@ -461,43 +465,293 @@
       </div>
     </section>
 
-    <!-- ==================== PHOTO GALLERY ==================== -->
+    <!-- ==================== OUR LOVE STORY & PHOTO GALLERY ==================== -->
     <section class="section-gallery" id="gallery">
-      <div class="container text-center">
-        <span class="section-pretitle">MOMENTS OF LOVE</span>
-        <h2 class="section-title-serif">Our Love Story &amp; Gallery</h2>
-        <p class="gallery-subtitle">A glimpse of our journey leading to New Year's Day 2027</p>
+      <div class="container text-center gallery-section-header">
+        <span class="section-pretitle">MOMENTS OF LOVE &amp; OUR JOURNEY</span>
+        <h2 class="section-title-serif">Our Love Story</h2>
+        <p class="gallery-subtitle">A scrolling celebration of our memories leading to New Year's Day 2027</p>
+      </div>
 
-        <!-- PHOTO GRID -->
+      <!-- 1. RIGHT-TO-LEFT INFINITE LOVE STORY SCROLLING REEL -->
+      <div class="love-story-reel-wrap" id="loveStoryReelWrap">
+        <div class="love-story-track" id="loveStoryTrack">
+          <!-- Track Set 1 -->
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+            <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter I</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">The Spark of Love</h4>
+                <p class="love-story-card-desc">Where our hearts first found home</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
+            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter II</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Sweet Moments</h4>
+                <p class="love-story-card-desc">Held close in warmth &amp; tenderness</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
+            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter III</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Walking as One</h4>
+                <p class="love-story-card-desc">A beautiful journey rooted in faith</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever — every look is a promise" data-index="3">
+            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter IV</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Gazing Into Forever</h4>
+                <p class="love-story-card-desc">Every look is a promise of tomorrow</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
+            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter V</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Our Playful Spirits</h4>
+                <p class="love-story-card-desc">Laughter &amp; Arsenal pride 🔴⚪</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Two hearts beating with happiness and faith" data-index="5">
+            <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter VI</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Smiles of Sunshine</h4>
+                <p class="love-story-card-desc">Two hearts beating with pure happiness</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}" data-caption="Laughter that lights our path to 'I Do'" data-index="6">
+            <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter VII</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
+                <p class="love-story-card-desc">Laughter that lights up our future</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track Set 2 (Duplicated for seamless infinite right-to-left loop) -->
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+            <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter I</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">The Spark of Love</h4>
+                <p class="love-story-card-desc">Where our hearts first found home</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
+            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter II</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Sweet Moments</h4>
+                <p class="love-story-card-desc">Held close in warmth &amp; tenderness</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
+            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter III</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Walking as One</h4>
+                <p class="love-story-card-desc">A beautiful journey rooted in faith</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever — every look is a promise" data-index="3">
+            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter IV</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Gazing Into Forever</h4>
+                <p class="love-story-card-desc">Every look is a promise of tomorrow</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
+            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter V</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Our Playful Spirits</h4>
+                <p class="love-story-card-desc">Laughter &amp; Arsenal pride 🔴⚪</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Two hearts beating with happiness and faith" data-index="5">
+            <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter VI</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Smiles of Sunshine</h4>
+                <p class="love-story-card-desc">Two hearts beating with pure happiness</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}" data-caption="Laughter that lights our path to 'I Do'" data-index="6">
+            <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
+            <div class="love-story-card-overlay">
+              <span class="love-story-chapter-badge">Chapter VII</span>
+              <div class="love-story-card-meta">
+                <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
+                <p class="love-story-card-desc">Laughter that lights up our future</p>
+                <span class="love-story-tap-cue">🔍 Tap to view photo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REEL CONTROLS (Pause/Play & Manual Nudges) -->
+      <div class="love-story-controls">
+        <div class="reel-status-pill">
+          <span class="reel-live-dot"></span>
+          <span>Story Reel · Scrolling Right to Left</span>
+        </div>
+        <button type="button" class="reel-control-btn" id="reelPlayPauseBtn" aria-label="Pause or play story reel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" id="reelPauseIcon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" id="reelPlayIcon" style="display: none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span id="reelPlayPauseText">Pause</span>
+        </button>
+        <button type="button" class="reel-nav-btn" id="reelNudgeLeftBtn" title="Nudge Reel Left" aria-label="Nudge left">‹</button>
+        <button type="button" class="reel-nav-btn" id="reelNudgeRightBtn" title="Nudge Reel Right" aria-label="Nudge right">›</button>
+      </div>
+
+      <!-- 2. COMPLETE PHOTO GALLERY (PERFECT FIT & FULL RESOLUTION) -->
+      <div class="container text-center">
+        <div class="ornament-divider" style="margin-bottom: 2.5rem;">
+          <span class="ornament-gold-line"></span>
+          <span class="ornament-symbol">❦</span>
+          <span class="ornament-gold-line"></span>
+        </div>
+
+        <div class="gallery-grid-title-wrap">
+          <span class="section-pretitle">CAPTURED MOMENTS</span>
+          <h3 class="gallery-grid-title">The Wedding Gallery</h3>
+          <p class="gallery-grid-subtitle">Tap any photograph to admire in high-resolution</p>
+        </div>
+
         <div class="gallery-grid">
-          <div class="gallery-item large" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever">
+          <!-- Photo 1: Hero Couple -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+            <span class="gallery-card-badge">Together Forever</span>
             <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
             <div class="gallery-hover-overlay">
-              <span class="view-icon">🔍 View Photo</span>
+              <h5 class="gallery-card-caption-title">Terrence &amp; Lina</h5>
+              <p class="gallery-card-caption-sub">Together Forever in God's Grace</p>
+              <span class="view-icon">🔍 View High-Res</span>
             </div>
           </div>
-          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Sweet moments together">
-            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Terrence &amp; Lina Portrait" loading="lazy" />
+
+          <!-- Photo 2: Sweet Moments -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Sweet moments held close" data-index="1">
+            <span class="gallery-card-badge">Sweet Moments</span>
+            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Terrence &amp; Lina Gentle Portrait" loading="lazy" />
             <div class="gallery-hover-overlay">
-              <span class="view-icon">🔍 View Photo</span>
+              <h5 class="gallery-card-caption-title">Tender Warmth</h5>
+              <p class="gallery-card-caption-sub">Held close in quiet joy</p>
+              <span class="view-icon">🔍 View High-Res</span>
             </div>
           </div>
-          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey">
-            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Terrence &amp; Lina Full Portrait" loading="lazy" />
+
+          <!-- Photo 3: Journey -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey walking hand in hand" data-index="2">
+            <span class="gallery-card-badge">Walking as One</span>
+            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
             <div class="gallery-hover-overlay">
-              <span class="view-icon">🔍 View Photo</span>
+              <h5 class="gallery-card-caption-title">Our Journey</h5>
+              <p class="gallery-card-caption-sub">Walking hand in hand toward forever</p>
+              <span class="view-icon">🔍 View High-Res</span>
             </div>
           </div>
-          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever">
-            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Terrence &amp; Lina Romantic Gaze" loading="lazy" />
+
+          <!-- Photo 4: Gazing into Forever -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever" data-index="3">
+            <span class="gallery-card-badge">A Holy Promise</span>
+            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Romantic Gaze" loading="lazy" />
             <div class="gallery-hover-overlay">
-              <span class="view-icon">🔍 View Photo</span>
+              <h5 class="gallery-card-caption-title">Gazing Into Forever</h5>
+              <p class="gallery-card-caption-sub">A holy promise written in every glance</p>
+              <span class="view-icon">🔍 View High-Res</span>
             </div>
           </div>
-          <div class="gallery-item large" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Terrence &amp; Lina — Our fun side 🔴⚪">
-            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Terrence &amp; Lina in Arsenal Jerseys" loading="lazy" />
+
+          <!-- Photo 5: Arsenal Pride / Fun Side -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Terrence &amp; Lina — Our playful spirit 🔴⚪" data-index="4">
+            <span class="gallery-card-badge">Gunners at Heart</span>
+            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful side in Arsenal kits" loading="lazy" />
             <div class="gallery-hover-overlay">
-              <span class="view-icon">🔍 View Photo</span>
+              <h5 class="gallery-card-caption-title">Playful Spirits</h5>
+              <p class="gallery-card-caption-sub">Arsenal pride &amp; endless smiles 🔴⚪</p>
+              <span class="view-icon">🔍 View High-Res</span>
+            </div>
+          </div>
+
+          <!-- Photo 6: (NEW PHOTO 1) Smiles of Sunshine -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Smiles of sunshine — Terrence &amp; Lina" data-index="5">
+            <span class="gallery-card-badge">Pure Happiness</span>
+            <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of sunshine with Terrence &amp; Lina" loading="lazy" />
+            <div class="gallery-hover-overlay">
+              <h5 class="gallery-card-caption-title">Smiles of Sunshine</h5>
+              <p class="gallery-card-caption-sub">Two hearts radiant with joy</p>
+              <span class="view-icon">🔍 View High-Res</span>
+            </div>
+          </div>
+
+          <!-- Photo 7: (NEW PHOTO 2) Pure Laughter -->
+          <div class="gallery-item" data-lightbox="{% static 'images/couple_photo_6.jpg' %}" data-caption="Pure laughter and boundless love" data-index="6">
+            <span class="gallery-card-badge">Laughter &amp; Love</span>
+            <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Lina laughing with Terrence" loading="lazy" />
+            <div class="gallery-hover-overlay">
+              <h5 class="gallery-card-caption-title">Pure Laughter</h5>
+              <p class="gallery-card-caption-sub">Laughter that lights up our world</p>
+              <span class="view-icon">🔍 View High-Res</span>
             </div>
           </div>
         </div>
@@ -757,13 +1011,18 @@
     </div>
   </div>
 
-  <!-- LIGHTBOX MODAL FOR PHOTO GALLERY -->
-  <div class="lightbox-overlay" id="lightboxOverlay">
+  <!-- LIGHTBOX MODAL FOR PHOTO GALLERY & LOVE STORY -->
+  <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
+    <button class="lightbox-nav-btn prev" id="lightboxPrev" aria-label="Previous Photo" title="Previous Photo">‹</button>
     <div class="lightbox-content">
       <img id="lightboxImg" src="" alt="Enlarged photo" />
-      <p id="lightboxCaption" class="lightbox-caption"></p>
-      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <div class="lightbox-footer">
+        <span id="lightboxIndex" class="lightbox-counter">Photo 1 of 7</span>
+        <p id="lightboxCaption" class="lightbox-caption"></p>
+      </div>
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close Lightbox">✕</button>
     </div>
+    <button class="lightbox-nav-btn next" id="lightboxNext" aria-label="Next Photo" title="Next Photo">›</button>
   </div>
 
 

@@ -685,39 +685,158 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // 9. PHOTO GALLERY LIGHTBOX
+  // 9. LOVE STORY HORIZONTAL REEL & FULL PHOTO GALLERY LIGHTBOX
   // =========================================================================
+  const loveStoryTrack = document.getElementById('loveStoryTrack');
+  const reelPlayPauseBtn = document.getElementById('reelPlayPauseBtn');
+  const reelPauseIcon = document.getElementById('reelPauseIcon');
+  const reelPlayIcon = document.getElementById('reelPlayIcon');
+  const reelPlayPauseText = document.getElementById('reelPlayPauseText');
+  const reelNudgeLeftBtn = document.getElementById('reelNudgeLeftBtn');
+  const reelNudgeRightBtn = document.getElementById('reelNudgeRightBtn');
+
+  // Toggle Auto-Scroll Pause/Play
+  if (reelPlayPauseBtn && loveStoryTrack) {
+    let isReelPaused = false;
+    reelPlayPauseBtn.addEventListener('click', () => {
+      isReelPaused = !isReelPaused;
+      loveStoryTrack.classList.toggle('is-paused', isReelPaused);
+      if (reelPauseIcon) reelPauseIcon.style.display = isReelPaused ? 'none' : 'block';
+      if (reelPlayIcon) reelPlayIcon.style.display = isReelPaused ? 'block' : 'none';
+      if (reelPlayPauseText) reelPlayPauseText.textContent = isReelPaused ? 'Resume' : 'Pause';
+    });
+  }
+
+  // Nudge Left / Right for manual browsing
+  if (reelNudgeLeftBtn && loveStoryTrack) {
+    reelNudgeLeftBtn.addEventListener('click', () => {
+      if (window.anime && window.anime.animate) {
+        window.anime.animate(loveStoryTrack, {
+          translateX: '+=140px',
+          duration: 350,
+          ease: 'outQuad'
+        });
+      }
+    });
+  }
+
+  if (reelNudgeRightBtn && loveStoryTrack) {
+    reelNudgeRightBtn.addEventListener('click', () => {
+      if (window.anime && window.anime.animate) {
+        window.anime.animate(loveStoryTrack, {
+          translateX: '-=140px',
+          duration: 350,
+          ease: 'outQuad'
+        });
+      }
+    });
+  }
+
+  // Lightbox & Photo Catalog (Perfect fit & full resolution)
   const galleryItems = document.querySelectorAll('.gallery-item');
+  const loveStoryCards = document.querySelectorAll('.love-story-card');
+  const lightboxOverlay = document.getElementById('lightboxOverlay');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxIndex = document.getElementById('lightboxIndex');
+  const lightboxClose = document.getElementById('lightboxClose');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
+
+  // Build catalog of all 7 wedding photos
+  const photoCatalog = [];
+  galleryItems.forEach((item) => {
+    const src = item.getAttribute('data-lightbox');
+    const caption = item.getAttribute('data-caption') || '';
+    if (src && !photoCatalog.some(p => p.src === src)) {
+      photoCatalog.push({ src, caption });
+    }
+  });
+
+  let currentPhotoIndex = 0;
+
+  function showLightboxPhoto(index, animate = true) {
+    if (photoCatalog.length === 0) return;
+    currentPhotoIndex = (index + photoCatalog.length) % photoCatalog.length;
+    const current = photoCatalog[currentPhotoIndex];
+    if (lightboxImg) {
+      lightboxImg.src = current.src;
+      lightboxImg.alt = current.caption;
+      if (animate && window.anime && window.anime.animate) {
+        window.anime.animate(lightboxImg, {
+          opacity: [0.3, 1],
+          scale: [0.95, 1],
+          duration: 300,
+          ease: 'outQuad'
+        });
+      }
+    }
+    if (lightboxCaption) lightboxCaption.textContent = current.caption;
+    if (lightboxIndex) lightboxIndex.textContent = `Photo ${currentPhotoIndex + 1} of ${photoCatalog.length}`;
+  }
+
+  function openLightbox(index) {
+    showLightboxPhoto(index, false);
+    if (lightboxOverlay) {
+      lightboxOverlay.classList.add('active');
+      if (window.anime && window.anime.animate) {
+        window.anime.animate('.lightbox-content', {
+          scale: [0.85, 1],
+          opacity: [0, 1],
+          duration: 420,
+          ease: 'outBack(1.4)'
+        });
+      }
+    }
+  }
+
+  function closeLightbox() {
+    if (lightboxOverlay) lightboxOverlay.classList.remove('active');
+  }
+
+  // Click on gallery items
   galleryItems.forEach((item) => {
     item.addEventListener('click', () => {
-      const src = item.getAttribute('data-lightbox');
-      const caption = item.getAttribute('data-caption') || '';
-      if (lightboxImg) lightboxImg.src = src;
-      if (lightboxCaption) lightboxCaption.textContent = caption;
-      if (lightboxOverlay) {
-        lightboxOverlay.classList.add('active');
-        if (window.anime && window.anime.animate) {
-          window.anime.animate('.lightbox-content', {
-            scale: [0.82, 1],
-            opacity: [0, 1],
-            duration: 450,
-            ease: 'outBack(1.5)'
-          });
-        }
-      }
+      const idx = parseInt(item.getAttribute('data-index') || '0', 10);
+      openLightbox(idx);
     });
   });
 
-  if (lightboxClose) {
-    lightboxClose.addEventListener('click', () => {
-      lightboxOverlay.classList.remove('active');
+  // Click on love story cards
+  loveStoryCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.getAttribute('data-index') || '0', 10);
+      openLightbox(idx);
     });
-  }
+  });
+
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
   if (lightboxOverlay) {
     lightboxOverlay.addEventListener('click', (e) => {
-      if (e.target === lightboxOverlay) lightboxOverlay.classList.remove('active');
+      if (e.target === lightboxOverlay) closeLightbox();
     });
   }
+
+  if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showLightboxPhoto(currentPhotoIndex - 1);
+    });
+  }
+  if (lightboxNext) {
+    lightboxNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showLightboxPhoto(currentPhotoIndex + 1);
+    });
+  }
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (!lightboxOverlay || !lightboxOverlay.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') showLightboxPhoto(currentPhotoIndex - 1);
+    else if (e.key === 'ArrowRight') showLightboxPhoto(currentPhotoIndex + 1);
+    else if (e.key === 'Escape') closeLightbox();
+  });
 
   // =========================================================================
   // 10. ADD TO CALENDAR (MODAL & .ICS GENERATION)
