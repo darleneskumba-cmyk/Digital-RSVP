@@ -135,8 +135,11 @@
 </head>
 <body class="envelope-active">
 
-  <!-- BACKGROUND MUSIC AUDIO -->
-  <audio id="weddingAudio" src="{% static 'audio/turning-page.mp3' %}" loop preload="auto"></audio>
+  <!-- BACKGROUND MUSIC AUDIO (Alex Warren - Ordinary) -->
+  <audio id="weddingAudio" loop preload="auto">
+    <source src="{% static 'audio/ordinary.webm' %}" type="audio/webm">
+    <source src="{% static 'audio/ordinary.mp3' %}" type="audio/mpeg">
+  </audio>
 
   <!-- FLOATING MUSIC TOGGLE BUTTON -->
   <button id="musicToggleBtn" class="floating-music-btn" aria-label="Toggle Wedding Music" title="Wedding Music">
@@ -285,70 +288,89 @@
       </div>
     </header>
 
-    <!-- ==================== HERO SECTION ==================== -->
+    <!-- ==================== HERO SECTION (BRIGHT ROYAL · REFINED HIGH-RES PORTRAIT) ==================== -->
     <section class="section-hero" id="hero">
-      <div class="hero-backdrop" style="background-image: url('{% static 'images/couple_hero.jpg' %}');"></div>
-      <div class="hero-gradient-overlay"></div>
-      <div class="hero-vignette"></div>
+      <div class="hero-ambient-glow"></div>
 
-      <div class="hero-content">
-        <div class="hero-badge animate-fade-down">
-          <span class="badge-line"></span>
-          <span class="badge-text">WE ARE GETTING MARRIED</span>
-          <span class="badge-line"></span>
-        </div>
+      <div class="hero-container">
+        <div class="hero-split-grid">
+          
+          <!-- LEFT COLUMN: WEDDING DETAILS & CALLS TO ACTION -->
+          <div class="hero-text-col">
+            <div class="hero-badge animate-fade-down">
+              <span class="badge-line"></span>
+              <span class="badge-text">WE ARE GETTING MARRIED</span>
+              <span class="badge-line"></span>
+            </div>
 
-        <h1 class="hero-couple-names animate-fade-up">
-          <span class="name-groom">Terrence Masimba Svosve</span>
-          <div class="hero-amp-container">
-            <span class="amp-gold-line"></span>
-            <span class="hero-amp-sign">&amp;</span>
-            <span class="amp-gold-line"></span>
-          </div>
-          <span class="name-bride">Lina Yeukaishe Mutsopotsi</span>
-        </h1>
+            <h1 class="hero-couple-names animate-fade-up">
+              <span class="name-groom">Terrence Masimba Svosve</span>
+              <div class="hero-amp-container">
+                <span class="amp-gold-line"></span>
+                <span class="hero-amp-sign">&amp;</span>
+                <span class="amp-gold-line"></span>
+              </div>
+              <span class="name-bride">Lina Yeukaishe Mutsopotsi</span>
+            </h1>
 
-        <p class="hero-tagline animate-fade-up delay-1">
-          Together with their beloved families, invite you to share in the joy of their holy union
-        </p>
+            <p class="hero-tagline animate-fade-up delay-1">
+              Together with their beloved families, invite you to share in the joy of their holy union
+            </p>
 
-        <!-- LUXURY DATE & VENUE PILL -->
-        <div class="hero-meta-card animate-fade-up delay-2">
-          <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-            <div class="meta-details">
-              <span class="meta-label">THE DATE</span>
-              <span class="meta-value">Friday, 1 January 2027</span>
+            <!-- LUXURY DATE & VENUE PILL -->
+            <div class="hero-meta-card animate-fade-up delay-2">
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                <div class="meta-details">
+                  <span class="meta-label">THE DATE</span>
+                  <span class="meta-value">Friday, 1 January 2027</span>
+                </div>
+              </div>
+              <div class="meta-divider"></div>
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div class="meta-details">
+                  <span class="meta-label">TIME</span>
+                  <span class="meta-value">9:00 AM</span>
+                </div>
+              </div>
+              <div class="meta-divider"></div>
+              <div class="meta-item">
+                <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <div class="meta-details">
+                  <span class="meta-label">VENUE</span>
+                  <span class="meta-value">Munondo eleven, Hatfield</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- HERO ACTION BUTTONS -->
+            <div class="hero-actions animate-fade-up delay-3">
+              <a href="#rsvp" class="btn-royal-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <span>RSVP Attendance</span>
+              </a>
+              <a href="#venue" class="btn-royal-secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>View Venue</span>
+              </a>
             </div>
           </div>
-          <div class="meta-divider"></div>
-          <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            <div class="meta-details">
-              <span class="meta-label">TIME</span>
-              <span class="meta-value">9:00 AM</span>
-            </div>
-          </div>
-          <div class="meta-divider"></div>
-          <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <div class="meta-details">
-              <span class="meta-label">VENUE</span>
-              <span class="meta-value">Munondo eleven, Hatfield</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- HERO ACTION BUTTONS -->
-        <div class="hero-actions animate-fade-up delay-3">
-          <a href="#rsvp" class="btn-royal-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            <span>RSVP Attendance</span>
-          </a>
-          <a href="#venue" class="btn-royal-secondary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>View Venue</span>
-          </a>
+          <!-- RIGHT COLUMN: HIGH RESOLUTION ARCHED PORTRAIT -->
+          <div class="hero-portrait-col animate-fade-up delay-2">
+            <div class="hero-portrait-frame-wrap">
+              <div class="hero-portrait-gold-halo"></div>
+              <div class="hero-portrait-frame">
+                <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence Masimba Svosve & Lina Yeukaishe Mutsopotsi" class="hero-portrait-img" loading="eager" />
+                <div class="hero-portrait-glass-caption">
+                  <span class="portrait-caption-names">Terrence &amp; Lina</span>
+                  <span class="portrait-caption-date">01.01.2027 · Forever Starts Here</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- SCROLL PROMPT -->
