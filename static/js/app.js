@@ -316,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
       secEl.textContent = sStr;
       if (lastSec !== '' && window.anime && window.anime.animate) {
         window.anime.animate(secEl, {
-          scale: [1.2, 1],
-          duration: 350,
+          scale: [1.18, 1],
+          duration: 320,
           ease: 'outBack(1.8)'
         });
       }
@@ -327,6 +327,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // Staggered Anime.js entrance animation when countdown scrolls into view
+  const countdownSection = document.getElementById('countdown');
+  if (countdownSection && 'IntersectionObserver' in window) {
+    let countdownAnimated = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !countdownAnimated) {
+          countdownAnimated = true;
+          if (window.anime && window.anime.animate) {
+            const staggerFn = typeof window.anime.stagger === 'function' ? window.anime.stagger(100) : 0;
+            window.anime.animate('.countdown-card', {
+              opacity: [0, 1],
+              translateY: [30, 0],
+              scale: [0.92, 1],
+              delay: staggerFn,
+              duration: 700,
+              ease: 'outBack(1.6)'
+            });
+          }
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(countdownSection);
+  }
 
   // =========================================================================
   // 4. FLOATING PURPLE & GOLD PETALS CANVAS
