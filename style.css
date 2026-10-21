@@ -127,9 +127,37 @@ a {
 }
 
 .envelope-overlay.opened {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
+.intro-enter-btn {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #D4AF37 0%, #A6841E 100%);
+  color: #1a0425;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-cinzel);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.intro-enter-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 28px rgba(212, 175, 55, 0.9);
+  background: #FFFFFF;
+  color: var(--purple-royal);
 }
 
 .envelope-ambient-particles {

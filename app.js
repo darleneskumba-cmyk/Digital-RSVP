@@ -9,8 +9,45 @@
 // =========================================================================
 let isEnvelopeOpened = false;
 
+function dismissEnvelope() {
+  const envOverlay = document.getElementById('envelopeOverlay');
+  const envWrapper = document.getElementById('envelopeWrapper');
+
+  if (envWrapper) {
+    envWrapper.classList.add('opened');
+  }
+
+  if (envOverlay) {
+    envOverlay.classList.add('opened');
+    envOverlay.style.opacity = '0';
+    envOverlay.style.pointerEvents = 'none';
+    setTimeout(() => {
+      envOverlay.style.display = 'none';
+    }, 450);
+  }
+
+  document.body.classList.remove('envelope-active');
+  document.documentElement.classList.remove('envelope-active');
+
+  // Smoothly scroll to the top of the wedding invitation
+  try {
+    const hero = document.getElementById('hero');
+    if (hero) {
+      hero.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  } catch (e) {
+    window.scrollTo(0, 0);
+  }
+}
+
 function openEnvelope() {
-  if (isEnvelopeOpened) return;
+  // If already tapped and user taps again, immediately dismiss and take them to website
+  if (isEnvelopeOpened) {
+    dismissEnvelope();
+    return;
+  }
   isEnvelopeOpened = true;
 
   const envWrapper = document.getElementById('envelopeWrapper');
@@ -21,7 +58,7 @@ function openEnvelope() {
   const weddingAudio = document.getElementById('weddingAudio');
   const anim = window.anime || (typeof anime !== 'undefined' ? anime : null);
 
-  // Try playing wedding music safely
+  // Play audio safely
   if (weddingAudio) {
     try {
       weddingAudio.volume = 0.6;
@@ -31,102 +68,88 @@ function openEnvelope() {
     }
   }
 
-  if (anim && anim.animate) {
-    const { animate, stagger } = anim;
+  // Visual opening state immediately
+  if (envWrapper) envWrapper.classList.add('opening');
 
-    // 1. Wax Seal Pop & Break Animation
-    if (waxSeal) {
-      animate(waxSeal, {
-        scale: [1, 1.35, 0],
-        opacity: [1, 1, 0],
-        rotate: [0, -10, 10, 0],
-        duration: 480,
-        ease: 'outBack(2.2)'
-      });
-    }
+  // Hard safety fallback timer: GUARANTEE the website is revealed within 1100ms
+  const safetyTimer = setTimeout(() => {
+    dismissEnvelope();
+  }, 1100);
 
-    // 2. Envelope subtle bounce as seal breaks
-    if (envWrapper) {
-      animate(envWrapper, {
-        scale: [1, 1.02, 1],
-        duration: 500,
-        ease: 'outQuad'
-      });
-    }
-
-    // 3. 3D Flap Unfolding Backwards
-    if (flap) {
-      animate(flap, {
-        rotateX: [0, 180],
-        opacity: [1, 0.35],
-        duration: 900,
-        delay: 150,
-        ease: 'inOutCubic'
-      });
-    }
-
-    // 4. Invitation Card emerging upwards from the pocket
-    if (card) {
-      animate(card, {
-        translateY: [0, -125],
-        scale: [1, 1.05],
-        duration: 950,
-        delay: 380,
-        ease: 'outExpo'
-      });
-    }
-
-    // 5. Celebration Confetti triggers as card rises
-    setTimeout(() => {
-      try {
-        if (typeof triggerWelcomeConfetti === 'function') {
-          triggerWelcomeConfetti();
-        } else if (window.triggerWelcomeConfetti) {
-          window.triggerWelcomeConfetti();
-        }
-      } catch (e) {
-        console.warn('Confetti error:', e);
+  try {
+    if (anim && anim.animate) {
+      // 1. Wax Seal Pop & Break Animation
+      if (waxSeal) {
+        anim.animate(waxSeal, {
+          scale: [1, 1.35, 0],
+          opacity: [1, 0],
+          rotate: [0, -10, 10, 0],
+          duration: 400,
+          ease: 'outBack(2)'
+        });
       }
-    }, 750);
 
-    // 6. Smooth Overlay Dissolve & Reveal
-    if (envOverlay) {
-      animate(envOverlay, {
-        opacity: [1, 0],
-        scale: [1, 1.05],
-        duration: 850,
-        delay: 1350,
-        ease: 'inOutQuad',
-        onComplete: () => {
-          envOverlay.classList.add('opened');
-          envOverlay.style.display = 'none';
-          document.body.classList.remove('envelope-active');
+      // 2. 3D Flap Unfolding Backwards
+      if (flap) {
+        anim.animate(flap, {
+          rotateX: [0, 180],
+          opacity: [1, 0.4],
+          duration: 650,
+          delay: 80,
+          ease: 'inOutCubic'
+        });
+      }
 
-          // 7. Hero section elements stagger entrance
-          animate('.hero-badge, .hero-title, .hero-couple-names, .hero-date-row, .countdown-luxury-card', {
-            opacity: [0, 1],
-            translateY: [24, 0],
-            duration: 800,
-            delay: stagger(100),
-            ease: 'outCubic'
-          });
-        }
-      });
-    }
-  } else {
-    // Graceful CSS fallback if Anime.js is unavailable
-    if (envWrapper) envWrapper.classList.add('opening');
-    setTimeout(() => {
+      // 3. Invitation Card emerging upwards
+      if (card) {
+        anim.animate(card, {
+          translateY: [0, -130],
+          scale: [1, 1.05],
+          duration: 700,
+          delay: 180,
+          ease: 'outExpo'
+        });
+      }
+
+      // 4. Celebration Confetti trigger
+      setTimeout(() => {
+        try {
+          if (typeof triggerWelcomeConfetti === 'function') {
+            triggerWelcomeConfetti();
+          } else if (window.triggerWelcomeConfetti) {
+            window.triggerWelcomeConfetti();
+          }
+        } catch (e) {}
+      }, 400);
+
+      // 5. Smooth Overlay Dissolve & Reveal
       if (envOverlay) {
-        envOverlay.classList.add('opened');
-        envOverlay.style.display = 'none';
+        anim.animate(envOverlay, {
+          opacity: [1, 0],
+          duration: 500,
+          delay: 700,
+          ease: 'inOutQuad',
+          onComplete: () => {
+            clearTimeout(safetyTimer);
+            dismissEnvelope();
+          }
+        });
       }
-      document.body.classList.remove('envelope-active');
-    }, 1100);
+    } else {
+      // Graceful fallback if Anime.js is not loaded
+      setTimeout(() => {
+        dismissEnvelope();
+      }, 750);
+    }
+  } catch (err) {
+    console.error('Envelope animation error, dismissing immediately:', err);
+    clearTimeout(safetyTimer);
+    dismissEnvelope();
   }
 }
 
 // Expose globally so inline onclick or any caller can trigger it
+window.dismissEnvelope = dismissEnvelope;
 window._openEnvelopeReal = openEnvelope;
 window.openEnvelope = openEnvelope;
 if (window._pendingOpenEnvelope) {
