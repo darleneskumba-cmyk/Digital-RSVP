@@ -1,0 +1,317 @@
+:root {
+  --paper: #FAF8F5;
+  --paper-edge: #ECE6DC;
+  --paper-shade: #DDD5C7;
+  --lining: #EED7B5;
+  --lining-deep: #DFC092;
+  --flap-h: 53%;
+  --pocket-poly: polygon(0 0, 50% var(--flap-h), 100% 0, 100% 100%, 0 100%);
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --cinzel: "Cinzel", Georgia, serif;
+}
+
+body.locked-scroll {
+  overflow: hidden !important;
+  height: 100dvh !important;
+}
+
+/* ---------- Fullscreen Overlay Backdrop ---------- */
+.envelope-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: radial-gradient(circle at center, #260a32 0%, #0d0113 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Atmospheric subtle gold dust background */
+.envelope-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 30px 40px, rgba(212, 175, 55, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 120px 200px, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(2px 2px at 280px 140px, rgba(212, 175, 55, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 220px 320px, rgba(230, 190, 255, 0.3), transparent);
+  background-size: 360px 360px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ---------- Centered Realistic Physical Envelope ---------- */
+.envelope-stage {
+  position: relative;
+  width: min(560px, 92vw);
+  height: min(380px, 58vh);
+  aspect-ratio: 1.48;
+  border-radius: 8px;
+  perspective: 1400px;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  filter: drop-shadow(0 25px 60px rgba(0, 0, 0, 0.6)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.4));
+  box-sizing: border-box;
+}
+
+.envelope-stage > * {
+  position: absolute;
+}
+
+/* Peach/gold inside of the envelope (revealed when flap opens) */
+.env-lining {
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--lining-deep), var(--lining) 45%);
+}
+
+/* Letter peeking out of the pocket */
+.env-letter {
+  left: 6%;
+  right: 6%;
+  top: 15%;
+  height: 75%;
+  background: #FFFDF9;
+  border-radius: 6px;
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(14%);
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.letter-inner-border {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.letter-pretitle {
+  font-family: var(--cinzel);
+  font-size: clamp(0.55rem, 1.4vw, 0.7rem);
+  letter-spacing: 0.22em;
+  color: #927527;
+  text-transform: uppercase;
+}
+
+.letter-names {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 3.2vw, 1.7rem);
+  font-weight: 400;
+  font-style: italic;
+  color: #380e46;
+  margin: 0.25rem 0 0.2rem;
+  line-height: 1.1;
+}
+
+.letter-date {
+  font-family: var(--cinzel);
+  font-size: clamp(0.55rem, 1.3vw, 0.65rem);
+  letter-spacing: 0.18em;
+  color: #554433;
+  text-transform: uppercase;
+}
+
+/* Front of the envelope (everything below the V) */
+.env-pocket-edge,
+.env-pocket {
+  inset: 0;
+  border-radius: 8px;
+  clip-path: var(--pocket-poly);
+}
+
+.env-pocket-edge {
+  background: var(--paper-shade);
+  transform: translateY(2px);
+}
+
+.env-pocket {
+  background:
+    linear-gradient(to bottom right, rgba(255, 255, 255, 0.9) 0%, rgba(250, 248, 245, 0.95) 50%, #ECE6DC 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Flap */
+.env-flap {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: var(--flap-h);
+  transform-origin: 50% 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flap-face {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flap-front {
+  background:
+    linear-gradient(165deg, #FFFFFF 0%, #FAF8F5 40%, #EFE8DC 100%);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flap-text {
+  position: absolute;
+  top: 14%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  color: #5e4e3e;
+}
+
+.flap-heading {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+  letter-spacing: 0.04em;
+  color: #4a3828;
+}
+
+.flap-date {
+  display: block;
+  font-family: var(--serif);
+  font-size: clamp(0.72rem, 1.6vw, 0.88rem);
+  letter-spacing: 0.14em;
+  margin-top: 2px;
+  color: #7a6652;
+}
+
+.flap-back {
+  background: linear-gradient(180deg, var(--lining-deep), var(--lining));
+  transform: rotateX(180deg);
+}
+
+/* Wax seal anchor & button (TOP VIEW 3D) */
+.wax-seal-anchor {
+  position: absolute;
+  left: 50%;
+  top: var(--flap-h);
+  transform: translate(-50%, -50%);
+  width: clamp(100px, 20vw, 116px);
+  height: clamp(100px, 20vw, 116px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.wax-seal-btn {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.45)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: filter 0.25s ease;
+}
+
+.wax-seal-btn:hover {
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.55)) drop-shadow(0 6px 12px rgba(0, 0, 0, 0.35));
+}
+
+.wax-seal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* Subtle glow pulse around the seal */
+.wax-seal-btn::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.tap-hint {
+  margin-top: 2rem;
+  text-align: center;
+  z-index: 5;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  letter-spacing: 0.1em;
+  color: #dfd0bb;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  animation: hintPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 0.75;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+/* ---------- White wash ---------- */
+.white-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Hero Reveal Items ---------- */
+.hero-item {
+  opacity: 0;
+  transform: translateY(28px);
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop-crisp,
+  .hero-bg {
+    transform: none;
+  }
+  .hero-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

@@ -19,115 +19,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   
+  <link rel="stylesheet" href="{% static 'css/transition.css' %}?v=1.0" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.1" />
   <script>
-    var isEnvelopeOpened = false;
-
-    function dismissEnvelope() {
-      try {
-        var envOverlay = document.getElementById('envelopeOverlay');
-        var envWrapper = document.getElementById('envelopeWrapper');
-        if (envWrapper) envWrapper.classList.add('opened');
-        if (envOverlay) {
-          envOverlay.classList.add('opened');
-          envOverlay.style.opacity = '0';
-          envOverlay.style.pointerEvents = 'none';
-          setTimeout(function() {
-            envOverlay.style.display = 'none';
-          }, 350);
-        }
-        document.body.classList.remove('envelope-active');
-        document.documentElement.classList.remove('envelope-active');
-
-        var hero = document.getElementById('hero');
-        if (hero) {
-          hero.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          window.scrollTo(0, 0);
-        }
-      } catch (err) {
-        var overlay = document.getElementById('envelopeOverlay');
-        if (overlay) overlay.style.display = 'none';
-        document.body.classList.remove('envelope-active');
-      }
-    }
-
-    function openEnvelope() {
-      if (isEnvelopeOpened) {
-        dismissEnvelope();
-        return;
-      }
-      isEnvelopeOpened = true;
-
-      try {
-        var audio = document.getElementById('weddingAudio');
-        if (audio) {
-          audio.volume = 0.6;
-          audio.play().catch(function() {});
-        }
-      } catch (e) {}
-
-      var envWrapper = document.getElementById('envelopeWrapper');
-      var envOverlay = document.getElementById('envelopeOverlay');
-      var waxSeal = document.getElementById('waxSealBtn');
-      var flap = document.getElementById('envelopeFlap');
-      var card = document.getElementById('envelopeCardPreview');
-
-      if (envWrapper) envWrapper.classList.add('opening');
-
-      // Hard safety timer: GUARANTEES dismissal within 650ms
-      var safetyTimer = setTimeout(function() {
-        dismissEnvelope();
-      }, 650);
-
-      try {
-        var anim = window.anime;
-        if (anim && anim.animate) {
-          if (waxSeal) {
-            anim.animate(waxSeal, {
-              scale: [1, 1.35, 0],
-              opacity: [1, 0],
-              duration: 350,
-              ease: 'outBack(2)'
-            });
-          }
-          if (flap) {
-            anim.animate(flap, {
-              rotateX: [0, 180],
-              opacity: [1, 0.4],
-              duration: 500,
-              delay: 50,
-              ease: 'inOutCubic'
-            });
-          }
-          if (card) {
-            anim.animate(card, {
-              translateY: [0, -120],
-              scale: [1, 1.05],
-              duration: 550,
-              delay: 100,
-              ease: 'outExpo'
-            });
-          }
-          if (envOverlay) {
-            anim.animate(envOverlay, {
-              opacity: [1, 0],
-              duration: 350,
-              delay: 450,
-              ease: 'inOutQuad',
-              onComplete: function() {
-                clearTimeout(safetyTimer);
-                dismissEnvelope();
-              }
-            });
-          }
-        }
-      } catch (err) {
-        clearTimeout(safetyTimer);
-        dismissEnvelope();
-      }
-    }
-
     function syncMusicButtonUI() {
       var audio = document.getElementById('weddingAudio');
       var btn = document.getElementById('musicToggleBtn');
@@ -171,9 +65,6 @@
 
     window.toggleWeddingMusic = toggleWeddingMusic;
     window.syncMusicButtonUI = syncMusicButtonUI;
-    window.openEnvelope = openEnvelope;
-    window.dismissEnvelope = dismissEnvelope;
-    window._openEnvelopeReal = openEnvelope;
 
     document.addEventListener('DOMContentLoaded', function() {
       var audio = document.getElementById('weddingAudio');
@@ -186,7 +77,7 @@
     });
   </script>
 </head>
-<body class="envelope-active">
+<body class="locked-scroll">
 
   <!-- BACKGROUND MUSIC AUDIO (Alex Warren - Ordinary) -->
   <audio id="weddingAudio" loop preload="auto">
@@ -243,72 +134,51 @@
   </nav>
 
   <!-- ======================================================== -->
-  <!-- 1. INTERACTIVE 3D WAX SEAL ENVELOPE INTRO (TIKTOK STYLE) -->
+  <!-- 1. INTERACTIVE 3D WAX SEAL ENVELOPE INTRO                  -->
   <!-- ======================================================== -->
-  <div class="envelope-overlay" id="envelopeOverlay" onclick="openEnvelope()">
-    <!-- Floating magical particles / Petals -->
-    <div class="envelope-ambient-particles" id="ambientParticles"></div>
+  <div id="envelope-overlay" class="envelope-overlay">
+    <div id="envelope-stage" class="envelope-stage">
 
-    <div class="envelope-container" id="envelopeContainer" onclick="openEnvelope()">
-      <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+      <!-- Layers, back to front -->
+      <div class="env-lining"></div>
 
-        <!-- Envelope body back layer -->
-        <div class="envelope-back"></div>
-
-        <!-- Left diagonal fold -->
-        <div class="envelope-fold-left"></div>
-        <!-- Right diagonal fold -->
-        <div class="envelope-fold-right"></div>
-        <!-- Bottom V-fold -->
-        <div class="envelope-fold-bottom"></div>
-
-        <!-- The Invitation Card inside (slides up on open) -->
-        <div class="envelope-card-preview" id="envelopeCardPreview">
-          <div class="card-inner-gold-border">
-            <div class="card-mini-content">
-              <span class="card-pretitle">The Holy Matrimony of</span>
-              <h2 class="card-names">Terrence &amp; Lina</h2>
-              <div class="card-flourish">❦</div>
-              <p class="card-date-preview">01 · January · 2027</p>
-              <p class="card-venue-preview">Munondo eleven · Hatfield</p>
-            </div>
-          </div>
+      <!-- Letter inside the pocket -->
+      <div id="env-letter" class="env-letter">
+        <div class="letter-inner-border">
+          <span class="letter-pretitle">The Holy Matrimony of</span>
+          <h3 class="letter-names">Terrence &amp; Lina</h3>
+          <p class="letter-date">Friday · 01 January 2027</p>
         </div>
+      </div>
 
-        <!-- Top closed flap (pointing down into envelope like a sealed envelope front) -->
-        <div class="envelope-flap" id="envelopeFlap">
-          <div class="flap-calligraphy">
-            <span class="flap-title">A Celebration of Love</span>
+      <div class="env-pocket-edge"></div>
+      <div class="env-pocket"></div>
+
+      <!-- Flap: front face = paper with calligraphy, back face = peach lining -->
+      <div id="env-flap" class="env-flap">
+        <div class="flap-face flap-front">
+          <div class="flap-text">
+            <span class="flap-heading">A Celebration of Love</span>
             <span class="flap-date">01.01.2027</span>
           </div>
         </div>
-
-        <!-- Wax seal sits exactly on the flap seam (center of envelope) -->
-        <div class="wax-seal-wrapper" id="waxSealBtn" role="button" tabindex="0" onclick="openEnvelope(); event.stopPropagation();" aria-label="Tap to break wax seal and open invitation">
-          <div class="seal-glow-halo"></div>
-          <div class="seal-image-container">
-            <img src="{% static 'images/wax_seal_tl.png' %}" alt="Wax Seal Monogram T &amp; L" class="seal-image" id="sealImg" />
-            <div class="seal-shine-sweep"></div>
-          </div>
-          <div class="tap-hint-pill">
-            <span class="sparkle-icon">✨</span>
-            <span class="tap-text">Tap to Open Invitation</span>
-            <span class="sparkle-icon">✨</span>
-          </div>
-        </div>
-
+        <div class="flap-face flap-back"></div>
       </div>
+
+      <!-- 3D Top-View Wax Seal on Flap Tip -->
+      <div class="wax-seal-anchor">
+        <button id="wax-seal-btn" class="wax-seal-btn" aria-label="Open invitation" title="Tap to open invitation">
+          <img src="{% static 'images/wax_seal_top.png' %}" alt="Terrence &amp; Lina Wax Seal Monogram" class="wax-seal-img" />
+        </button>
+      </div>
+
     </div>
-    
-    <div class="intro-caption">
-      <p class="intro-names">Terrence Masimba Svosve &amp; Lina Yeukaishe Mutsopotsi</p>
-      <p class="intro-quote">“I have found the one whom my soul loves” — Song of Solomon 3:4</p>
-      <a href="#hero" class="intro-enter-btn" onclick="dismissEnvelope(); event.stopPropagation();" aria-label="Enter Wedding Website">
-        <span>Enter Wedding Website</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </a>
-    </div>
+
+    <p class="tap-hint">Tap the seal to open</p>
   </div>
+
+  <!-- White wash between envelope and hero -->
+  <div id="white-wash" class="white-wash"></div>
 
   <!-- ======================================================== -->
   <!-- 2. MAIN WEDDING INVITATION WEBSITE CONTENT               -->
@@ -349,14 +219,14 @@
 
       <div class="hero-content">
         <!-- "WE ARE GETTING MARRIED" -->
-        <div class="hero-badge animate-fade-down">
+        <div class="hero-badge animate-fade-down hero-item">
           <span class="badge-line"></span>
           <span class="badge-text">WE ARE GETTING MARRIED</span>
           <span class="badge-line"></span>
         </div>
 
         <!-- REFINED EDITORIAL SERIF COUPLE NAMES (MATCHES INSPO) -->
-        <h1 class="hero-couple-names animate-fade-up">
+        <h1 class="hero-couple-names animate-fade-up hero-item">
           <span class="name-groom">Terrence Masimba Svosve</span>
           <div class="hero-amp-container">
             <span class="amp-gold-line"></span>
@@ -367,12 +237,12 @@
         </h1>
 
         <!-- SCRIPTURE TAGLINE -->
-        <p class="hero-tagline animate-fade-up delay-1">
+        <p class="hero-tagline animate-fade-up delay-1 hero-item">
           Together with their beloved families, invite you to share in the joy of their holy union
         </p>
 
         <!-- LUXURY DATE & VENUE PILL (FROSTED GLASS CARD) -->
-        <div class="hero-meta-card animate-fade-up delay-2">
+        <div class="hero-meta-card animate-fade-up delay-2 hero-item">
           <div class="meta-item">
             <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <div class="meta-details">
@@ -1101,6 +971,7 @@
 
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="{% static 'js/anime.umd.min.js' %}"></script>
+  <script src="{% static 'js/transition.js' %}?v=1.0"></script>
   <script src="{% static 'js/app.js' %}?v=3.0"></script>
 </body>
 </html>
