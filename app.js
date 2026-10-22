@@ -247,7 +247,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function toggleMusic() {
+  function toggleMusic(e) {
+    if (window.toggleWeddingMusic) {
+      window.toggleWeddingMusic(e);
+      return;
+    }
     if (!weddingAudio) return;
     if (weddingAudio.paused) {
       weddingAudio.play().then(() => {
@@ -262,14 +266,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateMusicButtonUI() {
+    if (window.syncMusicButtonUI) {
+      window.syncMusicButtonUI();
+      return;
+    }
     if (!musicToggleBtn) return;
-    if (isMusicPlaying) {
+    if (weddingAudio && !weddingAudio.paused) {
       musicToggleBtn.classList.add('playing');
       musicToggleBtn.classList.remove('muted');
     } else {
       musicToggleBtn.classList.remove('playing');
       musicToggleBtn.classList.add('muted');
     }
+  }
+
+  if (weddingAudio) {
+    weddingAudio.addEventListener('play', updateMusicButtonUI);
+    weddingAudio.addEventListener('pause', updateMusicButtonUI);
   }
 
   if (musicToggleBtn) {

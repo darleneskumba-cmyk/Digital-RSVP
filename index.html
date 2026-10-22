@@ -127,9 +127,67 @@
       }
     }
 
+    function syncMusicButtonUI() {
+      var audio = document.getElementById('weddingAudio');
+      var btn = document.getElementById('musicToggleBtn');
+      if (!btn || !audio) return;
+      if (!audio.paused && audio.currentTime > 0) {
+        btn.classList.add('playing');
+        btn.classList.remove('muted');
+        btn.setAttribute('aria-label', 'Mute Wedding Music');
+        btn.setAttribute('title', 'Mute Wedding Music');
+      } else {
+        btn.classList.remove('playing');
+        btn.classList.add('muted');
+        btn.setAttribute('aria-label', 'Play Wedding Music');
+        btn.setAttribute('title', 'Play Wedding Music');
+      }
+    }
+
+    function toggleWeddingMusic(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      var audio = document.getElementById('weddingAudio');
+      var btn = document.getElementById('musicToggleBtn');
+      if (!audio) return;
+      if (audio.paused) {
+        audio.volume = 0.6;
+        var p = audio.play();
+        if (p && typeof p.then === 'function') {
+          p.then(function() {
+            syncMusicButtonUI();
+          }).catch(function(err) {
+            console.warn('Audio play prevented:', err);
+            syncMusicButtonUI();
+          });
+        }
+      } else {
+        audio.pause();
+        syncMusicButtonUI();
+      }
+    }
+
+    window.toggleWeddingMusic = toggleWeddingMusic;
+    window.syncMusicButtonUI = syncMusicButtonUI;
     window.openEnvelope = openEnvelope;
     window.dismissEnvelope = dismissEnvelope;
     window._openEnvelopeReal = openEnvelope;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var audio = document.getElementById('weddingAudio');
+      var btn = document.getElementById('musicToggleBtn');
+      if (audio) {
+        audio.addEventListener('play', syncMusicButtonUI);
+        audio.addEventListener('playing', syncMusicButtonUI);
+        audio.addEventListener('pause', syncMusicButtonUI);
+        audio.addEventListener('ended', syncMusicButtonUI);
+      }
+      if (btn) {
+        btn.addEventListener('click', toggleWeddingMusic);
+      }
+    });
   </script>
 </head>
 <body class="envelope-active">
@@ -141,7 +199,7 @@
   </audio>
 
   <!-- FLOATING MUSIC TOGGLE BUTTON -->
-  <button id="musicToggleBtn" class="floating-music-btn" aria-label="Toggle Wedding Music" title="Wedding Music">
+  <button id="musicToggleBtn" class="floating-music-btn muted" onclick="toggleWeddingMusic(event)" aria-label="Toggle Wedding Music" title="Toggle Wedding Music">
     <div class="music-disc-icon">
       <svg class="music-icon-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M9 18V5l12-2v13"></path>
@@ -276,48 +334,64 @@
       </div>
     </header>
 
-    <!-- ==================== HERO SECTION (CINEMATIC PHOTO BACKGROUND AS IN INSPO) ==================== -->
-    <section class="section-hero" id="hero" style="background-image: url('assets/images/couple_hero.jpg');">
+    <!-- ==================== HERO SECTION (REFINED CLASSIC SERIF · DUAL-LAYER CINEMATIC BACKDROP) ==================== -->
+    <section class="section-hero" id="hero">
+      <div class="hero-backdrop-ambience" style="background-image: url('assets/images/couple_hero.jpg');"></div>
+      <div class="hero-backdrop-crisp" style="background-image: url('assets/images/couple_hero.jpg');"></div>
       <div class="hero-photo-scrim"></div>
 
-      <div class="hero-content-inspo">
+      <div class="hero-content">
         <!-- "WE ARE GETTING MARRIED" -->
-        <div class="hero-badge-inspo animate-fade-down">
-          <span>WE ARE GETTING MARRIED</span>
+        <div class="hero-badge animate-fade-down">
+          <span class="badge-line"></span>
+          <span class="badge-text">WE ARE GETTING MARRIED</span>
+          <span class="badge-line"></span>
         </div>
 
-        <!-- CALLIGRAPHY COUPLE NAMES (GREAT VIBES) -->
-        <h1 class="hero-couple-names-inspo animate-fade-up">
-          <span class="inspo-name">Terrence Masimba Svosve</span>
-          <div class="inspo-amp-row">
-            <span class="inspo-amp-line"></span>
-            <span class="inspo-amp-sign">&amp;</span>
-            <span class="inspo-amp-line"></span>
+        <!-- REFINED EDITORIAL SERIF COUPLE NAMES (MATCHES INSPO) -->
+        <h1 class="hero-couple-names animate-fade-up">
+          <span class="name-groom">Terrence Masimba Svosve</span>
+          <div class="hero-amp-container">
+            <span class="amp-gold-line"></span>
+            <span class="hero-amp-sign">&amp;</span>
+            <span class="amp-gold-line"></span>
           </div>
-          <span class="inspo-name">Lina Yeukaishe Mutsopotsi</span>
+          <span class="name-bride">Lina Yeukaishe Mutsopotsi</span>
         </h1>
 
-        <!-- ROMANTIC SCRIPTURE TAGLINE -->
-        <p class="inspo-tagline animate-fade-up delay-1">
+        <!-- SCRIPTURE TAGLINE -->
+        <p class="hero-tagline animate-fade-up delay-1">
           Together with their beloved families, invite you to share in the joy of their holy union
         </p>
 
-        <!-- DATE, TIME & VENUE PILL -->
-        <div class="inspo-meta-capsule animate-fade-up delay-2">
-          <div class="inspo-meta-line">
-            <span class="meta-gold-bullet">✦</span>
-            <span class="inspo-meta-text">FRIDAY, 1 JANUARY 2027</span>
-            <span class="inspo-meta-sep">·</span>
-            <span class="inspo-meta-text">9:00 AM</span>
-            <span class="meta-gold-bullet">✦</span>
+        <!-- LUXURY DATE & VENUE PILL (FROSTED GLASS CARD) -->
+        <div class="hero-meta-card animate-fade-up delay-2">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <div class="meta-details">
+              <span class="meta-label">THE DATE</span>
+              <span class="meta-value">Friday, 1 January 2027</span>
+            </div>
           </div>
-          <div class="inspo-meta-line venue-line">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>MUNONDO ELEVEN, HATFIELD</span>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <div class="meta-details">
+              <span class="meta-label">TIME</span>
+              <span class="meta-value">9:00 AM</span>
+            </div>
+          </div>
+          <div class="meta-divider"></div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <div class="meta-details">
+              <span class="meta-label">VENUE</span>
+              <span class="meta-value">Munondo eleven, Hatfield</span>
+            </div>
           </div>
         </div>
 
-        <!-- ACTION BUTTONS -->
+        <!-- HERO ACTION BUTTONS -->
         <div class="hero-actions animate-fade-up delay-3">
           <a href="#rsvp" class="btn-royal-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
