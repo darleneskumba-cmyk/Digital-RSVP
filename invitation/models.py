@@ -48,7 +48,7 @@ class GuestPhoto(models.Model):
         db_table = 'guest_photos'
         ordering = ['-id']
         verbose_name = 'Guest Photo'
-        verbose_name_plural = 'Guest Photos'
+        verbose_name_plural = 'Guest Photos' #hello 
 
     def __str__(self):
         return f"Photo {self.filename} by {self.uploader_name or 'Guest'}"
