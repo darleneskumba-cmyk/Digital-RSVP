@@ -17,6 +17,25 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+# ─────────────────────────────────────────────────────────────────────
+# IP WHITELIST — only devices listed below can access the site
+# Set IP_WHITELIST_ENABLED = False to open access to everyone temporarily
+# ─────────────────────────────────────────────────────────────────────
+IP_WHITELIST_ENABLED = True
+
+ALLOWED_CLIENT_IPS = [
+    # ── Your PC (always allowed) ──────────────────────────────────────
+    '127.0.0.1',          # localhost (same machine)
+    '::1',                # localhost IPv6
+    '172.16.10.54',       # your PC on the local Wi-Fi network
+    '192.168.138.1',      # your second network adapter
+
+    # ── Your phone ───────────────────────────────────────────────────
+    # Find it: phone Settings → Wi-Fi → tap the network → IP address
+    # Then add it here, e.g.:
+    # '172.16.10.XX',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -31,6 +50,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # IP Whitelist — MUST be first so blocked devices never hit any view
+    'invitation.middleware.IPWhitelistMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
