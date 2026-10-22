@@ -248,35 +248,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function toggleMusic(e) {
-    if (window.toggleWeddingMusic) {
-      window.toggleWeddingMusic(e);
-      return;
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
-    if (!weddingAudio) return;
-    if (weddingAudio.paused) {
-      weddingAudio.play().then(() => {
+    const audio = weddingAudio || document.getElementById('weddingAudio');
+    if (!audio) return;
+    if (audio.paused) {
+      audio.volume = 0.6;
+      audio.play().then(() => {
         isMusicPlaying = true;
         updateMusicButtonUI();
-      }).catch(console.error);
+      }).catch((err) => {
+        console.warn('Audio play prevented:', err);
+        isMusicPlaying = false;
+        updateMusicButtonUI();
+      });
     } else {
-      weddingAudio.pause();
+      audio.pause();
       isMusicPlaying = false;
       updateMusicButtonUI();
     }
   }
 
   function updateMusicButtonUI() {
-    if (window.syncMusicButtonUI) {
-      window.syncMusicButtonUI();
-      return;
-    }
-    if (!musicToggleBtn) return;
-    if (weddingAudio && !weddingAudio.paused) {
-      musicToggleBtn.classList.add('playing');
-      musicToggleBtn.classList.remove('muted');
+    const audio = weddingAudio || document.getElementById('weddingAudio');
+    const btn = musicToggleBtn || document.getElementById('musicToggleBtn');
+    if (!btn || !audio) return;
+    if (!audio.paused) {
+      btn.classList.add('playing');
+      btn.classList.remove('muted');
+      btn.setAttribute('aria-label', 'Mute Wedding Music');
+      btn.setAttribute('title', 'Mute Wedding Music');
     } else {
-      musicToggleBtn.classList.remove('playing');
-      musicToggleBtn.classList.add('muted');
+      btn.classList.remove('playing');
+      btn.classList.add('muted');
+      btn.setAttribute('aria-label', 'Play Wedding Music');
+      btn.setAttribute('title', 'Play Wedding Music');
     }
   }
 
