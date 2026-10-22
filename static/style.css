@@ -762,44 +762,34 @@ a {
   color: #FFFFFF;
 }
 
-/* Layer 1: Ambient background blur fills widescreen display with warm golden garden glow */
+/* Full-bleed hero background covering entire first page in pristine resolution */
 .hero-backdrop-ambience {
-  position: absolute;
-  inset: -30px;
-  background-size: cover;
-  background-position: center 25%;
-  background-repeat: no-repeat;
-  filter: blur(40px) brightness(0.65) saturate(1.2);
-  transform: scale(1.1);
-  z-index: 1;
+  display: none;
 }
 
-/* Layer 2: High-resolution centered couple photo with natural proportions (NO extreme zoom into faces) */
 .hero-backdrop-crisp {
   position: absolute;
   inset: 0;
-  max-width: 1050px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
   background-size: cover;
-  background-position: center 18%;
+  background-position: center 20%;
   background-repeat: no-repeat;
-  z-index: 2;
-  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 0) 95%);
-  mask-image: radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 1) 45%, rgba(0, 0, 0, 0) 95%);
+  z-index: 1;
 }
 
-/* Layer 3: Atmospheric scrim preserving brightness while ensuring text readability */
+/* Atmospheric scrim preserving image brightness while ensuring text readability */
 .hero-photo-scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(20, 4, 28, 0.42) 0%,
-    rgba(20, 4, 28, 0.15) 35%,
-    rgba(20, 4, 28, 0.55) 85%,
+    rgba(20, 4, 28, 0.40) 0%,
+    rgba(20, 4, 28, 0.12) 35%,
+    rgba(20, 4, 28, 0.50) 80%,
     rgba(15, 2, 22, 0.85) 100%
   );
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -1842,24 +1832,11 @@ a {
   overflow: hidden;
 }
 
-/* Gradient edge fades for cinematic depth */
+/* Story reel edge fades disabled (clean edge-to-edge view without whitish haze) */
 .love-story-reel-wrap::before,
 .love-story-reel-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 120px;
-  z-index: 10;
-  pointer-events: none;
-}
-.love-story-reel-wrap::before {
-  left: 0;
-  background: linear-gradient(90deg, #FAF5ED 0%, rgba(250, 245, 237, 0) 100%);
-}
-.love-story-reel-wrap::after {
-  right: 0;
-  background: linear-gradient(270deg, #FAF5ED 0%, rgba(250, 245, 237, 0) 100%);
+  display: none !important;
+  content: none !important;
 }
 
 .love-story-track {
