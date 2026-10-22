@@ -804,8 +804,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxPrev = document.getElementById('lightboxPrev');
   const lightboxNext = document.getElementById('lightboxNext');
 
-  // Build catalog of all 7 wedding photos
+  // Build catalog from love story cards (gallery grid removed; cards are the source)
   const photoCatalog = [];
+  // Use Track Set 1 only (first 7 cards) to avoid duplicates from infinite-loop Track Set 2
+  const allCards = Array.from(loveStoryCards);
+  const trackSet1 = allCards.slice(0, Math.ceil(allCards.length / 2));
+  trackSet1.forEach((card) => {
+    const src = card.getAttribute('data-lightbox');
+    const caption = card.getAttribute('data-caption') || '';
+    if (src && !photoCatalog.some(p => p.src === src)) {
+      photoCatalog.push({ src, caption });
+    }
+  });
+  // Also include any remaining gallery items (future-proofing)
   galleryItems.forEach((item) => {
     const src = item.getAttribute('data-lightbox');
     const caption = item.getAttribute('data-caption') || '';
