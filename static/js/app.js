@@ -6,7 +6,7 @@
 
 // Envelope transition is handled by transition.js
 
-document.addEventListener('DOMContentLoaded', () => {
+function initWeddingApp() {
   // Elements
 
   const weddingAudio = document.getElementById('weddingAudio');
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const secEl = document.getElementById('secondsNum');
   let lastSec = '';
 
-  function updateCountdown() {
+  function update() {
     const now = Date.now();
     const diff = weddingDate - now;
 
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineWidth = p.r / 2;
         ctx.strokeStyle = p.color;
         ctx.fillStyle = p.color;
-        
+
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate((p.tiltAngle * Math.PI) / 180);
@@ -256,110 +256,111 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // 5. RSVP ATTENDANCE RADIO TOGGLE
   // =========================================================================
-  const attendanceRadios = document.querySelectorAll('input[name="attending"]');
-  attendanceRadios.forEach((radio) => {
-    radio.addEventListener('change', () => {
-      if (radio.value === 'no') {
-        attendingDetailsGroup.classList.add('hidden');
-      } else {
-        attendingDetailsGroup.classList.remove('hidden');
-      }
-    });
-  });
+  // Guest count & additional guests removed per user request
 
   // =========================================================================
   // 6. RSVP FORM SUBMISSION & DATABASE PERSISTENCE
   // =========================================================================
-  if (weddingRsvpForm) {
-    weddingRsvpForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  async function handleRsvpSubmit(e) {
+    if (e) {
+      if (typeof e.preventDefault === 'function') e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+    }
 
-      const nameInput = document.getElementById('guestName');
-      const phoneInput = document.getElementById('guestPhone');
-      const emailInput = document.getElementById('guestEmail');
-      const attendingVal = document.querySelector('input[name="attending"]:checked')?.value || 'yes';
-      const guestCountVal = document.getElementById('guestCount')?.value || '1';
-      const guestNamesVal = document.getElementById('guestNamesList')?.value || '';
+    const nameInput = document.getElementById('guestName');
+    const phoneInput = document.getElementById('guestPhone');
+    const emailInput = document.getElementById('guestEmail');
+    const attendingChecked = document.querySelector('input[name="attending"]:checked');
+    const attendingVal = attendingChecked ? attendingChecked.value : 'yes';
+    const submitBtn = document.getElementById('submitRsvpBtn');
 
-      const notesVal = document.getElementById('guestNotes')?.value || '';
-      const submitBtn = document.getElementById('submitRsvpBtn');
+    let isValid = true;
+    if (!nameInput || !nameInput.value.trim()) {
+      const nameError = document.getElementById('nameError');
+      if (nameError) nameError.textContent = 'Please enter your full name.';
+      if (nameInput) nameInput.focus();
+      isValid = false;
+    } else {
+      const nameError = document.getElementById('nameError');
+      if (nameError) nameError.textContent = '';
+    }
 
-      let isValid = true;
-      if (!nameInput.value.trim()) {
-        document.getElementById('nameError').textContent = 'Please enter your full name.';
-        isValid = false;
-      } else {
-        document.getElementById('nameError').textContent = '';
-      }
+    if (!phoneInput || !phoneInput.value.trim()) {
+      const phoneError = document.getElementById('phoneError');
+      if (phoneError) phoneError.textContent = 'Please enter a contact phone or WhatsApp number.';
+      if (isValid && phoneInput) phoneInput.focus();
+      isValid = false;
+    } else {
+      const phoneError = document.getElementById('phoneError');
+      if (phoneError) phoneError.textContent = '';
+    }
 
-      if (!phoneInput.value.trim()) {
-        document.getElementById('phoneError').textContent = 'Please enter a contact phone or WhatsApp number.';
-        isValid = false;
-      } else {
-        document.getElementById('phoneError').textContent = '';
-      }
+    if (!isValid) return false;
 
-      if (!isValid) return;
+    const payload = {
+      name: nameInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      email: emailInput ? emailInput.value.trim() : '',
+      attending: attendingVal
+    };
 
-      const payload = {
-        name: nameInput.value.trim(),
-        phone: phoneInput.value.trim(),
-        email: emailInput.value.trim(),
-        attending: attendingVal,
-        guest_count: attendingVal === 'yes' ? parseInt(guestCountVal, 10) : 0,
-        guest_names: attendingVal === 'yes' ? guestNamesVal.trim() : '',
-
-        notes: notesVal.trim()
-      };
-
+    if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.querySelector('.btn-text').textContent = 'Recording RSVP...';
+      const btnText = submitBtn.querySelector('.btn-text');
+      if (btnText) btnText.textContent = 'Recording RSVP...';
+    }
 
-      try {
-        const response = await fetch('/api/rsvp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+    try {
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify(payload)
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.success) {
-          showRsvpAlert(
-            `Thank you, ${payload.name}! Your RSVP has been confirmed in our guest database. We cherish your blessings! 💍`,
-            'success'
-          );
-          triggerWelcomeConfetti();
-          if (window.anime && window.anime.animate) {
-            window.anime.animate('#rsvpStatusAlert', {
-              scale: [0.85, 1.03, 1],
-              opacity: [0, 1],
-              duration: 650,
-              ease: 'outElastic(1, .6)'
-            });
-          }
-          weddingRsvpForm.reset();
-          attendingDetailsGroup.classList.remove('hidden');
-          saveLocalBackup(payload);
-          fetchDatabaseRsvps();
-        } else {
-          showRsvpAlert(result.error || 'Unable to submit RSVP. Please try again.', 'error');
-        }
-      } catch (err) {
-        // Fallback for offline file:// viewing
-        console.warn('Backend server not reachable, saving to local storage fallback:', err);
-        saveLocalBackup(payload);
+      if (result.success) {
         showRsvpAlert(
-          `Thank you, ${payload.name}! Your RSVP has been saved. Terrence & Lina look forward to celebrating with you! ✨`,
+          `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed and saved to our database. We look forward to celebrating with you on 1 January 2027! 💍`,
           'success'
         );
         triggerWelcomeConfetti();
-        weddingRsvpForm.reset();
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('.btn-text').textContent = 'Confirm My RSVP';
+        if (weddingRsvpForm) weddingRsvpForm.reset();
+        saveLocalBackup(payload);
+        fetchDatabaseRsvps();
+      } else {
+        showRsvpAlert(result.error || 'Unable to submit RSVP. Please try again.', 'error');
       }
-    });
+    } catch (err) {
+      console.warn('Network issue, saved locally:', err);
+      saveLocalBackup(payload);
+      showRsvpAlert(
+        `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed. Terrence & Lina look forward to celebrating with you! 💍`,
+        'success'
+      );
+      triggerWelcomeConfetti();
+      if (weddingRsvpForm) weddingRsvpForm.reset();
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        const btnText = submitBtn.querySelector('.btn-text');
+        if (btnText) btnText.textContent = 'Confirm My RSVP';
+      }
+    }
+    return false;
+  }
+
+  window.handleRsvpSubmit = handleRsvpSubmit;
+
+  if (weddingRsvpForm) {
+    weddingRsvpForm.addEventListener('submit', handleRsvpSubmit);
+  }
+  const submitRsvpBtn = document.getElementById('submitRsvpBtn');
+  if (submitRsvpBtn) {
+    submitRsvpBtn.addEventListener('click', handleRsvpSubmit);
   }
 
   function showRsvpAlert(msg, type) {
@@ -403,15 +404,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Local fallback
     const local = JSON.parse(localStorage.getItem('wedding_rsvps_backup') || '[]');
     allRsvpsCache = local;
-    const attendingCount = local.filter((r) => r.attending === 'yes').reduce((acc, r) => acc + (r.guest_count || 1), 0);
+    const attendingCount = local.filter((r) => r.attending === 'yes').length;
     const declinedCount = local.filter((r) => r.attending === 'no').length;
     updateAdminStats({
       total_responses: local.length,
-      total_attending_guests: attendingCount,
+      attending_count: attendingCount,
       declined_count: declinedCount
     });
     renderAdminTable(allRsvpsCache);
   }
+
+  window.fetchDatabaseRsvps = fetchDatabaseRsvps;
 
   function updateAdminStats(stats) {
     if (!stats) return;
@@ -420,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const declinedEl = document.getElementById('statDeclinedResponses');
 
     if (totalEl) totalEl.textContent = stats.total_responses || 0;
-    if (attendingEl) attendingEl.textContent = stats.total_attending_guests || 0;
+    if (attendingEl) attendingEl.textContent = stats.attending_count ?? stats.attending_rsvps ?? stats.total_attending_guests ?? 0;
     if (declinedEl) declinedEl.textContent = stats.declined_count || 0;
   }
 
@@ -429,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     adminTableBody.innerHTML = '';
 
     if (!rows || rows.length === 0) {
-      adminTableBody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:#888;">No RSVPs found yet. Be the first to RSVP!</td></tr>`;
+      adminTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:#888;">No RSVPs found yet. Be the first to RSVP!</td></tr>`;
       return;
     }
 
@@ -449,9 +452,6 @@ document.addEventListener('DOMContentLoaded', () => {
           </a>
         </td>
         <td>${statusBadge}</td>
-        <td>${isAttending ? r.guest_count + ' guest(s)' : '—'}</td>
-
-        <td style="max-width:200px;"><small><em>${escapeHtml(r.notes || '—')}</em></small></td>
         <td><small style="color:#888;">${formatDate(r.created_at)}</small></td>
         <td>
           <button class="table-action-btn" data-id="${r.id}" title="Delete Record">✕</button>
@@ -491,8 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const matchesQ =
         !q ||
         (r.name && r.name.toLowerCase().includes(q)) ||
-        (r.phone && r.phone.toLowerCase().includes(q)) ||
-        (r.notes && r.notes.toLowerCase().includes(q));
+        (r.phone && r.phone.toLowerCase().includes(q));
 
       const matchesStatus =
         status === 'all' ||
@@ -1062,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
               hexEl.textContent = '✓ Copied!';
               setTimeout(() => (hexEl.textContent = original), 1500);
             }
-          }).catch(() => {});
+          }).catch(() => { });
         }
       });
     });
@@ -1091,4 +1090,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial load of guest list from database
   fetchDatabaseRsvps();
-});
+}
+
+// Ensure execution whether DOM is loading or already parsed
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initWeddingApp);
+} else {
+  initWeddingApp();
+}

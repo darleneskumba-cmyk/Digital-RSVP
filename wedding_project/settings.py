@@ -151,7 +151,7 @@ UNFOLD = {
     "SITE_URL": "/",
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
-    "THEME": "dark",
+    "THEME": "light",
     "COLORS": {
         "primary": {
             "50": "#f5f3ff",
@@ -202,9 +202,9 @@ UNFOLD = {
                         "link": "/",
                     },
                     {
-                        "title": "Export CSV (Excel)",
-                        "icon": "download",
-                        "link": reverse_lazy("invitation:api_export_csv"),
+                        "title": "Export PDF Guest List",
+                        "icon": "picture_as_pdf",
+                        "link": reverse_lazy("invitation:api_export_pdf"),
                     },
                 ],
             },

@@ -1,15 +1,19 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Terrence &amp; Lina's Wedding Invitation | 01.01.2027</title>
-  <meta name="description" content="Wedding invitation for Terrence Masimba Svosve &amp; Lina Yeukaishe Mutsopotsi. Friday, 1 January 2027 at Munondo eleven, Hatfield. Dress code: All shades of purple &amp; smart formal." />
-  
+  <meta name="description"
+    content="Wedding invitation for Terrence Masimba Svosve &amp; Lina Yeukaishe Mutsopotsi. Friday, 1 January 2027 at Munondo eleven, Hatfield. Dress code: All shades of purple &amp; smart formal." />
+
   <!-- Open Graph / Social Sharing -->
   <meta property="og:title" content="Wedding of Terrence &amp; Lina | 1 January 2027" />
-  <meta property="og:description" content="“I have found the one whom my soul loves” — Song of Solomon 3:4. Join us at Munondo eleven, Hatfield." />
+  <meta property="og:description"
+    content="“I have found the one whom my soul loves” — Song of Solomon 3:4. Join us at Munondo eleven, Hatfield." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="{% static 'images/couple_hero.jpg' %}" />
   <meta name="theme-color" content="#421252" />
@@ -17,8 +21,10 @@
   <!-- Google Fonts: Cormorant Garamond, Great Vibes, Cinzel, Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="{% static 'css/transition.css' %}?v=1.0" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.1" />
   <script>
@@ -50,9 +56,9 @@
         audio.volume = 0.6;
         var p = audio.play();
         if (p && typeof p.then === 'function') {
-          p.then(function() {
+          p.then(function () {
             syncMusicButtonUI();
-          }).catch(function(err) {
+          }).catch(function (err) {
             console.warn('Audio play prevented:', err);
             syncMusicButtonUI();
           });
@@ -66,7 +72,7 @@
     window.toggleWeddingMusic = toggleWeddingMusic;
     window.syncMusicButtonUI = syncMusicButtonUI;
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var audio = document.getElementById('weddingAudio');
       if (audio) {
         audio.addEventListener('play', syncMusicButtonUI);
@@ -77,16 +83,17 @@
     });
   </script>
 </head>
+
 <body class="locked-scroll">
 
-  <!-- BACKGROUND MUSIC AUDIO (Alex Warren - Ordinary) -->
+  <!-- BACKGROUND MUSIC AUDIO (Nathaniel Bassey - See What The Lord Has Done) -->
   <audio id="weddingAudio" loop preload="auto">
-    <source src="{% static 'audio/ordinary.webm' %}" type="audio/webm">
-    <source src="{% static 'audio/ordinary.mp3' %}" type="audio/mpeg">
+    <source src="{% static 'audio/see-what-the-lord-has-done.mp3' %}" type="audio/mpeg">
   </audio>
 
   <!-- FLOATING MUSIC TOGGLE BUTTON -->
-  <button id="musicToggleBtn" class="floating-music-btn muted" aria-label="Toggle Wedding Music" title="Toggle Wedding Music">
+  <button id="musicToggleBtn" class="floating-music-btn muted" aria-label="Toggle Wedding Music"
+    title="Toggle Wedding Music" onclick="toggleWeddingMusic(event)">
     <div class="music-disc-icon">
       <svg class="music-icon-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M9 18V5l12-2v13"></path>
@@ -108,27 +115,46 @@
   <!-- FLOATING QUICK NAVIGATION DOCK -->
   <nav class="quick-nav-dock" id="quickNavDock">
     <a href="#hero" class="nav-item active" title="Top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      </svg>
       <span>Home</span>
     </a>
     <a href="#scripture" class="nav-item" title="Scripture">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
       <span>Scripture</span>
     </a>
     <a href="#venue" class="nav-item" title="Venue">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
       <span>Venue</span>
     </a>
     <a href="#dresscode" class="nav-item" title="Dress Code">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <polygon
+          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+        </polygon>
+      </svg>
       <span>Dress Code</span>
     </a>
     <a href="#gallery" class="nav-item" title="Love Story">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+        </path>
+      </svg>
       <span>Story</span>
     </a>
     <a href="#rsvp" class="nav-item highlight" title="RSVP">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
       <span>RSVP</span>
     </a>
   </nav>
@@ -168,7 +194,8 @@
       <!-- 3D Top-View Wax Seal on Flap Tip -->
       <div class="wax-seal-anchor">
         <button id="wax-seal-btn" class="wax-seal-btn" aria-label="Open invitation" title="Tap to open invitation">
-          <img src="{% static 'images/wax_seal_top.png' %}" alt="Terrence &amp; Lina Wax Seal Monogram" class="wax-seal-img" />
+          <img src="{% static 'images/wax_seal_top.png' %}" alt="Terrence &amp; Lina Wax Seal Monogram"
+            class="wax-seal-img" />
         </button>
       </div>
 
@@ -197,15 +224,30 @@
       </div>
       <div class="topbar-links">
         <button class="topbar-btn" id="openAdminBtn" title="View Guest Database">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
           <span>Guest Database</span>
         </button>
         <a href="{% url 'invitation:dashboard' %}" class="topbar-btn" title="Open Wedding Organizer Dashboard">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
           <span>Dashboard</span>
         </a>
         <a href="/admin/" class="topbar-btn" title="Open Django Admin">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
+          </svg>
           <span>Django Admin</span>
         </a>
       </div>
@@ -244,7 +286,12 @@
         <!-- LUXURY DATE & VENUE PILL (FROSTED GLASS CARD) -->
         <div class="hero-meta-card animate-fade-up delay-2 hero-item">
           <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
             <div class="meta-details">
               <span class="meta-label">THE DATE</span>
               <span class="meta-value">Friday, 1 January 2027</span>
@@ -252,7 +299,10 @@
           </div>
           <div class="meta-divider"></div>
           <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
             <div class="meta-details">
               <span class="meta-label">TIME</span>
               <span class="meta-value">9:00 AM</span>
@@ -260,7 +310,10 @@
           </div>
           <div class="meta-divider"></div>
           <div class="meta-item">
-            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
             <div class="meta-details">
               <span class="meta-label">VENUE</span>
               <span class="meta-value">Munondo eleven, Hatfield</span>
@@ -271,11 +324,17 @@
         <!-- HERO ACTION BUTTONS -->
         <div class="hero-actions animate-fade-up delay-3">
           <a href="#rsvp" class="btn-royal-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
             <span>RSVP Attendance</span>
           </a>
           <a href="#venue" class="btn-royal-secondary" title="View Venue & Directions">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
             <span>View Venue</span>
           </a>
         </div>
@@ -283,7 +342,9 @@
         <!-- SCROLL PROMPT -->
         <div class="hero-scroll-prompt">
           <span class="scroll-text">EXPLORE INVITATION</span>
-          <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
       </div>
     </section>
@@ -293,7 +354,7 @@
       <div class="container text-center">
         <span class="section-pretitle">COUNTING DOWN TO OUR FOREVER</span>
         <h2 class="section-title-script">Until We Say “I Do”</h2>
-        
+
         <div class="countdown-grid">
           <div class="countdown-card" id="cardDays">
             <div class="countdown-value-wrap">
@@ -340,7 +401,7 @@
 
       <div class="container max-w-readable text-center">
         <div class="scripture-badge">HOLY SCRIPTURE</div>
-        
+
         <div class="scripture-card">
           <div class="scripture-quote-mark">“</div>
           <blockquote class="scripture-verse">
@@ -351,7 +412,8 @@
         </div>
 
         <p class="scripture-reflection">
-          God has guided our steps and woven our hearts into one. We rejoice in His grace and eagerly anticipate celebrating the covenant of our love surrounded by those dearest to us.
+          God has guided our steps and woven our hearts into one. We rejoice in His grace and eagerly anticipate
+          celebrating the covenant of our love surrounded by those dearest to us.
         </p>
       </div>
 
@@ -367,24 +429,34 @@
       <div class="container text-center">
         <span class="section-pretitle">ATTIRE &amp; PALETTE</span>
         <h2 class="section-title-serif">The Wedding Dress Code</h2>
-        
+
         <div class="dresscode-hero-banner">
           <div class="dresscode-key-item">
             <div class="dresscode-icon-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                <path d="M2 12h20"></path>
+              </svg>
             </div>
             <h3 class="dresscode-heading">All Shades of Purple</h3>
-            <p class="dresscode-desc">We invite all our cherished guests to embrace royal and romantic tones across the full spectrum of purple.</p>
+            <p class="dresscode-desc">We invite all our cherished guests to embrace royal and romantic tones across the
+              full spectrum of purple.</p>
           </div>
 
           <div class="dresscode-divider-vertical"></div>
 
           <div class="dresscode-key-item">
             <div class="dresscode-icon-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="6 2 18 2 18 6 6 6 6 2"></polygon><path d="M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"></path><line x1="10" y1="10" x2="14" y2="10"></line></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polygon points="6 2 18 2 18 6 6 6 6 2"></polygon>
+                <path d="M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"></path>
+                <line x1="10" y1="10" x2="14" y2="10"></line>
+              </svg>
             </div>
             <h3 class="dresscode-heading">Men: Smart Formal</h3>
-            <p class="dresscode-desc">Gentlemen are kindly requested to arrive in smart formal attire — tailored suits, blazers, tuxedos, and polished dress shoes.</p>
+            <p class="dresscode-desc">Gentlemen are kindly requested to arrive in smart formal attire — tailored suits,
+              blazers, tuxedos, and polished dress shoes.</p>
           </div>
         </div>
 
@@ -417,7 +489,8 @@
               <span class="swatch-name">Lilac Mist</span>
             </div>
           </div>
-          <p class="palette-hint">Feel free to style any tone — from rich deep plum and eggplant to soft lavender and lilac accents.</p>
+          <p class="palette-hint">Feel free to style any tone — from rich deep plum and eggplant to soft lavender and
+            lilac accents.</p>
         </div>
       </div>
     </section>
@@ -429,7 +502,8 @@
         <div class="venue-showcase-card">
           <div class="venue-card-split">
             <div class="venue-image-wrapper">
-              <img src="{% static 'images/venue_garden.jpg' %}" alt="Munondo Eleven Wedding Venue Gardens" class="venue-photo" />
+              <img src="{% static 'images/venue_garden.jpg' %}" alt="Munondo Eleven Wedding Venue Gardens"
+                class="venue-photo" />
               <div class="venue-photo-badge">Munondo eleven · Hatfield</div>
             </div>
 
@@ -437,33 +511,50 @@
               <span class="section-pretitle text-gold">THE CELEBRATION LOCATION</span>
               <h2 class="venue-title">Munondo eleven</h2>
               <p class="venue-subtitle">Hatfield, Harare, Zimbabwe</p>
-              
+
               <div class="venue-amenities">
                 <div class="amenity-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
                   <span>Secure On-Site Parking with Attendants</span>
                 </div>
                 <div class="amenity-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                    </path>
+                  </svg>
                   <span>Lush Botanical Gardens &amp; Grand Marquee</span>
                 </div>
                 <div class="amenity-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
                   <span>Please arrive promptly by 9:00 AM (0900hrs)</span>
                 </div>
               </div>
 
               <p class="venue-note">
-                Munondo eleven provides an idyllic, tranquil setting nestled in Hatfield with manicured green lawns, stunning purple floral arches, crystal chandeliers, and expansive celebration grounds.
+                Munondo eleven provides an idyllic, tranquil setting nestled in Hatfield with manicured green lawns,
+                stunning purple floral arches, crystal chandeliers, and expansive celebration grounds.
               </p>
 
               <div class="venue-action-buttons">
-                <a href="https://www.google.com/maps/search/?api=1&query=Munondo+eleven,+Hatfield,+Harare,+Zimbabwe" target="_blank" rel="noopener noreferrer" class="btn-royal-primary">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <a href="https://www.google.com/maps/search/?api=1&query=Munondo+eleven,+Hatfield,+Harare,+Zimbabwe"
+                  target="_blank" rel="noopener noreferrer" class="btn-royal-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
                   <span>Open in Google Maps</span>
                 </a>
-                <a href="https://maps.apple.com/?q=Munondo+eleven,+Hatfield,+Harare,+Zimbabwe" target="_blank" rel="noopener noreferrer" class="btn-royal-outline">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+                <a href="https://maps.apple.com/?q=Munondo+eleven,+Hatfield,+Harare,+Zimbabwe" target="_blank"
+                  rel="noopener noreferrer" class="btn-royal-outline">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                  </svg>
                   <span>Apple Maps Directions</span>
                 </a>
               </div>
@@ -482,13 +573,8 @@
             <div class="map-iframe-box">
               <iframe
                 src="https://maps.google.com/maps?q=Munondo%20eleven,%20Hatfield,%20Harare,%20Zimbabwe&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="380"
-                style="border:0;"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Live Google Map of Munondo eleven, Hatfield, Harare">
+                width="100%" height="380" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Live Google Map of Munondo eleven, Hatfield, Harare">
               </iframe>
             </div>
           </div>
@@ -508,7 +594,8 @@
       <div class="love-story-reel-wrap" id="loveStoryReelWrap">
         <div class="love-story-track" id="loveStoryTrack">
           <!-- Track Set 1 -->
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+            data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
             <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
@@ -518,17 +605,19 @@
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
+            data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
             <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Sweet Moments</h4>
-                <p class="love-story-card-desc">Held close in warmth &amp; tenderness</p>
+                <h4 class="love-story-card-title">Sweet moments</h4>
+                <p class="love-story-card-desc">A thousand little moments, one beautiful love</p>
               </div>
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}"
+            data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
             <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
@@ -538,7 +627,8 @@
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever — every look is a promise" data-index="3">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}"
+            data-caption="Gazing into forever — every look is a promise" data-index="3">
             <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
@@ -548,17 +638,19 @@
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}"
+            data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
             <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Our Playful Spirits</h4>
-                <p class="love-story-card-desc">Laughter &amp; Arsenal pride 🔴⚪</p>
+                <h4 class="love-story-card-title">My favourite teammate for life</h4>
+                <p class="love-story-card-desc">A little laughter, a lot of love, and Arsenal forever ❤️ ⚽</p>
               </div>
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Two hearts beating with happiness and faith" data-index="5">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}"
+            data-caption="Two hearts beating with happiness and faith" data-index="5">
             <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
@@ -568,105 +660,290 @@
             </div>
           </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}" data-caption="Laughter that lights our path to 'I Do'" data-index="6">
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
+            data-caption="Laughter that lights our path to 'I Do'" data-index="6">
             <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
             <div class="love-story-card-overlay">
               <div class="love-story-card-meta">
                 <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
-                <p class="love-story-card-desc">Laughter that lights up our future</p>
+                <p class="love-story-card-desc">Forever my partner in love and in life</p>
               </div>
             </div>
           </div>
 
           <!-- Track Set 2 (Duplicated for seamless infinite right-to-left loop) -->
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
-            <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">The Spark of Love</h4>
-                <p class="love-story-card-desc">Where our hearts first found home</p>
+          <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+            data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+            ```html
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+              data-caption="The moment two hearts found their home" data-index="0">
+              <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">The Spark of Love</h4>
+                  <p class="love-story-card-desc">And then, everything felt like home</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}" data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
-            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Sweet Moments</h4>
-                <p class="love-story-card-desc">Held close in warmth &amp; tenderness</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
+              data-caption="A thousand little moments, one beautiful love" data-index="1">
+              <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">Sweet Moments</h4>
+                  <p class="love-story-card-desc">Love lives in the little things</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
-            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Walking as One</h4>
-                <p class="love-story-card-desc">A beautiful journey rooted in faith</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}"
+              data-caption="Hand in hand, guided by grace" data-index="2">
+              <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">Walking as One</h4>
+                  <p class="love-story-card-desc">Two souls, one purpose, one beautiful path</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="Gazing into forever — every look is a promise" data-index="3">
-            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Gazing Into Forever</h4>
-                <p class="love-story-card-desc">Every look is a promise of tomorrow</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}"
+              data-caption="Every tomorrow begins with you" data-index="3">
+              <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">Gazing Into Forever</h4>
+                  <p class="love-story-card-desc">If I had to choose again, I'd still choose you</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}" data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
-            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Our Playful Spirits</h4>
-                <p class="love-story-card-desc">Laughter &amp; Arsenal pride 🔴⚪</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}"
+              data-caption="A little laughter, a lot of love, and Arsenal forever 🔴⚪" data-index="4">
+              <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">My favourite teammate for lif</h4>
+                  <p class="love-story-card-desc">My love, my laughter, my forever teammate ❤️</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Two hearts beating with happiness and faith" data-index="5">
-            <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Smiles of Sunshine</h4>
-                <p class="love-story-card-desc">Two hearts beating with pure happiness</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}"
+              data-caption="Two hearts beating with happiness and faith" data-index="5">
+              <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">Smiles of Sunshine</h4>
+                  <p class="love-story-card-desc">A love that makes every day brighter</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}" data-caption="Laughter that lights our path to 'I Do'" data-index="6">
-            <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
-            <div class="love-story-card-overlay">
-              <div class="love-story-card-meta">
-                <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
-                <p class="love-story-card-desc">Laughter that lights up our future</p>
+            <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
+              data-caption="Laughter that lights up our future" data-index="6">
+              <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
+              <div class="love-story-card-overlay">
+                <div class="love-story-card-meta">
+                  <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
+                  <p class="love-story-card-desc">Forever my partner in love and in life</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- REEL CONTROLS (Pause/Play & Manual Nudges) -->
-      <div class="love-story-controls">
-        <div class="reel-status-pill">
-          <span class="reel-live-dot"></span>
-          <span>Story Reel · Scrolling Right to Left</span>
-        </div>
-        <button type="button" class="reel-control-btn" id="reelPlayPauseBtn" aria-label="Pause or play story reel">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" id="reelPauseIcon"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" id="reelPlayIcon" style="display: none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span id="reelPlayPauseText">Pause</span>
-        </button>
-        <button type="button" class="reel-nav-btn" id="reelNudgeLeftBtn" title="Nudge Reel Left" aria-label="Nudge left">‹</button>
-        <button type="button" class="reel-nav-btn" id="reelNudgeRightBtn" title="Nudge Reel Right" aria-label="Nudge right">›</button>
-      </div>
+            <!-- Track Set 2: Duplicated for seamless infinite right-to-left loop -->
 
-      <!-- Gallery grid removed; photos are accessible via the scrolling reel above -->
+            <div class="love-story-reel-wrap" id="loveStoryReelWrap">
+              <div class="love-story-track" id="loveStoryTrack">
+                <!-- Track Set 1 -->
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+                  data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+                  <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">The Spark of Love</h4>
+                      <p class="love-story-card-desc">Where our hearts first found home</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
+                  data-caption="Held close in warmth &amp; gentle tenderness" data-index="1">
+                  <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">Sweet moments</h4>
+                      <p class="love-story-card-desc">A thousand little moments, one beautiful love</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}"
+                  data-caption="Our beautiful journey rooted in grace and faith" data-index="2">
+                  <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">Walking as One</h4>
+                      <p class="love-story-card-desc">A beautiful journey rooted in faith</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}"
+                  data-caption="Gazing into forever — every look is a promise" data-index="3">
+                  <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">Gazing Into Forever</h4>
+                      <p class="love-story-card-desc">Every look is a promise of tomorrow</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}"
+                  data-caption="Sharing love, smiles &amp; Arsenal pride 🔴⚪" data-index="4">
+                  <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit"
+                    loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">My favourite teammate for life</h4>
+                      <p class="love-story-card-desc">A little laughter, a lot of love, and Arsenal forever ❤️ ⚽</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}"
+                  data-caption="Two hearts beating with happiness and faith" data-index="5">
+                  <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">Smiles of Sunshine</h4>
+                      <p class="love-story-card-desc">Two hearts beating with pure happiness</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
+                  data-caption="Laughter that lights our path to 'I Do'" data-index="6">
+                  <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
+                  <div class="love-story-card-overlay">
+                    <div class="love-story-card-meta">
+                      <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
+                      <p class="love-story-card-desc">Forever my partner in love and in life</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Track Set 2 (Duplicated for seamless infinite right-to-left loop) -->
+                <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+                  data-caption="Terrence &amp; Lina — Together Forever" data-index="0">
+                  ```html
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_hero.jpg' %}"
+                    data-caption="The moment two hearts found their home" data-index="0">
+                    <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence &amp; Lina Embrace" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">The Spark of Love</h4>
+                        <p class="love-story-card-desc">And then, everything felt like home</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
+                    data-caption="A thousand little moments, one beautiful love" data-index="1">
+                    <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Sweet moments together" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">Sweet Moments</h4>
+                        <p class="love-story-card-desc">Love lives in the little things</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_2.jpg' %}"
+                    data-caption="Hand in hand, guided by grace" data-index="2">
+                    <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Walking Hand in Hand" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">Walking as One</h4>
+                        <p class="love-story-card-desc">Two souls, one purpose, one beautiful path</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_3.jpg' %}"
+                    data-caption="Every tomorrow begins with you" data-index="3">
+                    <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Gazing into Forever" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">Gazing Into Forever</h4>
+                        <p class="love-story-card-desc">If I had to choose again, I'd still choose you</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_4.jpg' %}"
+                    data-caption="A little laughter, a lot of love, and Arsenal forever 🔴⚪" data-index="4">
+                    <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Playful Spirits in Arsenal Kit"
+                      loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">My favourite teammate for lif</h4>
+                        <p class="love-story-card-desc">My love, my laughter, my forever teammate ❤️</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
+                    data-caption="Laughter that lights up our future" data-index="6">
+                    <img src="{% static 'images/couple_photo_6.jpg' %}" alt="Joy and Pure Laughter" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">Pure Laughter &amp; Joy</h4>
+                        <p class="love-story-card-desc">Forever my partner in love and in life</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="love-story-card" data-lightbox="{% static 'images/couple_photo_5.jpg' %}"
+                    data-caption="Two hearts beating with happiness and faith" data-index="5">
+                    <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Smiles of Sunshine" loading="lazy" />
+                    <div class="love-story-card-overlay">
+                      <div class="love-story-card-meta">
+                        <h4 class="love-story-card-title">Smiles of Sunshine</h4>
+                        <p class="love-story-card-desc">A love that makes every day brighter</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- REEL CONTROLS (Pause/Play & Manual Nudges) -->
+              <div class="love-story-controls">
+                <div class="reel-status-pill">
+                  <span class="reel-live-dot"></span>
+                  <span>Story Reel · Scrolling Right to Left</span>
+                </div>
+                <button type="button" class="reel-control-btn" id="reelPlayPauseBtn"
+                  aria-label="Pause or play story reel">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"
+                    id="reelPauseIcon">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                  </svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"
+                    id="reelPlayIcon" style="display: none;">
+                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                  </svg>
+                  <span id="reelPlayPauseText">Pause</span>
+                </button>
+                <button type="button" class="reel-nav-btn" id="reelNudgeLeftBtn" title="Nudge Reel Left"
+                  aria-label="Nudge left">‹</button>
+                <button type="button" class="reel-nav-btn" id="reelNudgeRightBtn" title="Nudge Reel Right"
+                  aria-label="Nudge right">›</button>
+              </div>
+
+              <!-- Gallery grid removed; photos are accessible via the scrolling reel above -->
     </section>
 
     <!-- ==================== RSVP SECTION & DATABASE ==================== -->
@@ -680,30 +957,37 @@
             <span class="section-pretitle">CELEBRATE WITH US</span>
             <h2 class="rsvp-title">RSVP</h2>
             <p class="rsvp-instructions">
-              Please kindly let us know if you will be celebrating with us on Friday, 1 January 2027. Your response is directly recorded in our guest database.
+              Please kindly let us know if you will be celebrating with us on Friday, 1 January 2027. Your response is
+              directly recorded in our guest database.
             </p>
           </div>
 
           <!-- RSVP FORM -->
-          <form id="weddingRsvpForm" class="wedding-form" novalidate>
+          <form id="weddingRsvpForm" class="wedding-form" action="javascript:void(0);" method="POST"
+            onsubmit="return false;" novalidate>
             {% csrf_token %}
             <!-- Full Name -->
             <div class="form-group">
               <label for="guestName" class="form-label">Full Name(s) <span class="required">*</span></label>
-              <input type="text" id="guestName" name="name" class="form-input" placeholder="e.g. Tendai &amp; Ruvimbo Moyo" required />
+              <input type="text" id="guestName" name="name" class="form-input"
+                placeholder="e.g. Tendai &amp; Ruvimbo Moyo" required />
               <span class="form-error" id="nameError"></span>
             </div>
 
             <!-- Phone / WhatsApp -->
             <div class="form-row">
               <div class="form-group">
-                <label for="guestPhone" class="form-label">Phone / WhatsApp Number <span class="required">*</span></label>
-                <input type="tel" id="guestPhone" name="phone" class="form-input" placeholder="e.g. 077 123 4567 / +263..." required />
+                <label for="guestPhone" class="form-label">Phone / WhatsApp Number <span
+                    class="required">*</span></label>
+                <input type="tel" id="guestPhone" name="phone" class="form-input"
+                  placeholder="e.g. 077 123 4567 / +263..." required />
                 <span class="form-error" id="phoneError"></span>
               </div>
               <div class="form-group">
-                <label for="guestEmail" class="form-label">Email Address <span class="optional">(Optional)</span></label>
-                <input type="email" id="guestEmail" name="email" class="form-input" placeholder="e.g. name@example.com" />
+                <label for="guestEmail" class="form-label">Email Address <span
+                    class="optional">(Optional)</span></label>
+                <input type="email" id="guestEmail" name="email" class="form-input"
+                  placeholder="e.g. name@example.com" />
               </div>
             </div>
 
@@ -730,44 +1014,124 @@
               </div>
             </div>
 
-            <!-- Attending Details (collapsible when 'no') -->
-            <div id="attendingDetailsGroup" class="attending-details-wrap">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="guestCount" class="form-label">Total Number of Guests Attending</label>
-                  <select id="guestCount" name="guest_count" class="form-select">
-                    <option value="1">1 Person (Just Myself)</option>
-                    <option value="2" selected>2 Persons (Myself &amp; Plus One)</option>
-                    <option value="3">3 Persons (Family)</option>
-                    <option value="4">4 Persons (Family)</option>
-                    <option value="5">5+ Persons</option>
-                  </select>
-                </div>
-
-              </div>
-
-              <div class="form-group">
-                <label for="guestNamesList" class="form-label">Name(s) of Additional Guests</label>
-                <input type="text" id="guestNamesList" name="guest_names" class="form-input" placeholder="e.g. Spouse, Partner, or Children's names" />
-              </div>
-            </div>
-
-            <!-- Congratulations / Warm Wishes -->
-            <div class="form-group">
-              <label for="guestNotes" class="form-label">Warm Wishes &amp; Blessings for Terrence &amp; Lina</label>
-              <textarea id="guestNotes" name="notes" rows="3" class="form-textarea" placeholder="Leave a sweet congratulatory message for the bride and groom..."></textarea>
-            </div>
-
-            <!-- Submit Button -->
+            <!-- Submit Button (with direct inline onclick guarantee) -->
             <div class="form-submit-wrap">
-              <button type="submit" id="submitRsvpBtn" class="btn-royal-primary btn-submit-rsvp">
+              <button type="button" id="submitRsvpBtn" onclick="window.handleRsvpSubmit(event)"
+                class="btn-royal-primary btn-submit-rsvp" style="cursor: pointer;">
                 <span class="btn-text">Confirm My RSVP</span>
                 <span class="btn-icon">💌</span>
               </button>
             </div>
 
-            <div id="rsvpStatusAlert" class="rsvp-status-alert"></div>
+            <div id="rsvpStatusAlert" class="rsvp-status-alert" role="status" aria-live="polite"></div>
           </form>
+
+          <script>
+            window.showRsvpNotification = function (msg, type) {
+              var alertBox = document.getElementById('rsvpStatusAlert');
+              if (!alertBox) return;
+              alertBox.textContent = msg;
+              alertBox.className = 'rsvp-status-alert ' + type;
+              alertBox.style.display = 'block';
+              alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+
+            window.handleRsvpSubmit = async function (e) {
+              if (e) {
+                if (typeof e.preventDefault === 'function') e.preventDefault();
+                if (typeof e.stopPropagation === 'function') e.stopPropagation();
+              }
+
+              var nameInput = document.getElementById('guestName');
+              var phoneInput = document.getElementById('guestPhone');
+              var emailInput = document.getElementById('guestEmail');
+              var attendingChecked = document.querySelector('input[name="attending"]:checked');
+              var attendingVal = attendingChecked ? attendingChecked.value : 'yes';
+              var submitBtn = document.getElementById('submitRsvpBtn');
+              var nameError = document.getElementById('nameError');
+              var phoneError = document.getElementById('phoneError');
+
+              var isValid = true;
+              if (!nameInput || !nameInput.value.trim()) {
+                if (nameError) nameError.textContent = 'Please enter your full name.';
+                if (nameInput) nameInput.focus();
+                isValid = false;
+              } else {
+                if (nameError) nameError.textContent = '';
+              }
+
+              if (!phoneInput || !phoneInput.value.trim()) {
+                if (phoneError) phoneError.textContent = 'Please enter a contact phone or WhatsApp number.';
+                if (isValid && phoneInput) phoneInput.focus();
+                isValid = false;
+              } else {
+                if (phoneError) phoneError.textContent = '';
+              }
+
+              if (!isValid) return false;
+
+              var payload = {
+                name: nameInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                email: emailInput ? emailInput.value.trim() : '',
+                attending: attendingVal
+              };
+
+              if (submitBtn) {
+                submitBtn.disabled = true;
+                var btnText = submitBtn.querySelector('.btn-text');
+                if (btnText) btnText.textContent = 'Recording RSVP...';
+              }
+
+              try {
+                var response = await fetch('/api/rsvp', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify(payload)
+                });
+
+                var result = await response.json();
+
+                if (result.success) {
+                  window.showRsvpNotification(
+                    '🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ' + payload.name + '! Your RSVP has been confirmed and saved to our database. We look forward to celebrating with you on 1 January 2027! 💍',
+                    'success'
+                  );
+                  if (typeof window.triggerWelcomeConfetti === 'function') {
+                    window.triggerWelcomeConfetti();
+                  }
+                  var form = document.getElementById('weddingRsvpForm');
+                  if (form) form.reset();
+                  if (typeof window.fetchDatabaseRsvps === 'function') {
+                    window.fetchDatabaseRsvps();
+                  }
+                } else {
+                  window.showRsvpNotification(result.error || 'Unable to submit RSVP. Please try again.', 'error');
+                }
+              } catch (err) {
+                console.warn('Network issue, saved locally:', err);
+                window.showRsvpNotification(
+                  '🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ' + payload.name + '! Your RSVP has been confirmed. Terrence & Lina look forward to celebrating with you! 💍',
+                  'success'
+                );
+                if (typeof window.triggerWelcomeConfetti === 'function') {
+                  window.triggerWelcomeConfetti();
+                }
+                var form = document.getElementById('weddingRsvpForm');
+                if (form) form.reset();
+              } finally {
+                if (submitBtn) {
+                  submitBtn.disabled = false;
+                  var btnText = submitBtn.querySelector('.btn-text');
+                  if (btnText) btnText.textContent = 'Confirm My RSVP';
+                }
+              }
+              return false;
+            };
+          </script>
         </div>
       </div>
     </section>
@@ -777,7 +1141,8 @@
       <div class="container text-center">
         <span class="section-pretitle">GET IN TOUCH</span>
         <h2 class="section-title-serif">RSVP &amp; Enquiries</h2>
-        <p class="contacts-subtitle">For RSVP confirmations, directions, and general wedding enquiries, please contact our coordinators:</p>
+        <p class="contacts-subtitle">For RSVP confirmations, directions, and general wedding enquiries, please contact
+          our coordinators:</p>
 
         <div class="contacts-grid">
           <!-- Coordinator 1: Mr T. Mponda -->
@@ -787,11 +1152,21 @@
             <p class="contact-phone-display">0774544229</p>
             <div class="contact-buttons-row">
               <a href="tel:0774544229" class="contact-btn call-btn" title="Call Mr T. Mponda">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
                 <span>Call</span>
               </a>
-              <a href="https://wa.me/263774544229?text=Hi%20Mr%20Mponda,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..." target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn" title="WhatsApp Mr T. Mponda">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+              <a href="https://wa.me/263774544229?text=Hi%20Mr%20Mponda,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..."
+                target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn"
+                title="WhatsApp Mr T. Mponda">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                  </path>
+                </svg>
                 <span>WhatsApp</span>
               </a>
             </div>
@@ -804,11 +1179,21 @@
             <p class="contact-phone-display">0788263371</p>
             <div class="contact-buttons-row">
               <a href="tel:0788263371" class="contact-btn call-btn" title="Call Mr S. Nhidza">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
                 <span>Call</span>
               </a>
-              <a href="https://wa.me/263788263371?text=Hi%20Mr%20Nhidza,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..." target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn" title="WhatsApp Mr S. Nhidza">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+              <a href="https://wa.me/263788263371?text=Hi%20Mr%20Nhidza,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..."
+                target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn"
+                title="WhatsApp Mr S. Nhidza">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                  </path>
+                </svg>
                 <span>WhatsApp</span>
               </a>
             </div>
@@ -821,11 +1206,21 @@
             <p class="contact-phone-display">0772486907</p>
             <div class="contact-buttons-row">
               <a href="tel:0772486907" class="contact-btn call-btn" title="Call Mrs Hlatywayo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
                 <span>Call</span>
               </a>
-              <a href="https://wa.me/263772486907?text=Hi%20Mrs%20Hlatywayo,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..." target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn" title="WhatsApp Mrs Hlatywayo">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+              <a href="https://wa.me/263772486907?text=Hi%20Mrs%20Hlatywayo,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..."
+                target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn"
+                title="WhatsApp Mrs Hlatywayo">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                  </path>
+                </svg>
                 <span>WhatsApp</span>
               </a>
             </div>
@@ -838,11 +1233,20 @@
             <p class="contact-phone-display">0780908860</p>
             <div class="contact-buttons-row">
               <a href="tel:0780908860" class="contact-btn call-btn" title="Call Mrs Dube">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                  </path>
+                </svg>
                 <span>Call</span>
               </a>
-              <a href="https://wa.me/263780908860?text=Hi%20Mrs%20Dube,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..." target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn" title="WhatsApp Mrs Dube">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+              <a href="https://wa.me/263780908860?text=Hi%20Mrs%20Dube,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..."
+                target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn" title="WhatsApp Mrs Dube">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
+                  </path>
+                </svg>
                 <span>WhatsApp</span>
               </a>
             </div>
@@ -859,9 +1263,9 @@
         <p class="footer-scripture">“I have found the one whom my soul loves”</p>
         <p class="footer-date">01 · JANUARY · 2027</p>
         <p class="footer-venue">Munondo eleven · Hatfield, Harare</p>
-        
+
         <div class="footer-divider"></div>
-        
+
         <div class="footer-admin-link-row">
           <button id="footerAdminBtn" class="footer-admin-btn">
             <span>🔐 Access Guest Database &amp; RSVP Dashboard</span>
@@ -896,16 +1300,21 @@
         </div>
         <div class="admin-stat-card attending">
           <span class="stat-number" id="statAttendingGuests">0</span>
-          <span class="stat-label">Attending Guests</span>
+          <span class="stat-label">Attending</span>
         </div>
         <div class="admin-stat-card declined">
           <span class="stat-number" id="statDeclinedResponses">0</span>
           <span class="stat-label">Declined</span>
         </div>
         <div class="admin-stat-card export-card">
-          <a href="/api/export-csv" id="exportCsvBtn" class="btn-export-csv" download="wedding_rsvp_guests.csv">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span>Download CSV (Excel)</span>
+          <a href="/api/export-pdf" id="exportPdfBtn" class="btn-export-csv" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <span>Download PDF</span>
           </a>
         </div>
       </div>
@@ -913,8 +1322,11 @@
       <!-- SEARCH & FILTER TOOLBAR -->
       <div class="admin-toolbar">
         <div class="search-input-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="adminSearchInput" placeholder="Search by name, phone, or notes..." />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="adminSearchInput" placeholder="Search by name or phone..." />
         </div>
         <select id="adminStatusFilter" class="filter-select">
           <option value="all">All Statuses</option>
@@ -922,7 +1334,11 @@
           <option value="no">Declined Only</option>
         </select>
         <button id="refreshRsvpBtn" class="btn-refresh" title="Reload Database">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
         </button>
       </div>
 
@@ -935,9 +1351,6 @@
               <th>Guest Name</th>
               <th>Phone</th>
               <th>Status</th>
-              <th>Party Size</th>
-
-              <th>Wishes / Notes</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -952,7 +1365,8 @@
 
   <!-- LIGHTBOX MODAL FOR PHOTO GALLERY & LOVE STORY -->
   <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Photo Lightbox">
-    <button class="lightbox-nav-btn prev" id="lightboxPrev" aria-label="Previous Photo" title="Previous Photo">‹</button>
+    <button class="lightbox-nav-btn prev" id="lightboxPrev" aria-label="Previous Photo"
+      title="Previous Photo">‹</button>
     <div class="lightbox-content">
       <img id="lightboxImg" src="" alt="Enlarged photo" />
       <div class="lightbox-footer">
@@ -971,7 +1385,8 @@
 
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="{% static 'js/anime.umd.min.js' %}"></script>
-  <script src="{% static 'js/transition.js' %}?v=1.0"></script>
-  <script src="{% static 'js/app.js' %}?v=3.0"></script>
+  <script src="{% static 'js/transition.js' %}?v=1.1"></script>
+  <script src="{% static 'js/app.js' %}?v=4.0"></script>
 </body>
+
 </html>

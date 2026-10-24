@@ -111,7 +111,7 @@ a {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
-  z-index: 900;
+  z-index: 10001;
   width: 52px;
   height: 52px;
   border-radius: 50%;
@@ -2082,27 +2082,39 @@ a {
 }
 
 .rsvp-status-alert {
-  margin-top: 1.25rem;
-  padding: 1rem;
-  border-radius: var(--radius-sm);
+  margin-top: 1.5rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 12px;
   display: none;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans, 'Montserrat', sans-serif);
   font-size: 1.05rem;
+  line-height: 1.6;
   text-align: center;
+  white-space: pre-line;
 }
 
 .rsvp-status-alert.success {
   display: block;
-  background: #EAF7EC;
-  color: #1E6B2A;
-  border: 1px solid #B8E4BC;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #fdf4ff 100%);
+  color: #3b0764;
+  border: 2px solid #a855f7;
+  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.22);
+  font-weight: 500;
+  animation: rsvpPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .rsvp-status-alert.error {
   display: block;
-  background: #FDF0ED;
-  color: #9E2B1E;
-  border: 1px solid #F5C2BC;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1.5px solid #f87171;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.15);
+  font-weight: 500;
+}
+
+@keyframes rsvpPopIn {
+  0% { transform: scale(0.92); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* ==========================================================================

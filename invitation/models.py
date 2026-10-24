@@ -31,7 +31,7 @@ class RSVP(models.Model):
 
     def __str__(self):
         status = "Attending" if self.attending.lower() == 'yes' else "Declined"
-        return f"{self.name} - {status} ({self.guest_count} guests)"
+        return f"{self.name} - {status}"
 
     @property
     def is_attending(self):

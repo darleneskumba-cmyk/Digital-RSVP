@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/rsvp', views.api_rsvp, name='api_rsvp'),
     path('api/rsvp/<int:rsvp_id>', views.api_rsvp_detail, name='api_rsvp_detail'),
     path('api/export-csv', views.api_export_csv, name='api_export_csv'),
+    path('api/export-pdf', views.api_export_pdf, name='api_export_pdf'),
     path('api/photos', views.api_photos, name='api_photos'),
     path('api/upload-photo', views.api_upload_photo, name='api_upload_photo'),
 ]

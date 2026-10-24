@@ -1,8 +1,15 @@
+import io
 import os
 import json
 import base64
 import csv
 from datetime import datetime
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import mm
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.pdfgen import canvas as pdf_canvas
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
@@ -21,7 +28,6 @@ def index(request):
     all_rsvps = RSVP.objects.all().order_by('-id')
     total_responses = all_rsvps.count()
     attending_rsvps = [r for r in all_rsvps if r.is_attending]
-    total_attending_guests = sum(r.guest_count for r in attending_rsvps)
     declined_count = total_responses - len(attending_rsvps)
 
     guest_photos = GuestPhoto.objects.all().order_by('-id')[:12]
@@ -48,8 +54,7 @@ def index(request):
         'scripture_reference': 'Song of Solomon 3:4',
         'stats': {
             'total_responses': total_responses,
-            'attending_rsvps': len(attending_rsvps),
-            'total_attending_guests': total_attending_guests,
+            'attending_count': len(attending_rsvps),
             'declined_count': declined_count,
         },
         'guest_photos': guest_photos,
@@ -68,7 +73,6 @@ def api_rsvps(request):
     rsvps = RSVP.objects.all().order_by('-id')
     total_responses = rsvps.count()
     attending_qs = [r for r in rsvps if r.is_attending]
-    total_attending_guests = sum(r.guest_count for r in attending_qs)
     declined_count = total_responses - len(attending_qs)
 
     data = []
@@ -79,10 +83,6 @@ def api_rsvps(request):
             'phone': r.phone,
             'email': r.email or '',
             'attending': r.attending,
-            'guest_count': r.guest_count,
-            'guest_names': r.guest_names or '',
-
-            'notes': r.notes or '',
             'created_at': r.created_at.strftime('%Y-%m-%d %H:%M:%S') if r.created_at else ''
         })
 
@@ -91,8 +91,7 @@ def api_rsvps(request):
         'rsvps': data,
         'stats': {
             'total_responses': total_responses,
-            'attending_rsvps': len(attending_qs),
-            'total_attending_guests': total_attending_guests,
+            'attending_count': len(attending_qs),
             'declined_count': declined_count
         }
     })
@@ -120,15 +119,6 @@ def api_rsvp(request):
     email = (data.get('email') or '').strip()
     attending = (data.get('attending') or 'yes').strip().lower()
 
-    try:
-        guest_count = int(data.get('guest_count', 1))
-    except (ValueError, TypeError):
-        guest_count = 1
-
-    guest_names = (data.get('guest_names') or '').strip()
-
-    notes = (data.get('notes') or '').strip()
-
     if not name or not phone:
         return JsonResponse({'success': False, 'error': 'Name and phone number are required.'}, status=400)
 
@@ -137,10 +127,9 @@ def api_rsvp(request):
         phone=phone,
         email=email if email else None,
         attending=attending,
-        guest_count=guest_count,
-        guest_names=guest_names,
-
-        notes=notes,
+        guest_count=1,
+        guest_names='',
+        notes='',
         created_at=timezone.now()
     )
 
@@ -183,8 +172,7 @@ def api_export_csv(request):
     writer = csv.writer(response, quoting=csv.QUOTE_ALL)
     writer.writerow([
         "ID", "Full Name", "Phone", "Email", "Attending",
-        "Total Guests", "Guest Names",
-        "Message/Wishes", "Date RSVPed"
+        "Date RSVPed"
     ])
 
     for r in RSVP.objects.all().order_by('id'):
@@ -195,14 +183,244 @@ def api_export_csv(request):
             r.phone,
             r.email or '',
             r.attending,
-            r.guest_count,
-            r.guest_names or '',
-
-            r.notes or '',
             date_str
         ])
 
     return response
+
+
+# ──────────────────────────────────────────────
+# PDF EXPORT HELPERS
+# ──────────────────────────────────────────────
+
+class _NumberedCanvas(pdf_canvas.Canvas):
+    """ReportLab canvas that adds page numbers and decorative gold lines."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._saved_page_states = []
+
+    def showPage(self):
+        self._saved_page_states.append(dict(self.__dict__))
+        self._startPage()
+
+    def save(self):
+        num_pages = len(self._saved_page_states)
+        for state in self._saved_page_states:
+            self.__dict__.update(state)
+            self._draw_decorations(num_pages)
+            super().showPage()
+        super().save()
+
+    def _draw_decorations(self, page_count):
+        w, h = A4
+        self.saveState()
+        # Gold rule at top & bottom
+        self.setStrokeColor(colors.HexColor('#d4af37'))
+        self.setLineWidth(1)
+        self.line(28, h - 22, w - 28, h - 22)
+        self.line(28, 28, w - 28, 28)
+        # Footer text
+        self.setFont('Helvetica', 7)
+        self.setFillColor(colors.HexColor('#6b21a8'))
+        self.drawString(28, 14, 'Terrence & Lina Wedding — Confidential RSVP Directory')
+        self.drawRightString(w - 28, 14, f'Page {self._pageNumber} of {page_count}')
+        self.restoreState()
+
+
+def _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp.pdf'):
+    """
+    Builds a styled A4 PDF of the given RSVP queryset and returns an HttpResponse.
+    """
+    buf = io.BytesIO()
+    w, h = A4
+    doc = SimpleDocTemplate(
+        buf,
+        pagesize=A4,
+        leftMargin=28,
+        rightMargin=28,
+        topMargin=36,
+        bottomMargin=48,
+        title='Terrence & Lina Wedding — RSVP Guest List',
+        author='Wedding Organizer',
+    )
+
+    styles = getSampleStyleSheet()
+    PURPLE_DARK = colors.HexColor('#3b0764')
+    PURPLE      = colors.HexColor('#7c3aed')
+    PURPLE_SOFT = colors.HexColor('#f3e8ff')
+    GOLD        = colors.HexColor('#d4af37')
+    GOLD_DARK   = colors.HexColor('#b8860b')
+    GREY        = colors.HexColor('#64748b')
+    WHITE       = colors.white
+    RED_SOFT    = colors.HexColor('#fef2f2')
+    GREEN_SOFT  = colors.HexColor('#f0fdf4')
+    RED_TEXT    = colors.HexColor('#991b1b')
+    GREEN_TEXT  = colors.HexColor('#166534')
+
+    title_style = ParagraphStyle(
+        'WeddingTitle',
+        fontName='Helvetica-Bold',
+        fontSize=20,
+        textColor=PURPLE_DARK,
+        alignment=1,  # centre
+        spaceAfter=2,
+    )
+    subtitle_style = ParagraphStyle(
+        'WeddingSubtitle',
+        fontName='Helvetica',
+        fontSize=10,
+        textColor=GREY,
+        alignment=1,
+        spaceAfter=0,
+    )
+    section_label = ParagraphStyle(
+        'SectionLabel',
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        textColor=PURPLE,
+        spaceBefore=6,
+        spaceAfter=2,
+    )
+    cell_style = ParagraphStyle(
+        'CellStyle',
+        fontName='Helvetica',
+        fontSize=8,
+        textColor=colors.HexColor('#1e1b4b'),
+        leading=10,
+    )
+
+    rsvps = list(queryset.order_by('id'))
+    total = len(rsvps)
+    attending = sum(1 for r in rsvps if r.attending and r.attending.lower() == 'yes')
+    declined  = total - attending
+
+    story = []
+
+    # ── Header ──────────────────────────────
+    story.append(Paragraph('💍 TERRENCE &amp; LINA', title_style))
+    story.append(Paragraph('Wedding RSVP Guest Directory · 1 January 2027', subtitle_style))
+    story.append(Spacer(1, 6))
+    story.append(HRFlowable(width='100%', thickness=1, color=GOLD, spaceAfter=8))
+
+    # ── Summary KPI row ──────────────────────
+    from datetime import date as _date
+    generated = _date.today().strftime('%d %B %Y')
+    kpi_data = [
+        [
+            Paragraph(f'<font size=18><b>{total}</b></font><br/><font size=7 color="#64748b">Total Responses</font>', cell_style),
+            Paragraph(f'<font size=18 color="#166534"><b>{attending}</b></font><br/><font size=7 color="#64748b">Attending</font>', cell_style),
+            Paragraph(f'<font size=18 color="#991b1b"><b>{declined}</b></font><br/><font size=7 color="#64748b">Declined</font>', cell_style),
+            Paragraph(f'<font size=9 color="#64748b">Generated</font><br/><font size=8><b>{generated}</b></font>', cell_style),
+        ]
+    ]
+    kpi_table = Table(kpi_data, colWidths=[(w - 56) / 4] * 4, rowHeights=[36])
+    kpi_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, 0), PURPLE_SOFT),
+        ('BACKGROUND', (1, 0), (1, 0), GREEN_SOFT),
+        ('BACKGROUND', (2, 0), (2, 0), RED_SOFT),
+        ('BACKGROUND', (3, 0), (3, 0), colors.HexColor('#fffbeb')),
+        ('ALIGN',      (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN',     (0, 0), (-1, -1), 'MIDDLE'),
+        ('ROUNDEDCORNERS', [6]),
+        ('BOX',        (0, 0), (0, 0), 0.5, PURPLE),
+        ('BOX',        (1, 0), (1, 0), 0.5, colors.HexColor('#16a34a')),
+        ('BOX',        (2, 0), (2, 0), 0.5, colors.HexColor('#dc2626')),
+        ('BOX',        (3, 0), (3, 0), 0.5, GOLD),
+        ('LEFTPADDING',  (0, 0), (-1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+    ]))
+    story.append(kpi_table)
+    story.append(Spacer(1, 10))
+    story.append(HRFlowable(width='100%', thickness=0.5, color=colors.HexColor('#e9d5ff'), spaceAfter=6))
+
+    # ── Guest Table ──────────────────────────
+    story.append(Paragraph('GUEST RSVP DIRECTORY', section_label))
+
+    # Header row
+    usable_w = w - 56
+    col_widths = [24, usable_w * 0.24, usable_w * 0.18, usable_w * 0.26, usable_w * 0.18, usable_w * 0.14]
+
+    header_para = lambda t: Paragraph(f'<b>{t}</b>', ParagraphStyle('H', fontName='Helvetica-Bold', fontSize=7.5, textColor=WHITE, leading=10))
+    table_data = [
+        [
+            header_para('#'),
+            header_para('Full Name'),
+            header_para('Phone / WhatsApp'),
+            header_para('Email'),
+            header_para('Status'),
+            header_para('Date RSVPed'),
+        ]
+    ]
+
+    for i, r in enumerate(rsvps, 1):
+        is_yes   = r.attending and r.attending.lower() == 'yes'
+        status   = Paragraph(
+            f'<font color="{"#166534" if is_yes else "#991b1b"}"><b>{"✓ Attending" if is_yes else "✕ Declined"}</b></font>',
+            ParagraphStyle('Status', fontName='Helvetica-Bold', fontSize=7.5, leading=10)
+        )
+        date_str = r.created_at.strftime('%d %b %Y %H:%M') if r.created_at else '—'
+        row_bg   = colors.HexColor('#faf5ff') if i % 2 == 0 else WHITE
+        table_data.append([
+            Paragraph(str(i), cell_style),
+            Paragraph(r.name or '—', cell_style),
+            Paragraph(r.phone or '—', cell_style),
+            Paragraph(r.email or '—', cell_style),
+            status,
+            Paragraph(date_str, cell_style),
+        ])
+
+    if not rsvps:
+        table_data.append([Paragraph('—', cell_style)] * 6)
+
+    guest_table = Table(table_data, colWidths=col_widths, repeatRows=1)
+    row_count = len(table_data)
+
+    ts = TableStyle([
+        # Header styling
+        ('BACKGROUND',    (0, 0), (-1, 0), PURPLE_DARK),
+        ('TEXTCOLOR',     (0, 0), (-1, 0), WHITE),
+        ('FONTNAME',      (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE',      (0, 0), (-1, 0), 7.5),
+        ('TOPPADDING',    (0, 0), (-1, 0), 6),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 6),
+        # Body padding
+        ('FONTNAME',      (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE',      (0, 1), (-1, -1), 7.5),
+        ('TOPPADDING',    (0, 1), (-1, -1), 5),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 5),
+        ('LEFTPADDING',   (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING',  (0, 0), (-1, -1), 5),
+        # Grid
+        ('GRID',          (0, 0), (-1, -1), 0.4, colors.HexColor('#e9d5ff')),
+        ('LINEBELOW',     (0, 0), (-1, 0), 1.2, GOLD),
+        ('VALIGN',        (0, 0), (-1, -1), 'MIDDLE'),
+        ('ALIGN',         (0, 0), (0, -1), 'CENTER'),
+    ])
+    # Alternating row colours
+    for row_idx in range(1, row_count):
+        bg = colors.HexColor('#faf5ff') if row_idx % 2 == 0 else WHITE
+        ts.add('BACKGROUND', (0, row_idx), (-1, row_idx), bg)
+
+    guest_table.setStyle(ts)
+    story.append(guest_table)
+
+    doc.build(story, canvasmaker=_NumberedCanvas)
+
+    pdf_bytes = buf.getvalue()
+    response = HttpResponse(pdf_bytes, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
+
+
+def api_export_pdf(request):
+    """
+    GET /api/export-pdf
+    Exports all RSVPs as a beautifully styled downloadable PDF.
+    """
+    return _generate_rsvps_pdf_response(
+        RSVP.objects.all(),
+        filename='wedding_guest_rsvp_terrence_and_lina.pdf'
+    )
 
 
 def api_photos(request):
@@ -292,7 +510,6 @@ def dashboard(request):
     rsvps = RSVP.objects.all().order_by('-id')
     total_responses = rsvps.count()
     attending = [r for r in rsvps if r.is_attending]
-    total_guests = sum(r.guest_count for r in attending)
     declined = total_responses - len(attending)
     photos = GuestPhoto.objects.all().order_by('-id')
 
@@ -300,7 +517,6 @@ def dashboard(request):
         'rsvps': rsvps,
         'total_responses': total_responses,
         'attending_count': len(attending),
-        'total_guests': total_guests,
         'declined_count': declined,
         'photos': photos,
     }

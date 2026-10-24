@@ -1,37 +1,15 @@
-import csv
 from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.html import format_html
 from unfold.admin import ModelAdmin
 from unfold.decorators import action as unfold_action
 from .models import RSVP, GuestPhoto
+from .views import _generate_rsvps_pdf_response
 
 
-@admin.action(description="📥 Export Selected RSVPs to CSV (Excel)")
-def export_rsvps_to_csv(modeladmin, request, queryset):
-    response = HttpResponse(content_type='text/csv; charset=utf-8')
-    response['Content-Disposition'] = 'attachment; filename="wedding_guest_rsvp_selection.csv"'
-    response.write('\ufeff')
-    writer = csv.writer(response, quoting=csv.QUOTE_ALL)
-    writer.writerow([
-        "ID", "Guest Name", "Phone", "Email", "Attending",
-        "Total Guests", "Guest Names",
-        "Wishes / Notes", "Date RSVPed"
-    ])
-    for r in queryset.order_by('id'):
-        writer.writerow([
-            r.id,
-            r.name,
-            r.phone,
-            r.email or '',
-            r.attending,
-            r.guest_count,
-            r.guest_names or '',
-
-            r.notes or '',
-            r.created_at.strftime('%Y-%m-%d %H:%M:%S') if r.created_at else ''
-        ])
-    return response
+@admin.action(description="📄 Export Selected RSVPs to PDF")
+def export_rsvps_to_pdf(modeladmin, request, queryset):
+    return _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp_selection.pdf')
 
 
 @admin.action(description="✓ Mark selected guests as Attending")
@@ -57,15 +35,12 @@ class RSVPAdmin(ModelAdmin):
         'name',
         'phone',
         'status_badge',
-        'guest_count',
-
-        'short_notes',
         'created_at',
     )
     list_display_links = ('id', 'name')
     list_filter = ('attending', 'created_at')
-    search_fields = ('name', 'phone', 'email', 'notes', 'guest_names')
-    actions = [export_rsvps_to_csv, mark_attending, mark_declined]
+    search_fields = ('name', 'phone', 'email')
+    actions = [export_rsvps_to_pdf, mark_attending, mark_declined]
     ordering = ('-id',)
 
     fieldsets = (
@@ -74,11 +49,7 @@ class RSVPAdmin(ModelAdmin):
             'classes': ['wide'],
         }),
         ('RSVP & Attendance Details', {
-            'fields': ('attending', 'guest_count', 'guest_names'),
-            'classes': ['wide'],
-        }),
-        ('Personal Message', {
-            'fields': ('notes',),
+            'fields': ('attending',),
             'classes': ['wide'],
         }),
         ('Record Metadata', {
@@ -92,18 +63,11 @@ class RSVPAdmin(ModelAdmin):
     def status_badge(self, obj):
         if obj.is_attending:
             return format_html(
-                '<span style="background-color: #2e7d32; color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 11px;">✓ Attending ({})</span>',
-                obj.guest_count
+                '<span style="background-color: #2e7d32; color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 11px;">✓ Attending</span>'
             )
         return format_html(
             '<span style="background-color: #c62828; color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 11px;">✕ Declined</span>'
         )
-
-    @admin.display(description="Blessings / Message")
-    def short_notes(self, obj):
-        if not obj.notes:
-            return "—"
-        return obj.notes[:45] + "..." if len(obj.notes) > 45 else obj.notes
 
 
 @admin.register(GuestPhoto)
