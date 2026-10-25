@@ -159,8 +159,8 @@ function initWeddingApp() {
     }
   }
 
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+  update();
+  setInterval(update, 1000);
 
   // Staggered Anime.js entrance animation when countdown scrolls into view
   const countdownSection = document.getElementById('countdown');
@@ -616,11 +616,7 @@ function initWeddingApp() {
   // Lightbox & Photo Catalog (Perfect fit & full resolution)
   const galleryItems = document.querySelectorAll('.gallery-item');
   const loveStoryCards = document.querySelectorAll('.love-story-card');
-  const lightboxOverlay = document.getElementById('lightboxOverlay');
-  const lightboxImg = document.getElementById('lightboxImg');
-  const lightboxCaption = document.getElementById('lightboxCaption');
   const lightboxIndex = document.getElementById('lightboxIndex');
-  const lightboxClose = document.getElementById('lightboxClose');
   const lightboxPrev = document.getElementById('lightboxPrev');
   const lightboxNext = document.getElementById('lightboxNext');
 
