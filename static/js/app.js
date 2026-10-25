@@ -15,12 +15,13 @@ function initWeddingApp() {
   const rsvpStatusAlert = document.getElementById('rsvpStatusAlert');
   const attendingDetailsGroup = document.getElementById('attendingDetailsGroup');
   const adminModalOverlay = document.getElementById('adminModalOverlay');
-  const openAdminBtn = document.getElementById('openAdminBtn');
   const footerAdminBtn = document.getElementById('footerAdminBtn');
   const closeAdminBtn = document.getElementById('closeAdminBtn');
   const adminTableBody = document.getElementById('adminTableBody');
   const adminSearchInput = document.getElementById('adminSearchInput');
   const adminStatusFilter = document.getElementById('adminStatusFilter');
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const topbarLinks = document.getElementById('topbarLinks');
   const refreshRsvpBtn = document.getElementById('refreshRsvpBtn');
   const addToCalendarBtn = document.getElementById('addToCalendarBtn');
   const photoFileInput = document.getElementById('photoFileInput');
@@ -32,6 +33,36 @@ function initWeddingApp() {
 
   let isMusicPlaying = false;
   let allRsvpsCache = [];
+
+  function setTopbarMenuOpen(isOpen) {
+    if (!mobileMenuToggle || !topbarLinks) return;
+    mobileMenuToggle.classList.toggle('is-open', isOpen);
+    topbarLinks.classList.toggle('is-open', isOpen);
+    mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+    mobileMenuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    mobileMenuToggle.title = isOpen ? 'Close menu' : 'Open menu';
+  }
+
+  if (mobileMenuToggle && topbarLinks) {
+    mobileMenuToggle.addEventListener('click', () => {
+      setTopbarMenuOpen(mobileMenuToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    topbarLinks.addEventListener('click', (event) => {
+      if (event.target.closest('a, button')) setTopbarMenuOpen(false);
+    });
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.luxury-topbar')) setTopbarMenuOpen(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && mobileMenuToggle.getAttribute('aria-expanded') === 'true') {
+        setTopbarMenuOpen(false);
+        mobileMenuToggle.focus();
+      }
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 760) setTopbarMenuOpen(false);
+    });
+  }
 
   // =========================================================================
   // 2. BACKGROUND MUSIC CONTROLLER
@@ -450,7 +481,6 @@ function initWeddingApp() {
     adminModalOverlay.classList.remove('active');
   }
 
-  if (openAdminBtn) openAdminBtn.addEventListener('click', openAdminModal);
   if (footerAdminBtn) footerAdminBtn.addEventListener('click', openAdminModal);
   if (closeAdminBtn) closeAdminBtn.addEventListener('click', closeAdminModal);
   if (adminModalOverlay) {

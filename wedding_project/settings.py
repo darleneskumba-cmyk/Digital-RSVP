@@ -18,10 +18,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # ─────────────────────────────────────────────────────────────────────
-# IP WHITELIST — only devices listed below can access the site
-# Set IP_WHITELIST_ENABLED = False to open access to everyone temporarily
+# Optional IP whitelist — disabled so visitors can access the public site
 # ─────────────────────────────────────────────────────────────────────
-IP_WHITELIST_ENABLED = True
+IP_WHITELIST_ENABLED = False
 
 ALLOWED_CLIENT_IPS = [
     # ── Your PC (always allowed) ──────────────────────────────────────

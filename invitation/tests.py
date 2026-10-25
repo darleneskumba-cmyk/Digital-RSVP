@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 from invitation.models import RSVP, GuestPhoto
 
 
@@ -25,10 +26,27 @@ class WeddingAppTests(TestCase):
         self.assertContains(response, "Munondo eleven")
 
     def test_dashboard_page(self):
+        admin_user = get_user_model().objects.create_user(
+            username="wedding-admin",
+            password="test-password",
+            is_staff=True,
+        )
+        self.client.force_login(admin_user)
         response = self.client.get(reverse('invitation:dashboard'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Rutendo &amp; Farai Sithole")
         self.assertContains(response, "Wedding Dashboard")
+
+    def test_dashboard_rejects_non_staff_users(self):
+        dashboard_url = reverse('invitation:dashboard')
+        self.assertEqual(self.client.get(dashboard_url).status_code, 302)
+
+        regular_user = get_user_model().objects.create_user(
+            username="wedding-guest",
+            password="test-password",
+        )
+        self.client.force_login(regular_user)
+        self.assertEqual(self.client.get(dashboard_url).status_code, 302)
 
     def test_api_rsvps(self):
         response = self.client.get(reverse('invitation:api_rsvps'))

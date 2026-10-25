@@ -26,7 +26,7 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'css/transition.css' %}?v=1.0" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.5" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.10" />
   <script>
     function syncMusicButtonUI() {
       var audio = document.getElementById('weddingAudio');
@@ -93,7 +93,7 @@
 
   <!-- FLOATING MUSIC TOGGLE BUTTON -->
   <button id="musicToggleBtn" class="floating-music-btn muted" aria-label="Toggle Wedding Music"
-    title="Toggle Wedding Music" onclick="toggleWeddingMusic(event)">
+    title="Toggle Wedding Music">
     <div class="music-disc-icon">
       <svg class="music-icon-playing" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M9 18V5l12-2v13"></path>
@@ -172,16 +172,15 @@
         <span class="monogram-amp">&amp;</span>
         <span class="monogram-letter">L</span>
       </div>
-      <div class="topbar-links">
-        <button class="topbar-btn" id="openAdminBtn" title="View Guest Database">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          <span>Guest Database</span>
-        </button>
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button"
+        aria-label="Open menu" aria-expanded="false" aria-controls="topbarLinks" title="Open menu">
+        <span class="mobile-menu-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+      <div class="topbar-links" id="topbarLinks">
         <a href="{% url 'invitation:dashboard' %}" class="topbar-btn" title="Open Wedding Organizer Dashboard">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
             <rect x="3" y="3" width="7" height="7"></rect>
@@ -191,19 +190,10 @@
           </svg>
           <span>Dashboard</span>
         </a>
-        <a href="/admin/" class="topbar-btn" title="Open Django Admin">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path
-              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-            </path>
-          </svg>
-          <span>Django Admin</span>
-        </a>
-      </div>
-    </header>
+        </div>
+      </header>
 
-    <!-- ==================== HERO SECTION (REFINED CLASSIC SERIF · DUAL-LAYER CINEMATIC BACKDROP) ==================== -->
+    <!-- ==================== HERO SECTION ==================== -->
     <section class="section-hero" id="hero">
       <div class="hero-backdrop-ambience" style="background-image: url('{% static 'images/couple_hero.jpg' %}');"></div>
       <div class="hero-backdrop-crisp" style="background-image: url('{% static 'images/couple_hero.jpg' %}');"></div>
@@ -572,7 +562,17 @@
             <span class="photo-slide-overlay"><span class="photo-slide-title">Match day, our way</span><span
                 class="photo-slide-description">A little football, a lot of love.</span></span>
           </button>
-          <button class="photo-slide" type="button" data-slide-index="3"
+          <button class="photo-slide" type="button" data-slide-index="1"
+            data-lightbox="{% static 'images/WhatsApp Image 2026-10-25 at 16.28.13 (1).jpeg' %}"
+            data-caption="A close embrace, just the two of us" data-title="Close, always"
+            data-description="Home is right here, in your arms."
+            aria-label="View photo: Close, always">
+            <img src="{% static 'images/WhatsApp Image 2026-10-25 at 16.28.13 (1).jpeg' %}"
+              alt="Terrence and Lina sharing a close embrace" loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Close, always</span><span
+                class="photo-slide-description">Home is right here, in your arms.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="5"
             data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="A quiet moment walking together"
             data-title="Walking as one" data-description="One path, side by side."
             aria-label="View photo: Walking as one">
@@ -581,15 +581,7 @@
             <span class="photo-slide-overlay"><span class="photo-slide-title">Walking as one</span><span
                 class="photo-slide-description">One path, side by side.</span></span>
           </button>
-          <button class="photo-slide" type="button" data-slide-index="4"
-            data-lightbox="{% static 'images/venue_garden.jpg' %}"
-            data-caption="A garden setting for the beginning of forever" data-title="Where we gather"
-            data-description="A little glimpse of our wedding setting." aria-label="View photo: Where we gather">
-            <img src="{% static 'images/venue_garden.jpg' %}" alt="Garden setting at Munondo eleven" loading="lazy" />
-            <span class="photo-slide-overlay"><span class="photo-slide-title">Where we gather</span><span
-                class="photo-slide-description">A little glimpse of our wedding setting.</span></span>
-          </button>
-          <button class="photo-slide" type="button" data-slide-index="2"
+          <button class="photo-slide" type="button" data-slide-index="3"
             data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Smiling together in Arsenal colors"
             data-title="From the stands to forever" data-description="Our favorite team is us."
             aria-label="View photo: From the stands to forever">
@@ -598,7 +590,17 @@
             <span class="photo-slide-overlay"><span class="photo-slide-title">From the stands to forever</span><span
                 class="photo-slide-description">Our favorite team is us.</span></span>
           </button>
-          <button class="photo-slide" type="button" data-slide-index="6"
+          <button class="photo-slide" type="button" data-slide-index="4"
+            data-lightbox="{% static 'images/WhatsApp Image 2026-10-25 at 16.28.13.jpeg' %}"
+            data-caption="Standing together, ready for what comes next" data-title="Side by side"
+            data-description="Every chapter is better together."
+            aria-label="View photo: Side by side">
+            <img src="{% static 'images/WhatsApp Image 2026-10-25 at 16.28.13.jpeg' %}"
+              alt="Terrence and Lina standing together in coordinated outfits" loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Side by side</span><span
+                class="photo-slide-description">Every chapter is better together.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="7"
             data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="A loving look shared between them"
             data-title="A quiet promise" data-description="Every look says, I choose you."
             aria-label="View photo: A quiet promise">
@@ -607,16 +609,7 @@
             <span class="photo-slide-overlay"><span class="photo-slide-title">A quiet promise</span><span
                 class="photo-slide-description">Every look says, I choose you.</span></span>
           </button>
-          <button class="photo-slide" type="button" data-slide-index="7"
-            data-lightbox="{% static 'images/venue_munondo.jpg' %}"
-            data-caption="The tables are set for a day worth celebrating" data-title="A day to remember"
-            data-description="Ready to welcome our favorite people." aria-label="View photo: A day to remember">
-            <img src="{% static 'images/venue_munondo.jpg' %}" alt="Wedding reception tables set at Munondo eleven"
-              loading="lazy" />
-            <span class="photo-slide-overlay"><span class="photo-slide-title">A day to remember</span><span
-                class="photo-slide-description">Ready to welcome our favorite people.</span></span>
-          </button>
-          <button class="photo-slide" type="button" data-slide-index="5"
+          <button class="photo-slide" type="button" data-slide-index="6"
             data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
             data-caption="A joyful moment in their Arsenal shirts" data-title="Joy in every frame"
             data-description="The laughter is always better together." aria-label="View photo: Joy in every frame">
@@ -625,7 +618,7 @@
             <span class="photo-slide-overlay"><span class="photo-slide-title">Joy in every frame</span><span
                 class="photo-slide-description">The laughter is always better together.</span></span>
           </button>
-          <button class="photo-slide" type="button" data-slide-index="1"
+          <button class="photo-slide" type="button" data-slide-index="2"
             data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
             data-caption="A tender moment between Terrence and Lina" data-title="Close to my heart"
             data-description="Home is wherever we are together." aria-label="View photo: Close to my heart">
@@ -1028,7 +1021,7 @@
             <div class="form-group">
               <label for="guestName" class="form-label">Full Name(s) <span class="required">*</span></label>
               <input type="text" id="guestName" name="name" class="form-input"
-                placeholder="e.g. Tendai &amp; Ruvimbo Moyo" required />
+                placeholder="e.g. Kutenda &amp; Tirivashe" required />
               <span class="form-error" id="nameError"></span>
             </div>
 
@@ -1435,7 +1428,7 @@
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="{% static 'js/anime.umd.min.js' %}"></script>
   <script src="{% static 'js/transition.js' %}?v=1.1"></script>
-  <script src="{% static 'js/app.js' %}?v=4.6"></script>
+  <script src="{% static 'js/app.js' %}?v=4.7"></script>
 </body>
 
 </html>
