@@ -188,72 +188,6 @@ function initWeddingApp() {
   }
 
   // =========================================================================
-  // 4. FLOATING PURPLE & GOLD PETALS CANVAS
-  // =========================================================================
-  const canvas = document.getElementById('petalCanvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const petals = [];
-    const petalColors = [
-      'rgba(180, 130, 200, 0.45)', // Lavender
-      'rgba(130, 45, 150, 0.35)',  // Royal Purple
-      'rgba(212, 175, 55, 0.4)',   // Gold Shimmer
-      'rgba(230, 200, 245, 0.5)'   // Soft Lilac
-    ];
-
-    for (let i = 0; i < 28; i++) {
-      petals.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 7 + 4,
-        d: Math.random() * 20,
-        color: petalColors[Math.floor(Math.random() * petalColors.length)],
-        tilt: Math.random() * 10 - 10,
-        tiltAngleInc: Math.random() * 0.05 + 0.02,
-        tiltAngle: 0
-      });
-    }
-
-    function drawPetals() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < petals.length; i++) {
-        const p = petals[i];
-        ctx.beginPath();
-        ctx.lineWidth = p.r / 2;
-        ctx.strokeStyle = p.color;
-        ctx.fillStyle = p.color;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.tiltAngle * Math.PI) / 180);
-        ctx.scale(1, 0.5);
-        ctx.arc(0, 0, p.r, 0, Math.PI * 2, false);
-        ctx.fill();
-        ctx.restore();
-
-        p.tiltAngle += p.tiltAngleInc;
-        p.y += (Math.cos(p.d) + 1 + p.r / 8) * 0.7;
-        p.x += Math.sin(p.d) * 0.8;
-
-        if (p.x > width + 15 || p.x < -15 || p.y > height) {
-          petals[i].x = Math.random() * width;
-          petals[i].y = -10;
-        }
-      }
-      requestAnimationFrame(drawPetals);
-    }
-    drawPetals();
-  }
-
-  // =========================================================================
   // 5. RSVP ATTENDANCE RADIO TOGGLE
   // =========================================================================
   // Guest count & additional guests removed per user request
@@ -327,7 +261,6 @@ function initWeddingApp() {
           `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed and saved to our database. We look forward to celebrating with you on 1 January 2027! 💍`,
           'success'
         );
-        triggerWelcomeConfetti();
         if (weddingRsvpForm) weddingRsvpForm.reset();
         saveLocalBackup(payload);
         fetchDatabaseRsvps();
@@ -341,7 +274,6 @@ function initWeddingApp() {
         `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed. Terrence & Lina look forward to celebrating with you! 💍`,
         'success'
       );
-      triggerWelcomeConfetti();
       if (weddingRsvpForm) weddingRsvpForm.reset();
     } finally {
       if (submitBtn) {
@@ -553,7 +485,6 @@ function initWeddingApp() {
           const json = await res.json();
           if (json.success) {
             uploadFeedback.innerHTML = `<span style="color:#1B5E20;font-weight:600;">✓ Picture sent successfully! Terrence &amp; Lina thank you for sharing your memory! 📸</span>`;
-            triggerWelcomeConfetti();
           } else {
             uploadFeedback.innerHTML = `<span style="color:#C0392B;">Error sending photo. You can also send via WhatsApp!</span>`;
           }
@@ -566,90 +497,90 @@ function initWeddingApp() {
   }
 
   // =========================================================================
-  // 9. LOVE STORY HORIZONTAL REEL & FULL PHOTO GALLERY LIGHTBOX
+  // 9. 3D PHOTO SLIDESHOW & LIGHTBOX
   // =========================================================================
-  const loveStoryTrack = document.getElementById('loveStoryTrack');
-  const reelPlayPauseBtn = document.getElementById('reelPlayPauseBtn');
-  const reelPauseIcon = document.getElementById('reelPauseIcon');
-  const reelPlayIcon = document.getElementById('reelPlayIcon');
-  const reelPlayPauseText = document.getElementById('reelPlayPauseText');
-  const reelNudgeLeftBtn = document.getElementById('reelNudgeLeftBtn');
-  const reelNudgeRightBtn = document.getElementById('reelNudgeRightBtn');
-
-  // Toggle Auto-Scroll Pause/Play
-  if (reelPlayPauseBtn && loveStoryTrack) {
-    let isReelPaused = false;
-    reelPlayPauseBtn.addEventListener('click', () => {
-      isReelPaused = !isReelPaused;
-      loveStoryTrack.classList.toggle('is-paused', isReelPaused);
-      if (reelPauseIcon) reelPauseIcon.style.display = isReelPaused ? 'none' : 'block';
-      if (reelPlayIcon) reelPlayIcon.style.display = isReelPaused ? 'block' : 'none';
-      if (reelPlayPauseText) reelPlayPauseText.textContent = isReelPaused ? 'Resume' : 'Pause';
-    });
-  }
-
-  // Nudge Left / Right for manual browsing
-  if (reelNudgeLeftBtn && loveStoryTrack) {
-    reelNudgeLeftBtn.addEventListener('click', () => {
-      if (window.anime && window.anime.animate) {
-        window.anime.animate(loveStoryTrack, {
-          translateX: '+=140px',
-          duration: 350,
-          ease: 'outQuad'
-        });
-      }
-    });
-  }
-
-  if (reelNudgeRightBtn && loveStoryTrack) {
-    reelNudgeRightBtn.addEventListener('click', () => {
-      if (window.anime && window.anime.animate) {
-        window.anime.animate(loveStoryTrack, {
-          translateX: '-=140px',
-          duration: 350,
-          ease: 'outQuad'
-        });
-      }
-    });
-  }
-
-  // Lightbox & Photo Catalog (Perfect fit & full resolution)
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  const loveStoryCards = document.querySelectorAll('.love-story-card');
+  const photoSlides = Array.from(document.querySelectorAll('.photo-slide'))
+    .sort((first, second) => Number(first.dataset.slideIndex) - Number(second.dataset.slideIndex));
+  const photoSlideCount = document.getElementById('photoSlideCount');
+  const photoSlideProgress = document.getElementById('photoSlideProgress');
+  const photoSlidePrevious = document.getElementById('photoSlidePrevious');
+  const photoSlideNext = document.getElementById('photoSlideNext');
+  const photoSlideToggle = document.getElementById('photoSlideToggle');
   const lightboxIndex = document.getElementById('lightboxIndex');
   const lightboxPrev = document.getElementById('lightboxPrev');
   const lightboxNext = document.getElementById('lightboxNext');
-
-  // Build catalog from love story cards (gallery grid removed; cards are the source)
-  const photoCatalog = [];
-  // Use Track Set 1 only (first 7 cards) to avoid duplicates from infinite-loop Track Set 2
-  const allCards = Array.from(loveStoryCards);
-  const trackSet1 = allCards.slice(0, Math.ceil(allCards.length / 2));
-  trackSet1.forEach((card) => {
-    const src = card.getAttribute('data-lightbox');
-    const caption = card.getAttribute('data-caption') || '';
-    if (src && !photoCatalog.some(p => p.src === src)) {
-      photoCatalog.push({ src, caption });
-    }
-  });
-  // Also include any remaining gallery items (future-proofing)
-  galleryItems.forEach((item) => {
-    const src = item.getAttribute('data-lightbox');
-    const caption = item.getAttribute('data-caption') || '';
-    if (src && !photoCatalog.some(p => p.src === src)) {
-      photoCatalog.push({ src, caption });
-    }
+  const slidePositions = ['is-active', 'is-prev', 'is-next', 'is-far-prev', 'is-far-next', 'is-hidden'];
+  const photoCatalog = photoSlides.map((slide) => ({
+    src: slide.dataset.lightbox,
+    caption: slide.dataset.caption || ''
+  }));
+  const progressButtons = photoSlides.map((slide, index) => {
+    const button = document.createElement('button');
+    button.className = 'photo-slide-dot';
+    button.type = 'button';
+    button.setAttribute('aria-label', `Show photo ${index + 1}`);
+    button.title = `Show photo ${index + 1}`;
+    button.addEventListener('click', () => showPhotoSlide(index));
+    photoSlideProgress?.appendChild(button);
+    return button;
   });
 
-  let currentPhotoIndex = 0;
+  let activeSlideIndex = 0;
+  let activeLightboxIndex = 0;
+  let slideshowTimer = null;
+  let slideshowPlaying = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function showPhotoSlide(index) {
+    if (photoSlides.length === 0) return;
+    activeSlideIndex = (index + photoSlides.length) % photoSlides.length;
+    const middle = Math.floor(photoSlides.length / 2);
+
+    photoSlides.forEach((slide, slideIndex) => {
+      let offset = (slideIndex - activeSlideIndex + photoSlides.length) % photoSlides.length;
+      if (offset > middle) offset -= photoSlides.length;
+      const position = offset === 0 ? 'is-active'
+        : offset === -1 ? 'is-prev'
+          : offset === 1 ? 'is-next'
+            : offset === -2 ? 'is-far-prev'
+              : offset === 2 ? 'is-far-next'
+                : 'is-hidden';
+
+      slide.classList.remove(...slidePositions);
+      slide.classList.add(position);
+      slide.setAttribute('aria-hidden', String(Math.abs(offset) > 2));
+      slide.tabIndex = Math.abs(offset) > 2 ? -1 : 0;
+    });
+
+    progressButtons.forEach((button, buttonIndex) => {
+      const isActive = buttonIndex === activeSlideIndex;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+    if (photoSlideCount) {
+      photoSlideCount.textContent = `${String(activeSlideIndex + 1).padStart(2, '0')} / ${String(photoSlides.length).padStart(2, '0')}`;
+    }
+  }
+
+  function updateSlideshowPlayback() {
+    if (slideshowTimer) window.clearInterval(slideshowTimer);
+    slideshowTimer = null;
+    if (photoSlideToggle) {
+      photoSlideToggle.textContent = slideshowPlaying ? 'Pause' : 'Play';
+      photoSlideToggle.setAttribute('aria-label', `${slideshowPlaying ? 'Pause' : 'Play'} slideshow`);
+      photoSlideToggle.title = `${slideshowPlaying ? 'Pause' : 'Play'} slideshow`;
+    }
+    if (slideshowPlaying && photoSlides.length > 1 && !document.hidden) {
+      slideshowTimer = window.setInterval(() => showPhotoSlide(activeSlideIndex + 1), 5200);
+    }
+  }
 
   function showLightboxPhoto(index, animate = true) {
     if (photoCatalog.length === 0) return;
-    currentPhotoIndex = (index + photoCatalog.length) % photoCatalog.length;
-    const current = photoCatalog[currentPhotoIndex];
+    activeLightboxIndex = (index + photoCatalog.length) % photoCatalog.length;
+    const photo = photoCatalog[activeLightboxIndex];
     if (lightboxImg) {
-      lightboxImg.src = current.src;
-      lightboxImg.alt = current.caption;
+      lightboxImg.src = photo.src;
+      lightboxImg.alt = photo.caption;
       if (animate && window.anime && window.anime.animate) {
         window.anime.animate(lightboxImg, {
           opacity: [0.3, 1],
@@ -659,11 +590,11 @@ function initWeddingApp() {
         });
       }
     }
-    if (lightboxCaption) lightboxCaption.textContent = current.caption;
-    if (lightboxIndex) lightboxIndex.textContent = `Photo ${currentPhotoIndex + 1} of ${photoCatalog.length}`;
+    if (lightboxCaption) lightboxCaption.textContent = photo.caption;
+    if (lightboxIndex) lightboxIndex.textContent = `Photo ${activeLightboxIndex + 1} of ${photoCatalog.length}`;
   }
 
-  function openLightbox(index) {
+  function openPhotoLightbox(index) {
     showLightboxPhoto(index, false);
     if (lightboxOverlay) {
       lightboxOverlay.classList.add('active');
@@ -678,53 +609,55 @@ function initWeddingApp() {
     }
   }
 
-  function closeLightbox() {
+  function closePhotoLightbox() {
     if (lightboxOverlay) lightboxOverlay.classList.remove('active');
   }
 
-  // Click on gallery items
-  galleryItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      const idx = parseInt(item.getAttribute('data-index') || '0', 10);
-      openLightbox(idx);
+  photoSlides.forEach((slide, index) => {
+    slide.addEventListener('click', () => {
+      if (index !== activeSlideIndex) {
+        showPhotoSlide(index);
+        updateSlideshowPlayback();
+      } else {
+        openPhotoLightbox(index);
+      }
     });
   });
-
-  // Click on love story cards
-  loveStoryCards.forEach((card) => {
-    card.addEventListener('click', () => {
-      const idx = parseInt(card.getAttribute('data-index') || '0', 10);
-      openLightbox(idx);
-    });
+  photoSlidePrevious?.addEventListener('click', () => showPhotoSlide(activeSlideIndex - 1));
+  photoSlideNext?.addEventListener('click', () => showPhotoSlide(activeSlideIndex + 1));
+  photoSlideToggle?.addEventListener('click', () => {
+    slideshowPlaying = !slideshowPlaying;
+    updateSlideshowPlayback();
   });
+  photoSlides[0]?.parentElement?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showPhotoSlide(activeSlideIndex - 1);
+    if (event.key === 'ArrowRight') showPhotoSlide(activeSlideIndex + 1);
+  });
+  document.addEventListener('visibilitychange', updateSlideshowPlayback);
 
-  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightboxClose) lightboxClose.addEventListener('click', closePhotoLightbox);
   if (lightboxOverlay) {
-    lightboxOverlay.addEventListener('click', (e) => {
-      if (e.target === lightboxOverlay) closeLightbox();
+    lightboxOverlay.addEventListener('click', (event) => {
+      if (event.target === lightboxOverlay) closePhotoLightbox();
     });
   }
-
-  if (lightboxPrev) {
-    lightboxPrev.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showLightboxPhoto(currentPhotoIndex - 1);
-    });
-  }
-  if (lightboxNext) {
-    lightboxNext.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showLightboxPhoto(currentPhotoIndex + 1);
-    });
-  }
-
-  // Keyboard navigation
-  window.addEventListener('keydown', (e) => {
-    if (!lightboxOverlay || !lightboxOverlay.classList.contains('active')) return;
-    if (e.key === 'ArrowLeft') showLightboxPhoto(currentPhotoIndex - 1);
-    else if (e.key === 'ArrowRight') showLightboxPhoto(currentPhotoIndex + 1);
-    else if (e.key === 'Escape') closeLightbox();
+  lightboxPrev?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    showLightboxPhoto(activeLightboxIndex - 1);
   });
+  lightboxNext?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    showLightboxPhoto(activeLightboxIndex + 1);
+  });
+  window.addEventListener('keydown', (event) => {
+    if (!lightboxOverlay?.classList.contains('active')) return;
+    if (event.key === 'ArrowLeft') showLightboxPhoto(activeLightboxIndex - 1);
+    else if (event.key === 'ArrowRight') showLightboxPhoto(activeLightboxIndex + 1);
+    else if (event.key === 'Escape') closePhotoLightbox();
+  });
+
+  showPhotoSlide(0);
+  updateSlideshowPlayback();
 
   // =========================================================================
   // 10. ADD TO CALENDAR (MODAL & .ICS GENERATION)
@@ -792,59 +725,6 @@ function initWeddingApp() {
   }
 
   // =========================================================================
-  // 11. CONFETTI CELEBRATION EFFECT
-  // =========================================================================
-  function triggerWelcomeConfetti() {
-    const confettiCanvas = document.getElementById('confettiCanvas');
-    if (!confettiCanvas) return;
-    const ctx = confettiCanvas.getContext('2d');
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
-
-    const pieces = [];
-    const colors = ['#D4AF37', '#7E268E', '#421252', '#F6E6B4', '#FFFFFF', '#942E86'];
-
-    for (let i = 0; i < 90; i++) {
-      pieces.push({
-        x: Math.random() * confettiCanvas.width,
-        y: -10,
-        w: Math.random() * 8 + 4,
-        h: Math.random() * 6 + 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        vy: Math.random() * 4 + 2,
-        vx: Math.random() * 4 - 2,
-        rot: Math.random() * 360,
-        vrot: Math.random() * 8 - 4
-      });
-    }
-
-    let frames = 0;
-    function animateConfetti() {
-      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      pieces.forEach((p) => {
-        p.y += p.vy;
-        p.x += p.vx;
-        p.rot += p.vrot;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rot * Math.PI) / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-        ctx.restore();
-      });
-
-      frames++;
-      if (frames < 140) {
-        requestAnimationFrame(animateConfetti);
-      } else {
-        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      }
-    }
-    animateConfetti();
-  }
-
-  // =========================================================================
   // 12. UTILITY FUNCTIONS
   // =========================================================================
   function escapeHtml(str) {
@@ -893,16 +773,7 @@ function initWeddingApp() {
       ease: 'inOutSine'
     });
 
-    // 3. Floating Quick Nav Dock entrance
-    animate('#quickNavDock', {
-      translateY: [40, 0],
-      opacity: [0, 1],
-      duration: 900,
-      delay: 500,
-      ease: 'outBack(1.5)'
-    });
-
-    // 4. Scroll-Triggered Section Entrance Animations (IntersectionObserver)
+    // 3. Scroll-Triggered Section Entrance Animations (IntersectionObserver)
     const observerOptions = {
       root: null,
       rootMargin: '0px 0px -10% 0px',

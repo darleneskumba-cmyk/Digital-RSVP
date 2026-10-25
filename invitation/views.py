@@ -44,7 +44,7 @@ def index(request):
         'rsvp_contacts': [
             {'name': 'Mr T. Mponda', 'phone': '0774544229', 'wa': '263774544229'},
             {'name': 'Mr S. Nhidza', 'phone': '0788263371', 'wa': '263788263371'},
-            {'name': 'Mrs Hlatywayo', 'phone': '0772486907', 'wa': '263772486907'},
+            {'name': 'Dr Hlatywayo', 'phone': '0772486907', 'wa': '263772486907'},
             {'name': 'Mrs Dube', 'phone': '0780908860', 'wa': '263780908860'},
         ],
         'venue_name': 'Munondo eleven',

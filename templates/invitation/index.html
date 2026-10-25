@@ -26,7 +26,7 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'css/transition.css' %}?v=1.0" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.1" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.5" />
   <script>
     function syncMusicButtonUI() {
       var audio = document.getElementById('weddingAudio');
@@ -112,53 +112,6 @@
     <span class="music-label">Music</span>
   </button>
 
-  <!-- FLOATING QUICK NAVIGATION DOCK -->
-  <nav class="quick-nav-dock" id="quickNavDock">
-    <a href="#hero" class="nav-item active" title="Top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      </svg>
-      <span>Home</span>
-    </a>
-    <a href="#scripture" class="nav-item" title="Scripture">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-      </svg>
-      <span>Scripture</span>
-    </a>
-    <a href="#venue" class="nav-item" title="Venue">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-      <span>Venue</span>
-    </a>
-    <a href="#dresscode" class="nav-item" title="Dress Code">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <polygon
-          points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-        </polygon>
-      </svg>
-      <span>Dress Code</span>
-    </a>
-    <a href="#gallery" class="nav-item" title="Love Story">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path
-          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-        </path>
-      </svg>
-      <span>Story</span>
-    </a>
-    <a href="#rsvp" class="nav-item highlight" title="RSVP">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-      </svg>
-      <span>RSVP</span>
-    </a>
-  </nav>
-
   <!-- ======================================================== -->
   <!-- 1. INTERACTIVE 3D WAX SEAL ENVELOPE INTRO                  -->
   <!-- ======================================================== -->
@@ -211,9 +164,6 @@
   <!-- 2. MAIN WEDDING INVITATION WEBSITE CONTENT               -->
   <!-- ======================================================== -->
   <main class="wedding-content" id="weddingContent">
-
-    <!-- FLOATING PETAL CANVAS (SUBTLE LUXURY PURPLE PETALS) -->
-    <canvas id="petalCanvas" class="petal-canvas"></canvas>
 
     <!-- TOP HEADER / MONOGRAM BAR -->
     <header class="luxury-topbar">
@@ -587,9 +537,116 @@
       <div class="container text-center gallery-section-header">
         <span class="section-pretitle">MOMENTS OF LOVE &amp; OUR JOURNEY</span>
         <h2 class="section-title-serif">Our Love Story</h2>
-        <p class="gallery-subtitle">A scrolling celebration of our memories leading to New Year's Day 2027</p>
+        <p class="gallery-subtitle">A carousel of favorite moments, our people, and the place we will celebrate</p>
       </div>
 
+      <div class="photo-slideshow" aria-label="Wedding photo slideshow">
+        <div class="photo-slideshow-topline">
+          <p class="photo-slideshow-kicker">A few of our favorite frames</p>
+          <div class="photo-slideshow-controls" aria-label="Slideshow controls">
+            <button class="photo-control-button" id="photoSlidePrevious" type="button" aria-label="Previous photo"
+              title="Previous photo">&#8592;</button>
+            <button class="photo-control-button photo-play-button" id="photoSlideToggle" type="button"
+              aria-label="Pause slideshow" title="Pause slideshow">Pause</button>
+            <button class="photo-control-button" id="photoSlideNext" type="button" aria-label="Next photo"
+              title="Next photo">&#8594;</button>
+          </div>
+        </div>
+
+        <div class="photo-slideshow-stage" id="photoSlideStage" role="group" aria-label="Wedding photos">
+          <button class="photo-slide" type="button" data-slide-index="8"
+            data-lightbox="{% static 'images/couple_hero.jpg' %}" data-caption="Terrence and Lina, together forever"
+            data-title="Together, always" data-description="The day begins with us."
+            aria-label="View photo: Together, always">
+            <img src="{% static 'images/couple_hero.jpg' %}" alt="Terrence and Lina together in formal blue"
+              fetchpriority="high" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Together, always</span><span
+                class="photo-slide-description">The day begins with us.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="0"
+            data-lightbox="{% static 'images/couple_photo_4.jpg' %}"
+            data-caption="Terrence and Lina sharing their Arsenal pride" data-title="Match day, our way"
+            data-description="A little football, a lot of love." aria-label="View photo: Match day, our way">
+            <img src="{% static 'images/couple_photo_4.jpg' %}" alt="Terrence and Lina in matching Arsenal shirts"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Match day, our way</span><span
+                class="photo-slide-description">A little football, a lot of love.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="3"
+            data-lightbox="{% static 'images/couple_photo_2.jpg' %}" data-caption="A quiet moment walking together"
+            data-title="Walking as one" data-description="One path, side by side."
+            aria-label="View photo: Walking as one">
+            <img src="{% static 'images/couple_photo_2.jpg' %}" alt="Lina resting her head on Terrence's shoulder"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Walking as one</span><span
+                class="photo-slide-description">One path, side by side.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="4"
+            data-lightbox="{% static 'images/venue_garden.jpg' %}"
+            data-caption="A garden setting for the beginning of forever" data-title="Where we gather"
+            data-description="A little glimpse of our wedding setting." aria-label="View photo: Where we gather">
+            <img src="{% static 'images/venue_garden.jpg' %}" alt="Garden setting at Munondo eleven" loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Where we gather</span><span
+                class="photo-slide-description">A little glimpse of our wedding setting.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="2"
+            data-lightbox="{% static 'images/couple_photo_5.jpg' %}" data-caption="Smiling together in Arsenal colors"
+            data-title="From the stands to forever" data-description="Our favorite team is us."
+            aria-label="View photo: From the stands to forever">
+            <img src="{% static 'images/couple_photo_5.jpg' %}" alt="Terrence and Lina smiling in Arsenal shirts"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">From the stands to forever</span><span
+                class="photo-slide-description">Our favorite team is us.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="6"
+            data-lightbox="{% static 'images/couple_photo_3.jpg' %}" data-caption="A loving look shared between them"
+            data-title="A quiet promise" data-description="Every look says, I choose you."
+            aria-label="View photo: A quiet promise">
+            <img src="{% static 'images/couple_photo_3.jpg' %}" alt="Terrence and Lina sharing a quiet look"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">A quiet promise</span><span
+                class="photo-slide-description">Every look says, I choose you.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="7"
+            data-lightbox="{% static 'images/venue_munondo.jpg' %}"
+            data-caption="The tables are set for a day worth celebrating" data-title="A day to remember"
+            data-description="Ready to welcome our favorite people." aria-label="View photo: A day to remember">
+            <img src="{% static 'images/venue_munondo.jpg' %}" alt="Wedding reception tables set at Munondo eleven"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">A day to remember</span><span
+                class="photo-slide-description">Ready to welcome our favorite people.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="5"
+            data-lightbox="{% static 'images/couple_photo_6.jpg' %}"
+            data-caption="A joyful moment in their Arsenal shirts" data-title="Joy in every frame"
+            data-description="The laughter is always better together." aria-label="View photo: Joy in every frame">
+            <img src="{% static 'images/couple_photo_6.jpg' %}"
+              alt="Terrence and Lina laughing together in Arsenal shirts" loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Joy in every frame</span><span
+                class="photo-slide-description">The laughter is always better together.</span></span>
+          </button>
+          <button class="photo-slide" type="button" data-slide-index="1"
+            data-lightbox="{% static 'images/couple_photo_1.jpg' %}"
+            data-caption="A tender moment between Terrence and Lina" data-title="Close to my heart"
+            data-description="Home is wherever we are together." aria-label="View photo: Close to my heart">
+            <img src="{% static 'images/couple_photo_1.jpg' %}" alt="Terrence and Lina standing close together"
+              loading="lazy" />
+            <span class="photo-slide-overlay"><span class="photo-slide-title">Close to my heart</span><span
+                class="photo-slide-description">Home is wherever we are together.</span></span>
+          </button>
+        </div>
+
+        <div class="photo-slideshow-footer">
+          <div class="photo-slide-caption" aria-live="polite" aria-atomic="true">
+            <span class="photo-slide-count" id="photoSlideCount">01 / 09</span>
+            <div class="photo-slide-progress" id="photoSlideProgress" aria-label="Choose a photo"></div>
+          </div>
+          <p class="photo-slide-hint">Select a photograph to view it full size</p>
+        </div>
+      </div>
+
+      {% comment %}
+      <!-- Legacy scrolling reel, replaced by the 3D photo slideshow. -->
       <!-- 1. RIGHT-TO-LEFT INFINITE LOVE STORY SCROLLING REEL -->
       <div class="love-story-reel-wrap" id="loveStoryReelWrap">
         <div class="love-story-track" id="loveStoryTrack">
@@ -944,6 +1001,7 @@
               </div>
 
               <!-- Gallery grid removed; photos are accessible via the scrolling reel above -->
+              {% endcomment %}
     </section>
 
     <!-- ==================== RSVP SECTION & DATABASE ==================== -->
@@ -1100,9 +1158,6 @@
                     '🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ' + payload.name + '! Your RSVP has been confirmed and saved to our database. We look forward to celebrating with you on 1 January 2027! 💍',
                     'success'
                   );
-                  if (typeof window.triggerWelcomeConfetti === 'function') {
-                    window.triggerWelcomeConfetti();
-                  }
                   var form = document.getElementById('weddingRsvpForm');
                   if (form) form.reset();
                   if (typeof window.fetchDatabaseRsvps === 'function') {
@@ -1117,9 +1172,6 @@
                   '🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ' + payload.name + '! Your RSVP has been confirmed. Terrence & Lina look forward to celebrating with you! 💍',
                   'success'
                 );
-                if (typeof window.triggerWelcomeConfetti === 'function') {
-                  window.triggerWelcomeConfetti();
-                }
                 var form = document.getElementById('weddingRsvpForm');
                 if (form) form.reset();
               } finally {
@@ -1199,13 +1251,13 @@
             </div>
           </div>
 
-          <!-- Coordinator 3: Mrs Hlatywayo -->
+          <!-- Coordinator 3: Dr Hlatywayo -->
           <div class="contact-card coordinator-card">
             <div class="contact-role">RSVP COORDINATOR</div>
-            <h3 class="contact-name">Mrs Hlatywayo</h3>
+            <h3 class="contact-name">Dr Hlatywayo</h3>
             <p class="contact-phone-display">0772486907</p>
             <div class="contact-buttons-row">
-              <a href="tel:0772486907" class="contact-btn call-btn" title="Call Mrs Hlatywayo">
+              <a href="tel:0772486907" class="contact-btn call-btn" title="Call Dr Hlatywayo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path
                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
@@ -1215,7 +1267,7 @@
               </a>
               <a href="https://wa.me/263772486907?text=Hi%20Mrs%20Hlatywayo,%20regarding%20Terrence%20%26%20Lina%27s%20Wedding%20RSVP..."
                 target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn"
-                title="WhatsApp Mrs Hlatywayo">
+                title="WhatsApp Dr Hlatywayo">
                 <svg viewBox="0 0 24 24" fill="currentColor">
                   <path
                     d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z">
@@ -1380,13 +1432,10 @@
 
 
 
-  <!-- SUCCESS CONFETTI CANVAS -->
-  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
-
   <!-- Anime.js Animation Engine (v4.0.0) -->
   <script src="{% static 'js/anime.umd.min.js' %}"></script>
   <script src="{% static 'js/transition.js' %}?v=1.1"></script>
-  <script src="{% static 'js/app.js' %}?v=4.1"></script>
+  <script src="{% static 'js/app.js' %}?v=4.6"></script>
 </body>
 
 </html>
