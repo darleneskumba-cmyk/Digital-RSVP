@@ -263,14 +263,16 @@ def _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp.pdf'):
         'WeddingTitle',
         fontName='Helvetica-Bold',
         fontSize=20,
+        leading=25,
         textColor=PURPLE_DARK,
         alignment=1,  # centre
-        spaceAfter=2,
+        spaceAfter=4,
     )
     subtitle_style = ParagraphStyle(
         'WeddingSubtitle',
         fontName='Helvetica',
         fontSize=10,
+        leading=14,
         textColor=GREY,
         alignment=1,
         spaceAfter=0,
@@ -299,9 +301,9 @@ def _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp.pdf'):
     story = []
 
     # ── Header ──────────────────────────────
-    story.append(Paragraph('💍 TERRENCE &amp; LINA', title_style))
+    story.append(Paragraph('TERRENCE &amp; LINA', title_style))
     story.append(Paragraph('Wedding RSVP Guest Directory · 1 January 2027', subtitle_style))
-    story.append(Spacer(1, 6))
+    story.append(Spacer(1, 10))
     story.append(HRFlowable(width='100%', thickness=1, color=GOLD, spaceAfter=8))
 
     # ── Summary KPI row ──────────────────────
@@ -309,13 +311,13 @@ def _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp.pdf'):
     generated = _date.today().strftime('%d %B %Y')
     kpi_data = [
         [
-            Paragraph(f'<font size=18><b>{total}</b></font><br/><font size=7 color="#64748b">Total Responses</font>', cell_style),
-            Paragraph(f'<font size=18 color="#166534"><b>{attending}</b></font><br/><font size=7 color="#64748b">Attending</font>', cell_style),
-            Paragraph(f'<font size=18 color="#991b1b"><b>{declined}</b></font><br/><font size=7 color="#64748b">Declined</font>', cell_style),
-            Paragraph(f'<font size=9 color="#64748b">Generated</font><br/><font size=8><b>{generated}</b></font>', cell_style),
+            Paragraph(f'<font size=18><b>{total}</b></font><br/><font size=7 color="#64748b">Total Responses</font>', ParagraphStyle('KpiTotal', parent=cell_style, leading=18)),
+            Paragraph(f'<font size=18 color="#166534"><b>{attending}</b></font><br/><font size=7 color="#64748b">Attending</font>', ParagraphStyle('KpiAttending', parent=cell_style, leading=18)),
+            Paragraph(f'<font size=18 color="#991b1b"><b>{declined}</b></font><br/><font size=7 color="#64748b">Declined</font>', ParagraphStyle('KpiDeclined', parent=cell_style, leading=18)),
+            Paragraph(f'<font size=9 color="#64748b">Generated</font><br/><font size=8><b>{generated}</b></font>', ParagraphStyle('KpiGenerated', parent=cell_style, leading=12)),
         ]
     ]
-    kpi_table = Table(kpi_data, colWidths=[(w - 56) / 4] * 4, rowHeights=[36])
+    kpi_table = Table(kpi_data, colWidths=[(w - 56) / 4] * 4, rowHeights=[44])
     kpi_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (0, 0), PURPLE_SOFT),
         ('BACKGROUND', (1, 0), (1, 0), GREEN_SOFT),
@@ -330,6 +332,8 @@ def _generate_rsvps_pdf_response(queryset, filename='wedding_guest_rsvp.pdf'):
         ('BOX',        (3, 0), (3, 0), 0.5, GOLD),
         ('LEFTPADDING',  (0, 0), (-1, -1), 8),
         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+        ('TOPPADDING',   (0, 0), (-1, -1), 2),
+        ('BOTTOMPADDING',(0, 0), (-1, -1), 2),
     ]))
     story.append(kpi_table)
     story.append(Spacer(1, 10))
