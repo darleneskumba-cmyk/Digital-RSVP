@@ -25,14 +25,6 @@ ALLOWED_HOSTS = os.environ.get(
     'DJANGO_ALLOWED_HOSTS',
     '*' if DEBUG else '',
 ).split(',')
-CSRF_TRUSTED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
-    if origin.strip()
-]
-
-# Nginx terminates TLS and forwards the original scheme to Django.
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # ─────────────────────────────────────────────────────────────────────
 # Optional IP whitelist — disabled so visitors can access the public site

@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Wedding Organizer Dashboard | Terrence &amp; Lina</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -429,6 +429,237 @@
       transform: scale(1.04);
       box-shadow: 0 2px 8px rgba(220,38,38,0.15);
     }
+
+    @media (max-width: 760px) {
+      .dashboard-header {
+        padding: 1rem;
+        align-items: flex-start;
+      }
+
+      .dashboard-brand {
+        align-items: flex-start;
+        gap: 0.75rem;
+        min-width: 0;
+      }
+
+      .dashboard-monogram {
+        flex: 0 0 auto;
+        font-size: 1rem;
+        padding: 0.35rem 0.65rem;
+      }
+
+      .dashboard-title-box {
+        min-width: 0;
+      }
+
+      .dashboard-title-box h1 {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+        line-height: 1.3;
+      }
+
+      .dashboard-title-box p {
+        font-size: 0.72rem;
+        line-height: 1.5;
+      }
+
+      .dashboard-nav-actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .dash-btn {
+        justify-content: center;
+        gap: 0.3rem;
+        min-height: 44px;
+        padding: 0.55rem 0.35rem;
+        font-size: 0.7rem;
+        text-align: center;
+      }
+
+      .dash-btn svg {
+        flex: 0 0 auto;
+      }
+
+      .dashboard-container {
+        margin: 1rem auto;
+        padding: 0 0.85rem;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+      }
+
+      .stat-card-elevated {
+        padding: 1rem;
+        border-radius: 12px;
+      }
+
+      .stat-card-elevated .card-label {
+        font-size: 0.66rem;
+        letter-spacing: 0.8px;
+      }
+
+      .stat-card-elevated .card-value {
+        font-size: 1.8rem;
+      }
+
+      .stat-card-elevated .card-subtext {
+        font-size: 0.68rem;
+        line-height: 1.4;
+      }
+
+      .panel-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+      }
+
+      .panel-header {
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.9rem;
+        padding-bottom: 0.8rem;
+      }
+
+      .panel-title {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .search-filter-bar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        width: 100%;
+        gap: 0.5rem;
+      }
+
+      .dash-search-input,
+      .dash-filter-select {
+        box-sizing: border-box;
+        width: 100%;
+        min-width: 0;
+        min-height: 44px;
+        padding: 0.6rem 0.7rem;
+        font-size: 16px;
+      }
+
+      .dash-table-wrap {
+        overflow: visible;
+        border: 0;
+      }
+
+      .dash-table,
+      .dash-table tbody {
+        display: block;
+        width: 100%;
+        background: transparent;
+      }
+
+      .dash-table thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .dash-table tbody tr.rsvp-row {
+        display: block;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #e9d5ff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(107, 33, 168, 0.05);
+      }
+
+      .dash-table tbody tr.rsvp-row td {
+        display: grid;
+        grid-template-columns: minmax(5.5rem, 0.75fr) minmax(0, 1.25fr);
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.7rem 0.8rem;
+        border-bottom: 1px solid #f3f0f7;
+        background: #ffffff;
+        font-size: 0.82rem;
+        overflow-wrap: anywhere;
+      }
+
+      .dash-table tbody tr.rsvp-row td::before {
+        content: attr(data-label);
+        color: var(--dash-text-muted);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .dash-table tbody tr.rsvp-row td:first-child {
+        display: none;
+      }
+
+      .dash-table tbody tr.rsvp-row td:last-child {
+        border-bottom: 0;
+      }
+
+      .dash-table tbody tr:not(.rsvp-row) td {
+        display: block;
+        padding: 1.25rem 0.5rem;
+        text-align: center;
+        background: #ffffff;
+        border: 1px solid #e9d5ff;
+        border-radius: 10px;
+        line-height: 1.5;
+      }
+
+      .phone-link {
+        min-height: 32px;
+      }
+
+      .dash-delete-btn {
+        justify-content: center;
+        min-height: 44px;
+        padding: 0.55rem 0.8rem;
+        font-size: 0.82rem;
+      }
+
+      .photo-grid-preview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.7rem;
+      }
+
+      .photo-card-img {
+        height: 120px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .search-filter-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-btn {
+        flex-direction: column;
+        gap: 0.2rem;
+        font-size: 0.64rem;
+      }
+
+      .dashboard-container {
+        padding: 0 0.65rem;
+      }
+
+      .stat-card-elevated {
+        padding: 0.85rem;
+      }
+    }
   </style>
 </head>
 
@@ -535,8 +766,8 @@
             {% for r in rsvps %}
             <tr data-status="{{ r.attending|lower }}" data-row-id="{{ r.id }}" class="rsvp-row">
               <td>{{ forloop.counter }}</td>
-              <td><strong>{{ r.name }}</strong></td>
-              <td>
+              <td data-label="Guest"><strong>{{ r.name }}</strong></td>
+              <td data-label="Phone">
                 <a href="tel:{{ r.phone }}" class="phone-link">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
                     <path
@@ -546,16 +777,16 @@
                   <span>{{ r.phone }}</span>
                 </a>
               </td>
-              <td>{{ r.email|default:"—" }}</td>
-              <td>
+              <td data-label="Email">{{ r.email|default:"—" }}</td>
+              <td data-label="Response">
                 {% if r.is_attending %}
                 <span class="badge-status badge-yes">✓ Attending</span>
                 {% else %}
                 <span class="badge-status badge-no">✕ Declined</span>
                 {% endif %}
               </td>
-              <td><small style="color:#64748b;">{{ r.created_at|date:"d M Y, H:i" }}</small></td>
-              <td>
+              <td data-label="RSVP date"><small style="color:#64748b;">{{ r.created_at|date:"d M Y, H:i" }}</small></td>
+              <td data-label="Manage">
                 <button type="button" class="dash-delete-btn"
                   onclick="deleteGuestRow({{ r.id }}, '{{ r.name|escapejs }}')"
                   title="Delete {{ r.name|escapejs }}">
