@@ -80,7 +80,7 @@
 
       // 6. Wash fades out, hero image settles, wedding details stagger in
       .add(wash, { opacity: [1, 0], duration: 800, ease: "outQuad" }, 2100)
-      .add(".hero-backdrop-crisp, #hero-bg", { scale: [1.18, 1], duration: 2200, ease: "outCubic" }, 2100)
+      .add(".hero-backdrop-crisp, #hero-bg", { scale: [1.04, 1], duration: 2200, ease: "outCubic" }, 2100)
       .add(".hero-item", {
         opacity: [0, 1],
         y: [28, 0],

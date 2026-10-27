@@ -1,0 +1,18 @@
+[Unit]
+Description=Gunicorn service for the wedding invitation Django app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/Digital-RSVP
+EnvironmentFile=/etc/wedding-invitation.env
+RuntimeDirectory=wedding-invitation
+RuntimeDirectoryMode=0750
+UMask=0007
+ExecStart=/home/ubuntu/Digital-RSVP/.venv/bin/gunicorn --workers 2 --bind unix:/run/wedding-invitation/gunicorn.sock --access-logfile - --error-logfile - wedding_project.wsgi:application
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

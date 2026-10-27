@@ -23,7 +23,8 @@ class WeddingAppTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Terrence Masimba Svosve")
         self.assertContains(response, "Lina Yeukaishe Mutsopotsi")
-        self.assertContains(response, "Munondo eleven")
+        self.assertContains(response, "Munondo Eleven")
+        self.assertNotContains(response, 'onclick="window.handleRsvpSubmit')
 
     def test_dashboard_page(self):
         admin_user = get_user_model().objects.create_user(
@@ -36,6 +37,10 @@ class WeddingAppTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Rutendo &amp; Farai Sithole")
         self.assertContains(response, "Wedding Dashboard")
+        self.assertContains(response, "Add Guest to Directory")
+        self.assertContains(response, 'id="openAddGuestDialog"')
+        self.assertContains(response, 'id="addGuestDialog"')
+        self.assertContains(response, "@media (max-width: 760px)")
 
     def test_dashboard_rejects_non_staff_users(self):
         dashboard_url = reverse('invitation:dashboard')
@@ -47,6 +52,64 @@ class WeddingAppTests(TestCase):
         )
         self.client.force_login(regular_user)
         self.assertEqual(self.client.get(dashboard_url).status_code, 302)
+
+    def test_staff_can_add_guest_from_dashboard(self):
+        admin_user = get_user_model().objects.create_user(
+            username="guest-entry-admin",
+            password="test-password",
+            is_staff=True,
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.post(reverse('invitation:dashboard'), {
+            'name': 'Tariro Moyo',
+            'phone': '+263771234567',
+            'email': 'tariro@example.com',
+            'attending': 'yes',
+            'guest_count': 2,
+            'guest_names': 'Tendai Moyo',
+            'notes': 'Added by the organizer',
+        })
+
+        self.assertRedirects(response, reverse('invitation:dashboard'))
+        guest = RSVP.objects.get(name='Tariro Moyo')
+        self.assertEqual(guest.phone, '+263771234567')
+        self.assertEqual(guest.email, 'tariro@example.com')
+        self.assertEqual(guest.attending, 'yes')
+        self.assertEqual(guest.guest_count, 2)
+        self.assertEqual(guest.guest_names, 'Tendai Moyo')
+
+    def test_dashboard_guest_form_shows_validation_errors(self):
+        admin_user = get_user_model().objects.create_user(
+            username="guest-validation-admin",
+            password="test-password",
+            is_staff=True,
+        )
+        self.client.force_login(admin_user)
+
+        response = self.client.post(reverse('invitation:dashboard'), {
+            'name': 'Tariro Moyo',
+            'phone': '+263771234567',
+            'email': 'not-an-email',
+            'attending': 'yes',
+            'guest_count': 1,
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Enter a valid email address.')
+        self.assertRegex(response.content.decode(), r'<dialog[^>]*\bopen>')
+        self.assertFalse(RSVP.objects.filter(name='Tariro Moyo').exists())
+
+    def test_non_staff_cannot_add_guest_from_dashboard(self):
+        response = self.client.post(reverse('invitation:dashboard'), {
+            'name': 'Unauthorized Guest',
+            'phone': '0770000000',
+            'attending': 'yes',
+            'guest_count': 1,
+        })
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(RSVP.objects.filter(name='Unauthorized Guest').exists())
 
     def test_api_rsvps(self):
         response = self.client.get(reverse('invitation:api_rsvps'))
@@ -76,7 +139,7 @@ class WeddingAppTests(TestCase):
         self.assertEqual(response.status_code, 200)
         res_data = response.json()
         self.assertTrue(res_data['success'])
-        self.assertTrue(RSVP.objects.filter(name="Simba Chiweshe").exists())
+        self.assertEqual(RSVP.objects.filter(name="Simba Chiweshe").count(), 1)
 
     def test_api_export_csv(self):
         response = self.client.get(reverse('invitation:api_export_csv'))

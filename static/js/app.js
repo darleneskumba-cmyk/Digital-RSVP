@@ -1,7 +1,7 @@
 /**
  * Wedding Invitation Application
  * Terrence Masimba Svosve & Lina Yeukaishe Mutsopotsi
- * Date: 1 January 2027 | Venue: Munondo eleven, Hatfield
+ * Date: 1 January 2027 | Venue: Munondo Eleven, Hatfield
  */
 
 // Envelope transition is handled by transition.js
@@ -32,6 +32,7 @@ function initWeddingApp() {
   const lightboxClose = document.getElementById('lightboxClose');
 
   let isMusicPlaying = false;
+  let isSubmittingRsvp = false;
   let allRsvpsCache = [];
 
   function setTopbarMenuOpen(isOpen) {
@@ -231,6 +232,7 @@ function initWeddingApp() {
       if (typeof e.preventDefault === 'function') e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
     }
+    if (isSubmittingRsvp) return false;
 
     const nameInput = document.getElementById('guestName');
     const phoneInput = document.getElementById('guestPhone');
@@ -262,6 +264,7 @@ function initWeddingApp() {
 
     if (!isValid) return false;
 
+    isSubmittingRsvp = true;
     const payload = {
       name: nameInput.value.trim(),
       phone: phoneInput.value.trim(),
@@ -289,7 +292,7 @@ function initWeddingApp() {
 
       if (result.success) {
         showRsvpAlert(
-          `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed and saved to our database. We look forward to celebrating with you on 1 January 2027! 💍`,
+          `🎉 YOU HAVE SUCCESSFULLY RSVPed! 🎉\n\nThank you, ${payload.name}! Your RSVP has been confirmed. We look forward to celebrating with you on 1 January 2027! 💍`,
           'success'
         );
         if (weddingRsvpForm) weddingRsvpForm.reset();
@@ -307,6 +310,7 @@ function initWeddingApp() {
       );
       if (weddingRsvpForm) weddingRsvpForm.reset();
     } finally {
+      isSubmittingRsvp = false;
       if (submitBtn) {
         submitBtn.disabled = false;
         const btnText = submitBtn.querySelector('.btn-text');
@@ -558,6 +562,7 @@ function initWeddingApp() {
   let activeSlideIndex = 0;
   let activeLightboxIndex = 0;
   let slideshowTimer = null;
+  const photoSlideIntervalMs = 3000;
   let slideshowPlaying = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function showPhotoSlide(index) {
@@ -600,7 +605,7 @@ function initWeddingApp() {
       photoSlideToggle.title = `${slideshowPlaying ? 'Pause' : 'Play'} slideshow`;
     }
     if (slideshowPlaying && photoSlides.length > 1 && !document.hidden) {
-      slideshowTimer = window.setInterval(() => showPhotoSlide(activeSlideIndex + 1), 5200);
+      slideshowTimer = window.setInterval(() => showPhotoSlide(activeSlideIndex + 1), photoSlideIntervalMs);
     }
   }
 
@@ -709,7 +714,7 @@ function initWeddingApp() {
       'DTEND:20270101T160000Z',
       'SUMMARY:Wedding of Terrence Masimba Svosve & Lina Yeukaishe Mutsopotsi',
       'DESCRIPTION:Song of Solomon 3 vs 4: "I have found the one whom my soul loves." Dress Code: All shades of purple & men to wear smart formal. Schedule: 1000hrs to 1800hrs.',
-      'LOCATION:Munondo eleven, Hatfield, Harare, Zimbabwe',
+      'LOCATION:Munondo Eleven, Hatfield, Harare, Zimbabwe',
       'STATUS:CONFIRMED',
       'END:VEVENT',
       'END:VCALENDAR'

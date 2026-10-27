@@ -3,7 +3,7 @@ title 💍 Terrence & Lina Wedding Server (Django)
 echo =========================================================================
 echo  💒 Starting Django Wedding Invitation & RSVP Database Server
 echo  Terrence Masimba Svosve & Lina Yeukaishe Mutsopotsi
-echo  Friday, 1 January 2027 | Munondo eleven, Hatfield
+echo  Friday, 1 January 2027 | Munondo Eleven, Hatfield
 echo =========================================================================
 echo.
 cd /d "%~dp0"

@@ -2,7 +2,7 @@
 
 > **Scripture:** *“I have found the one whom my soul loves”* — Song of Solomon 3:4  
 > **Date:** Friday, 1 January 2027 (10:00 AM – 6:00 PM / 1000hrs – 1800hrs)  
-> **Venue:** Munondo eleven, Hatfield, Harare, Zimbabwe  
+> **Venue:** Munondo Eleven, Hatfield, Harare, Zimbabwe  
 > **Dress Code:** All shades of purple & Men to wear smart formal  
 > **Contacts:** Groom (Terrence): `0772936488` | Bride (Lina): `077777777###`
 
@@ -52,6 +52,34 @@
 
 ---
 
+## Production deployment (Ubuntu / AWS Lightsail)
+
+The development server launched by `manage.py runserver` is for local testing only. On a production server, install the dependencies in a virtual environment and configure `/etc/wedding-invitation.env`, including:
+
+```ini
+DJANGO_SECRET_KEY=<a-long-random-secret>
+DJANGO_DEBUG=False
+DJANGO_ALLOWED_HOSTS=tl.digital-rsvp.co.zw
+DJANGO_CSRF_TRUSTED_ORIGINS=https://tl.digital-rsvp.co.zw
+```
+
+Then run migrations and `collectstatic`.
+
+Use the systemd unit in `deploy/wedding-invitation.service` to run Gunicorn and the Nginx site config in `deploy/nginx-site.conf` to serve the app, static files, and uploaded media. The Nginx configuration includes `tl.digital-rsvp.co.zw` and the current server IP. In your DNS provider, create an `A` record for host `tl` pointing to the server's public IPv4 address (currently `16.171.60.194`), or create a `CNAME` for `tl` pointing to `digital-rsvp.co.zw` if that is how the apex is configured. Set `DJANGO_ALLOWED_HOSTS=tl.digital-rsvp.co.zw,16.171.60.194` in the environment file if you want both the subdomain and direct-IP access. Allow inbound TCP ports 80 and 443 in the Lightsail firewall; Gunicorn uses a private Unix socket, so port 8000 does not need to be open.
+
+After the DNS record resolves to the server, issue and configure a TLS certificate for the subdomain with Certbot's Nginx plugin:
+
+```bash
+sudo certbot --nginx -d tl.digital-rsvp.co.zw
+sudo nginx -t
+sudo systemctl reload nginx
+sudo systemctl restart wedding-invitation
+```
+
+Keep the production secret, SQLite database, and uploaded guest photos out of source control and back up persistent data. The existing repository already tracks `wedding_rsvp.db`; adding it to `.gitignore` does not untrack it, so remove it from Git tracking and review repository history before pushing further changes.
+
+---
+
 ## 🚀 How to Run
 
 ### Method 1: Double-Click Launcher (Recommended)
@@ -84,7 +112,7 @@ wedding-invitation/
 │   │   ├── couple_hero.jpg  # Hero wedding couple portrait
 │   │   ├── couple_photo_1.jpg # Garden wisteria photo
 │   │   ├── couple_photo_2.jpg # Evening celebration photo
-│   │   └── venue_munondo.jpg # Munondo eleven venue setup
+│   │   └── venue_munondo.jpg # Munondo Eleven venue setup
 │   └── uploads/             # Guest uploaded pictures & memories
 └── README.md
 ```

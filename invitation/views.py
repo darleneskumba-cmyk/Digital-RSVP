@@ -10,14 +10,16 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import mm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 from reportlab.pdfgen import canvas as pdf_canvas
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
 from .models import RSVP, GuestPhoto
+from .forms import AdminGuestForm
 
 
 def index(request):
@@ -47,8 +49,8 @@ def index(request):
             {'name': 'Dr Hlatywayo', 'phone': '0772486907', 'wa': '263772486907'},
             {'name': 'Mrs Dube', 'phone': '0780908860', 'wa': '263780908860'},
         ],
-        'venue_name': 'Munondo eleven',
-        'venue_address': 'Munondo eleven, Hatfield, Harare, Zimbabwe',
+        'venue_name': 'Munondo Eleven',
+        'venue_address': 'Munondo Eleven, Hatfield, Harare, Zimbabwe',
         'dress_code': 'All shades of purple & Men to wear smart formal',
         'scripture_verse': '“I have found the one whom my soul loves”',
         'scripture_reference': 'Song of Solomon 3:4',
@@ -507,6 +509,15 @@ def dashboard(request):
     """
     Dedicated Wedding Organizer Dashboard view with live analytics.
     """
+    if request.method == 'POST':
+        guest_form = AdminGuestForm(request.POST)
+        if guest_form.is_valid():
+            guest_form.save()
+            messages.success(request, 'Guest added to the RSVP directory.')
+            return redirect('invitation:dashboard')
+    else:
+        guest_form = AdminGuestForm()
+
     rsvps = RSVP.objects.all().order_by('-id')
     total_responses = rsvps.count()
     attending = [r for r in rsvps if r.is_attending]
@@ -519,5 +530,6 @@ def dashboard(request):
         'attending_count': len(attending),
         'declined_count': declined,
         'photos': photos,
+        'guest_form': guest_form,
     }
     return render(request, 'invitation/dashboard.html', context)

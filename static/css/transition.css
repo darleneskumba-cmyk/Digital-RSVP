@@ -277,6 +277,17 @@ body.locked-scroll {
   animation: hintPulse 2.4s ease-in-out infinite;
 }
 
+@media (max-width: 600px) {
+  .flap-heading,
+  .tap-hint {
+    font-size: 1rem;
+  }
+
+  .tap-hint {
+    letter-spacing: 0.06em;
+  }
+}
+
 @keyframes hintPulse {
   0%, 100% {
     opacity: 0.75;

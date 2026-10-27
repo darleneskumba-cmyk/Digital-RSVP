@@ -1,21 +1,38 @@
 """
 Django settings for wedding_project project.
 Wedding of Terrence Masimba Svosve & Lina Yeukaishe Mutsopotsi
-Friday, 1 January 2027 | Munondo eleven, Hatfield
+Friday, 1 January 2027 | Munondo Eleven, Hatfield
 """
 
 from pathlib import Path
 from django.templatetags.static import static
 from django.urls import reverse_lazy
+from django.core.exceptions import ImproperlyConfigured
 import os
+import secrets
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-wedding-terrence-and-lina-svosve-mutsopotsi-2027'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() == 'true'
 
-DEBUG = True
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured('DJANGO_SECRET_KEY must be set when DEBUG is False.')
+    SECRET_KEY = secrets.token_urlsafe(50)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get(
+    'DJANGO_ALLOWED_HOSTS',
+    '*' if DEBUG else '',
+).split(',')
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
+]
+
+# Nginx terminates TLS and forwards the original scheme to Django.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # ─────────────────────────────────────────────────────────────────────
 # Optional IP whitelist — disabled so visitors can access the public site
