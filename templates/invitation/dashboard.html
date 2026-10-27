@@ -289,6 +289,10 @@
       border: 1px solid #e9d5ff;
     }
 
+    .table-scroll-hint {
+      display: none;
+    }
+
     .dash-table {
       width: 100%;
       border-collapse: collapse;
@@ -549,76 +553,30 @@
       }
 
       .dash-table-wrap {
-        overflow: visible;
-        border: 0;
-      }
-
-      .dash-table,
-      .dash-table tbody {
-        display: block;
-        width: 100%;
-        background: transparent;
-      }
-
-      .dash-table thead {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      }
-
-      .dash-table tbody tr.rsvp-row {
-        display: block;
-        margin-bottom: 0.75rem;
-        overflow: hidden;
-        background: #ffffff;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
         border: 1px solid #e9d5ff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(107, 33, 168, 0.05);
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
       }
 
-      .dash-table tbody tr.rsvp-row td {
-        display: grid;
-        grid-template-columns: minmax(5.5rem, 0.75fr) minmax(0, 1.25fr);
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.7rem 0.8rem;
-        border-bottom: 1px solid #f3f0f7;
-        background: #ffffff;
-        font-size: 0.82rem;
-        overflow-wrap: anywhere;
-      }
-
-      .dash-table tbody tr.rsvp-row td::before {
-        content: attr(data-label);
+      .table-scroll-hint {
+        display: block;
+        margin: 0 0 0.5rem;
         color: var(--dash-text-muted);
-        font-size: 0.62rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
+        font-size: 0.72rem;
+        text-align: right;
       }
 
-      .dash-table tbody tr.rsvp-row td:first-child {
-        display: none;
+      .dash-table {
+        min-width: 900px;
       }
 
-      .dash-table tbody tr.rsvp-row td:last-child {
-        border-bottom: 0;
-      }
-
-      .dash-table tbody tr:not(.rsvp-row) td {
-        display: block;
-        padding: 1.25rem 0.5rem;
-        text-align: center;
-        background: #ffffff;
-        border: 1px solid #e9d5ff;
-        border-radius: 10px;
-        line-height: 1.5;
+      .dash-table th,
+      .dash-table td {
+        padding: 0.7rem 0.75rem;
+        white-space: nowrap;
       }
 
       .phone-link {
@@ -750,6 +708,7 @@
         </div>
       </div>
 
+      <p class="table-scroll-hint">Swipe left or right to view all guest details</p>
       <div class="dash-table-wrap">
         <table class="dash-table" id="rsvpsTable">
           <thead>
