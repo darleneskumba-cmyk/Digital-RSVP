@@ -569,10 +569,11 @@ a {
 }
 
 .meta-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 24px;
   align-items: center;
   gap: 0.9rem;
-  text-align: left;
+  flex: 1;
 }
 
 .meta-icon {
@@ -586,6 +587,8 @@ a {
 .meta-details {
   display: flex;
   flex-direction: column;
+  grid-column: 2;
+  text-align: center;
 }
 
 .meta-label {
