@@ -26,7 +26,7 @@
     rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'css/transition.css' %}?v=1.1" />
-  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.20" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3.21" />
   <script>
     function syncMusicButtonUI() {
       var audio = document.getElementById('weddingAudio');
@@ -1214,7 +1214,8 @@
 
         <div class="footer-admin-link-row">
           <a href="{% url 'invitation:dashboard' %}" class="footer-admin-btn">
-            <span>🔐 Access Guest Database &amp; RSVP Dashboard</span>
+            <span class="footer-admin-btn-icon" aria-hidden="true">🔐</span>
+            <span class="footer-admin-btn-label">Access Guest Database<br class="footer-admin-mobile-break">&amp; RSVP Dashboard</span>
           </a>
         </div>
 

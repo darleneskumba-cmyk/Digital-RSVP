@@ -2751,6 +2751,19 @@ a {
   transition: var(--transition-smooth);
 }
 
+.footer-admin-btn-icon {
+  flex: 0 0 auto;
+}
+
+.footer-admin-btn-label {
+  min-width: 0;
+  text-align: center;
+}
+
+.footer-admin-mobile-break {
+  display: none;
+}
+
 .footer-admin-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   color: #FFFFFF;
@@ -3661,14 +3674,30 @@ a {
 
   .footer-admin-btn {
     box-sizing: border-box;
-    width: min(100%, 34rem);
-    min-height: 48px;
-    padding: 0.7rem 0.85rem;
+    display: grid;
+    grid-template-columns: 1.2rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.35rem;
+    width: 100%;
+    max-width: 34rem;
+    min-width: 0;
+    min-height: 56px;
+    padding: 0.6rem 0.75rem;
     font-size: clamp(0.7rem, 3vw, 0.82rem);
     letter-spacing: 0.04em;
     line-height: 1.45;
     text-align: center;
+    white-space: normal;
+  }
+
+  .footer-admin-btn-label {
+    display: block;
+    min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  .footer-admin-mobile-break {
+    display: initial;
   }
 
   .attendance-card-content {
