@@ -2733,6 +2733,9 @@ a {
 }
 
 .footer-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
   color: var(--gold-light);
@@ -2743,6 +2746,7 @@ a {
   font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   transition: var(--transition-smooth);
 }
