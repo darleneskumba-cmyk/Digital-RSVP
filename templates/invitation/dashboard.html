@@ -257,6 +257,168 @@
       gap: 0.5rem;
     }
 
+    .directory-header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .dash-add-guest-btn {
+      border: 0;
+    }
+
+    .dash-message {
+      padding: 0.85rem 1rem;
+      margin-bottom: 1rem;
+      color: #166534;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    .add-guest-dialog {
+      width: min(620px, calc(100vw - 2rem));
+      max-width: none;
+      max-height: min(85vh, 760px);
+      padding: 0;
+      color: var(--dash-text);
+      background: #ffffff;
+      border: 1px solid var(--dash-border);
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(30, 27, 75, 0.3);
+    }
+
+    .add-guest-dialog::backdrop {
+      background: rgba(30, 27, 75, 0.58);
+      backdrop-filter: blur(3px);
+    }
+
+    .add-guest-dialog-content {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .add-guest-dialog-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #f3e8ff;
+    }
+
+    .add-guest-dialog-header h2 {
+      margin: 0;
+      color: var(--dash-purple-deep);
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+    }
+
+    .add-guest-dialog-header p {
+      margin: 0.3rem 0 0;
+      color: var(--dash-text-muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .dialog-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      color: var(--dash-text-muted);
+      background: #f8f5fc;
+      border: 1px solid var(--dash-border);
+      border-radius: 8px;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .dash-guest-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .dash-form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 0;
+    }
+
+    .dash-form-field-wide {
+      grid-column: 1 / -1;
+    }
+
+    .dash-form-field label {
+      color: var(--dash-text);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .dash-form-input {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 44px;
+      padding: 0.65rem 0.75rem;
+      color: #1f2937;
+      background: #ffffff;
+      border: 1px solid #d8b4fe;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 16px;
+    }
+
+    textarea.dash-form-input {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .dash-form-input:focus {
+      outline: 2px solid rgba(124, 58, 237, 0.25);
+      border-color: #7c3aed;
+    }
+
+    .dash-form-errors,
+    .dash-form-nonfield-errors {
+      margin: 0;
+      padding-left: 1.1rem;
+      color: #b91c1c;
+      font-size: 0.78rem;
+    }
+
+    .dash-form-nonfield-errors {
+      margin-bottom: 1rem;
+    }
+
+    .dash-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid #f3e8ff;
+    }
+
+    .dash-dialog-cancel {
+      padding: 0.65rem 1rem;
+      color: var(--dash-purple-dark);
+      background: #ffffff;
+      border: 1px solid var(--dash-border);
+      border-radius: 8px;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
     .search-filter-bar {
       display: flex;
       gap: 0.75rem;
@@ -535,6 +697,20 @@
         line-height: 1.4;
       }
 
+      .directory-header-actions {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .directory-header-actions .search-filter-bar {
+        width: 100%;
+      }
+
+      .dash-add-guest-btn {
+        width: 100%;
+      }
+
       .search-filter-bar {
         display: grid;
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -618,6 +794,19 @@
       .stat-card-elevated {
         padding: 0.85rem;
       }
+
+      .add-guest-dialog-content {
+        padding: 1rem;
+      }
+
+      .dash-guest-form {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      .dash-form-field-wide {
+        grid-column: auto;
+      }
     }
   </style>
 </head>
@@ -664,6 +853,12 @@
 
   <div class="dashboard-container">
 
+    {% if messages %}
+    {% for message in messages %}
+    <div class="dash-message" role="status">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
     <!-- KPI STATS CARDS -->
     <div class="stats-row">
       <div class="stat-card-elevated gold">
@@ -697,14 +892,20 @@
         <h2 class="panel-title">
           <span>📋 Guest RSVP Directory</span>
         </h2>
-        <div class="search-filter-bar">
-          <input type="text" id="dashSearchInput" class="dash-search-input"
-            placeholder="Search by name" oninput="filterTable()">
-          <select id="dashStatusFilter" class="dash-filter-select" onchange="filterTable()">
-            <option value="all">All Responses</option>
-            <option value="yes">Attending Only</option>
-            <option value="no">Declined Only</option>
-          </select>
+        <div class="directory-header-actions">
+          <button type="button" class="dash-btn dash-btn-primary dash-add-guest-btn" id="openAddGuestDialog">
+            <span aria-hidden="true">＋</span>
+            <span>Add Guest to Directory</span>
+          </button>
+          <div class="search-filter-bar">
+            <input type="text" id="dashSearchInput" class="dash-search-input"
+              placeholder="Search by name" oninput="filterTable()">
+            <select id="dashStatusFilter" class="dash-filter-select" onchange="filterTable()">
+              <option value="all">All Responses</option>
+              <option value="yes">Attending Only</option>
+              <option value="no">Declined Only</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -766,6 +967,43 @@
       </div>
     </div>
 
+    <dialog class="add-guest-dialog" id="addGuestDialog" {% if guest_form.errors %}open{% endif %}>
+      <div class="add-guest-dialog-content">
+        <div class="add-guest-dialog-header">
+          <div>
+            <h2>Add Guest to Directory</h2>
+            <p>Enter the guest’s details. The record will be saved to the RSVP database.</p>
+          </div>
+          <button type="button" class="dialog-close-btn" data-close-add-guest aria-label="Close dialog">&times;</button>
+        </div>
+
+        <form method="post" class="dash-guest-form">
+          {% csrf_token %}
+          {% if guest_form.non_field_errors %}
+          <ul class="dash-form-nonfield-errors dash-form-field-wide">
+            {% for error in guest_form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+          {% for field in guest_form %}
+          <div class="dash-form-field{% if field.name == 'guest_names' or field.name == 'notes' %} dash-form-field-wide{% endif %}">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+            {% if field.errors %}
+            <ul class="dash-form-errors">
+              {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <div class="dash-dialog-actions dash-form-field-wide">
+            <button type="button" class="dash-dialog-cancel" data-close-add-guest>Cancel</button>
+            <button type="submit" class="dash-btn dash-btn-primary">Save Guest</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
     <!-- GUEST UPLOADED MEMORIES PANEL -->
     {% if photos %}
     <div class="panel-card">
@@ -793,6 +1031,14 @@
   </div>
 
   <script>
+    const addGuestDialog = document.getElementById('addGuestDialog');
+    const openAddGuestDialog = document.getElementById('openAddGuestDialog');
+
+    openAddGuestDialog.addEventListener('click', () => addGuestDialog.showModal());
+    addGuestDialog.querySelectorAll('[data-close-add-guest]').forEach(button => {
+      button.addEventListener('click', () => addGuestDialog.close());
+    });
+
     function filterTable() {
       const q = document.getElementById('dashSearchInput').value.toLowerCase().trim();
       const status = document.getElementById('dashStatusFilter').value;
